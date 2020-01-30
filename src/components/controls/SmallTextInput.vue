@@ -13,6 +13,11 @@
 <script>
   export default {
     name: 'SmallTextInput',
-    props: ['placeholder', 'label', 'name', 'value']
+    props: ['placeholder', 'label', 'name'],
+    data() {
+        return {
+            value: ''
+        }
+    }
   }
 </script>
