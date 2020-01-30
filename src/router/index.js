@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Home from '@/pages/Home'
-import Assess from '@/pages/Assess'
+import Assess from '@/pages/Questionnaire'
 
 Vue.use(Router)
 
