@@ -8,7 +8,7 @@
         <v-stepper-items>
           <v-stepper-content
             v-for="(page, idx) in fields.pages"
-            :key="pageIdx.id"
+            :key="page.id"
             :step="idx + 1">
             <v-form :ref="'page' + (idx + 1)">
               <h2>{{page.title}}</h2>
@@ -31,9 +31,6 @@
 </template>
 
 <script>
-import BooleanInputVue from "../components/controls/BooleanInput.vue"
-
-
 import SmallTextInput from '../components/controls/SmallTextInput.vue'
 import SingleChoiceInput from '../components/controls/SingleChoiceInput.vue'
 import MultipleChoiceInput from '../components/controls/MultipleChoiceInput.vue'
@@ -54,7 +51,8 @@ export default {
     },
     methods: {
       next() {
-        if (this.pageIdx < this.fields.pages.length ){//&& this.$refs['page' + this.pageIdx].validate()) {
+
+        if (this.pageIdx < this.fields.pages.length && this.$refs['page' + this.pageIdx]) {
           this.pageIdx++
         } else {
 
