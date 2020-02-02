@@ -26,6 +26,7 @@ steps:
     SourceFolder: 'dist'
     Contents: '**'
     TargetFolder: '$(build.artifactstagingdirectory)'
+    CleanTargetFolder: true
 
 - task: PublishBuildArtifacts@1
   inputs:
