@@ -20,3 +20,9 @@ steps:
     npm install
     npm run build
   displayName: 'npm install, run build'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'dist'
+    Contents: '**'
+    TargetFolder: '$(build.artifactstagingdirectory)'
