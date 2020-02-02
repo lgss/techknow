@@ -54,7 +54,7 @@ export default {
     },
     methods: {
       next() {
-        if (this.pageIdx < this.fields.pages.length && this.$refs['page' + this.pageIdx].validate()) {
+        if (this.pageIdx < this.fields.pages.length ){//&& this.$refs['page' + this.pageIdx].validate()) {
           this.pageIdx++
         } else {
 
