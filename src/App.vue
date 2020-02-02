@@ -9,13 +9,13 @@
 </template>
 
 <script>
-import Toolbar from '@/components/Toolbar';
+import AppToolbar from '@/components/AppToolbar';
 
 export default {
   name: 'App',
 
   components: {
-    Toolbar,
+    AppToolbar,
   },
 
   data: () => ({
