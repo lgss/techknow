@@ -101,6 +101,8 @@ const fields = {
   ]
 } 
 
+const resources =  require('../../static/resource.json');
+
 export default new Router({
   routes: [
     {
@@ -115,6 +117,14 @@ export default new Router({
       props: {
         fields
       }
-    }
+    },
+    {
+        path: '/result',
+        name: 'Result',
+        component: Result,
+        props: {
+          resources
+        }
+      }
   ]
 })
