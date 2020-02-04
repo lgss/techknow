@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <label>{{label}}</label>
-      <v-checkbox v-for="item in options" v-model="value" :key="item" :label="item" :value="item"></v-checkbox>
+      <v-checkbox v-for="option in options" v-model="value" :key="option.value" :label="option.value" :value="option.value"></v-checkbox>
   </v-container>
 </template>
 

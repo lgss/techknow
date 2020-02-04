@@ -2,7 +2,7 @@
   <v-container fluid>
     <label>{{label}}</label>
     <v-radio-group v-model="value">
-      <v-radio v-for="item in options" :key="item" :label="item" :value="item"></v-radio>
+      <v-radio v-for="option in options" :key="option.value" :label="option.value" :value="option"></v-radio>
     </v-radio-group>
   </v-container>
 </template>
