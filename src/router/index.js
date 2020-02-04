@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Home from '@/pages/Home'
 import Assess from '@/pages/Assess'
+import Result from '@/pages/Result'
 
 Vue.use(Router)
 
@@ -101,7 +102,7 @@ const fields = {
   ]
 } 
 
-const resources =  require('../../static/resource.json');
+const results =  require('../../static/resource.json');
 
 export default new Router({
   routes: [
@@ -123,8 +124,8 @@ export default new Router({
         name: 'Result',
         component: Result,
         props: {
-          resources
+            results
         }
-      }
+    }
   ]
 })
