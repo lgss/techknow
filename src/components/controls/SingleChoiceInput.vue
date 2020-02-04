@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <label>{{label}}</label>
-    <v-radio-group v-model="value">
+    <v-radio-group v-model="selectedOption" @change="onChange">
       <v-radio v-for="option in options" :key="option.value" :label="option.value" :value="option"></v-radio>
     </v-radio-group>
   </v-container>
@@ -13,8 +13,13 @@
     props: ['label', 'name', 'options'],
     data() {
         return {
-            value: ''
+            selectedOption: {}
         }
+    },
+    methods: {
+      onChange: function() {
+        this.$emit('answered', [this.selectedOption])
+      }
     }
   }
 </script>

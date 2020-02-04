@@ -14,7 +14,7 @@
               <h2>{{page.title}}</h2>
               <v-row v-for="(field, index) in page.questions" :key="index" >
                 <v-col>
-                  <component :is="field.fieldType" v-bind="field" />
+                  <component @answered='answered' :is="field.fieldType" v-bind="field" />
                 </v-col>
               </v-row>
               <v-row>
@@ -60,6 +60,9 @@ export default {
       },
       prior() {
           this.pageIdx--
+      },
+      answered(value) {
+        console.log(value);
       }
     },
     props: ["fields"],

@@ -74,15 +74,23 @@
                     "options": [
                         {
                             "value":"I don't feel confident",
-                            "tags":[]
+                            "tags":[
+                                "tag1",
+                                "tag2"
+                            ]
                         },
                         {
                             "value":"I feel confident when I'm with other people",
-                            "tags":[]
+                            "tags":[
+                                "tag3",
+                                "tag4"
+                            ]
                         },
                         {
                             "value":"I am confident going on my own",
-                            "tags":[]
+                            "tags":[
+                                "tag5"
+                            ]
                         }
                     ]
                 }
