@@ -9,7 +9,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="resource in results.resources" :key="resource.name">
+        <tr v-for="resource in results.resources.filter(resource => resource.tags.some(tag => tag == 'tag1'))" :key="resource.name">
           <td class="text-left">{{ resource.name }}</td>
           <td class="text-left">{{ resource.content }}</td>
           <td class="text-left">{{ resource.tags }}</td>
@@ -25,7 +25,9 @@ export default {
     components: {},
     props: ["results"],
     data(){
-        return {}
+        return {
+          filterTags: ['tag1', 'tag2']
+        }
     }
 }
 </script>
