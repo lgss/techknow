@@ -29,12 +29,13 @@ export default new Router({
       }
     },
     {
-        path: '/result',
-        name: 'Result',
-        component: Result,
-        props: {
-            results
-        }
+      path: '/result',
+      name: 'Result',
+      component: Result,
+      props: {
+          results,
+          answers
+      }
     }
   ]
 })
