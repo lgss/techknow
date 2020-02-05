@@ -6,13 +6,15 @@
           <th class="text-left">Name</th>
           <th class="text-left">Content</th>
           <th class="text-left">Tags</th>
+          <th class="text-left">Filter check</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="resource in results.resources.filter(resource => resource.tags.some(tag => tag == 'tag1'))" :key="resource.name">
+        <tr v-for="resource in results.resources.filter(resource => resource.tags.some(tag => filterTags.some(x => x === tag)))" :key="resource.name">
           <td class="text-left">{{ resource.name }}</td>
           <td class="text-left">{{ resource.content }}</td>
           <td class="text-left">{{ resource.tags }}</td>
+          <td class="text-left">{{ resource.tags.some(tag => filterTags.some(x => x === tag)) }}</td>
         </tr>
       </tbody>
     </template>
@@ -26,7 +28,7 @@ export default {
     props: ["results"],
     data(){
         return {
-          filterTags: ['tag1', 'tag2']
+          filterTags: ['tag3','tag4']
         }
     }
 }
