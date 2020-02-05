@@ -3,37 +3,37 @@
         {
             "name": "resource 1",
             "content": "information about resource 1",
-            "tags": ["tag1"]
+            "tags": ["fire"]
         },
         {
             "name": "resource 2",
             "content": "information about resource 2",
-            "tags": ["tag2"]
+            "tags": ["flood"]
         },
         {
             "name": "resource 3",
             "content": "information about resource 3",
-            "tags": ["tag3"]
+            "tags": ["crime"]
         },
         {
             "name": "resource 4",
             "content": "information about resource 4",
-            "tags": ["tag1", "tag2"]
+            "tags": ["fire", "flood"]
         },
         {
             "name": "resource 5",
             "content": "information about resource 5",
-            "tags": ["tag1", "tag3"]
+            "tags": ["fire", "crime"]
         },
         {
             "name": "resource 6",
             "content": "information about resource 6",
-            "tags": ["tag2", "tag3"]
+            "tags": ["flood", "crime"]
         },
         {
             "name": "resource 7",
             "content": "information about resource 7",
-            "tags": ["tag1", "tag2", "tag3"]
+            "tags": ["fire", "flood", "crime"]
         }
     ]
 }
