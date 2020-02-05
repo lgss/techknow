@@ -20,7 +20,8 @@
               <v-row>
                 <v-col>
                   <v-btn :disabled="pageIdx <= 1" @click.native="prior">Back</v-btn>
-                  <v-btn color="success" @click.native="next">Next</v-btn>
+                  <v-btn v-if='finished' color="success" to="/result">Finish</v-btn>
+                  <v-btn v-else color="success" @click.native="next">Next</v-btn>
                 </v-col>
               </v-row>
             </v-form>
@@ -47,6 +48,10 @@ export default {
     computed: {
       percentDone() {
         return Math.round(this.pageIdx/this.fields.pages.length*100)
+      },
+      finished() {
+        return this.pageIdx >= this.fields.pages.length;
+
       }
     },
     methods: {
