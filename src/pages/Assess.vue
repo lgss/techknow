@@ -12,9 +12,9 @@
             :step="idx + 1">
             <v-form :ref="'page' + (idx + 1)">
               <h2>{{page.title}}</h2>
-              <v-row v-for="(field, index) in page.items" :key="index" >
+              <v-row v-for="(field, index) in page.questions" :key="index" >
                 <v-col>
-                  <component :is="field.fieldType" v-bind="field" />
+                  <component @answered='(result)=>answered(result,field.name)' :is="field.fieldType" v-bind="field" />
                 </v-col>
               </v-row>
               <v-row>
@@ -60,9 +60,21 @@ export default {
       },
       prior() {
           this.pageIdx--
+      },
+      answered(result,name) {
+        var answer = {
+          name: name,
+          options: result
+        }
+        var currentAnswerIndex = this.answers.findIndex(answer => (answer.name === name))
+        if (currentAnswerIndex >= 0) {
+          this.answers[currentAnswerIndex] = answer
+        } else {
+          this.answers.push(answer)
+        }
       }
     },
-    props: ["fields"],
+    props: ["fields", "answers"],
     data() {
       return {
         pageIdx: 1
