@@ -44,7 +44,7 @@
             "title": "What topics interest you?",
             "questions": [
                 {
-                    "fieldType": "multiple-choice-input",
+                    "fieldType": "single-choice-input",
                     "name": "topics",
                     "label": "Technology can help to increase independence and improve quality of life. What topics are you interested in finding out more about?",
                     "options": [
