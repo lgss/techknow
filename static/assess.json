@@ -17,79 +17,193 @@
             ]
         },
         {
-            "title": "Technology you own",
+            "title": "Emergencies",
+            "questions": [
+                {
+                    "fieldType": "single-choice-input",
+                    "name": "fire",
+                    "label": "Do you know what to do in case of a fire?",
+                    "options": [
+                        {
+                            "value":"Yes",
+                            "tags":[]
+                        },
+                        {
+                            "value":"No",
+                            "tags":["fire"]
+                        }
+                    ]
+                },{
+                    "fieldType": "single-choice-input",
+                    "name": "flood",
+                    "label": "Do you know what to do if there is an accidental flood?",
+                    "options": [
+                        {
+                            "value":"Yes",
+                            "tags":[]
+                        },
+                        {
+                            "value":"No",
+                            "tags":["flood"]
+                        }
+                    ]
+                }, {
+                    "fieldType": "single-choice-input",
+                    "name": "crime-victim",
+                    "label": "Do you know what to do if you were a victim of a crime?",
+                    "options": [
+                        {
+                            "value":"Yes",
+                            "tags":[]
+                        },
+                        {
+                            "value":"No",
+                            "tags":["crime"]
+                        }
+                    ]
+                }, {
+                    "fieldType": "single-choice-input",
+                    "name": "unsafe",
+                    "label": "Do you feel unsafe right now?",
+                    "options": [
+                        {
+                            "value":"Yes",
+                            "tags":["unsafe"]
+                        },
+                        {
+                            "value":"No",
+                            "tags":[]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Using your smart device",
             "questions": [
                 {
                     "fieldType": "multiple-choice-input",
                     "name": "devices",
-                    "label": "What devices do you currently own?",
+                    "label": "What devices do you use?",
                     "options": [
                         {
-                            "value":"Smart phone",
-                            "tags":[]
+                            "value":"iPhone",
+                            "tags":["mobile"]
+                        },
+                        {
+                            "value":"Android",
+                            "tags":["mobile"]
                         },
                         {
                             "value":"Tablet",
                             "tags":[]
                         },
                         {
-                            "value":"Laptop or desktop computer",
+                            "value":"Laptop",
                             "tags":[]
+                        },
+                        {
+                            "value":"Desktop",
+                            "tags":[]
+                        },
+                        {
+                            "value":"A Smart home assistant",
+                            "tags":[]
+                        }
+                    ]
+                },{
+                    "fieldType": "single-choice-input",
+                    "name": "device-help-use",
+                    "label": "Do you need some help to use these devices?",
+                    "options": [
+                        {
+                            "value":"Yes",
+                            "tags":[]
+                        },
+                        {
+                            "value":"No",
+                            "tags":[]
+                        }
+                    ]
+                },{
+                    "fieldType": "single-choice-input",
+                    "name": "device-help-apps",
+                    "label": "Do you need help finding apps to use on these devices?",
+                    "options": [
+                        {
+                            "value":"Yes",
+                            "tags":[]
+                        },
+                        {
+                            "value":"No",
+                            "tags":[]
+                        }
+                    ]
+                },{
+                    "fieldType": "single-choice-input",
+                    "name": "online-safety",
+                    "label": "Do you feel safe online?",
+                    "options": [
+                        {
+                            "value":"Yes",
+                            "tags":[]
+                        },
+                        {
+                            "value":"No",
+                            "tags":["vulnerable-online"]
                         }
                     ]
                 }
             ]
-        },
-        {
-            "title": "What topics interest you?",
+        }, {
+            "title": "Visitors",
             "questions": [
                 {
                     "fieldType": "single-choice-input",
-                    "name": "topics",
-                    "label": "Technology can help to increase independence and improve quality of life. What topics are you interested in finding out more about?",
+                    "name": "remember-visitors",
+                    "label": "Do you remember when you have visitors?",
                     "options": [
                         {
-                            "value":"Going shopping",
+                            "value":"Yes",
                             "tags":[]
                         },
                         {
-                            "value":"Preparing food",
-                            "tags":[]
-                        },
-                        {
-                            "value":"Working",
-                            "tags":[]
+                            "value":"No",
+                            "tags":[
+                                "memory"
+                            ]
                         }
                     ]
-                }
-            ]
-        },
-        {
-            "title": "Going shopping",
-            "questions": [
+                },
                 {
                     "fieldType": "single-choice-input",
-                    "name": "shopconfident",
-                    "label": "How confident do you feel about going out to the shops on your own?",
+                    "name": "safe-answering-door",
+                    "label": "Do you feel safe answering your front door?",
                     "options": [
                         {
-                            "value":"I don't feel confident",
-                            "tags":[
-                                "tag1",
-                                "tag2"
-                            ]
+                            "value":"Yes",
+                            "tags":[]
                         },
                         {
-                            "value":"I feel confident when I'm with other people",
+                            "value":"No",
                             "tags":[
-                                "tag3",
-                                "tag4"
+                                "home-security"
                             ]
+                        }
+                    ]
+                },{
+                    "fieldType": "single-choice-input",
+                    "name": "door-strangers",
+                    "label": "Do you know what to do when you don't know the person at your front door?",
+                    "options": [
+                        {
+                            "value":"Yes",
+                            "tags":[]
                         },
                         {
-                            "value":"I am confident going on my own",
+                            "value":"No",
                             "tags":[
-                                "tag5"
+                                "strangers"
                             ]
                         }
                     ]
