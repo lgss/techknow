@@ -6,7 +6,7 @@
             <v-card-text>
               <p class="display-1 text--primary"> {{ resource.name }}</p>
               <div class="text--primary"> 
-                {{ resource.content }}
+                <span v-html="resource.content"></span>
               </div>
               <div> 
                       <v-chip v-for="tag in resource.tags" :key="tag" class="ma-2">
