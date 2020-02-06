@@ -1,22 +1,23 @@
 <template>
-  <v-simple-table>
-    <template v-slot:default>
-      <thead>
-        <tr>
-          <th class="text-left">Name</th>
-          <th class="text-left">Content</th>
-          <th class="text-left">Tags</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="resource in results.resources.filter(resource => checkTags(answers, resource.tags))" :key="resource.name">
-          <td class="text-left">{{ resource.name }}</td>
-          <td class="text-left">{{ resource.content }}</td>
-          <td class="text-left">{{ resource.tags }}</td>
-        </tr>
-      </tbody>
-    </template>
-  </v-simple-table>
+  <v-container>
+    <v-row v-for="resource in results.resources.filter(resource => checkTags(answers, resource.tags))" :key="resource.name">
+      <v-col>
+          <v-card class="mx-auto" max-width="344">
+            <v-card-text>
+              <p class="display-1 text--primary"> {{ resource.name }}</p>
+              <div class="text--primary"> 
+                <span v-html="resource.content"></span>
+              </div>
+              <div> 
+                      <v-chip v-for="tag in resource.tags" :key="tag" class="ma-2">
+                        {{ tag }}
+                      </v-chip>
+              </div>
+            </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

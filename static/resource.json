@@ -2,17 +2,17 @@
     "resources": [
         {
             "name": "resource 1",
-            "content": "information about resource 1",
+            "content": "information about resource 1 that is not html",
             "tags": ["fire"]
         },
         {
             "name": "resource 2",
-            "content": "information about resource 2",
+            "content": "<p>information about resource 2 that is html</p>",
             "tags": ["flood"]
         },
         {
             "name": "resource 3",
-            "content": "information about resource 3",
+            "content": "<p>information about resource 3 that is html<br> over two lines</p>",
             "tags": ["crime"]
         },
         {
