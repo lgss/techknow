@@ -19,9 +19,9 @@
               </v-row>
               <v-row>
                 <v-col>
-                  <v-btn :disabled="pageIdx <= 1" @click.native="prior">Back</v-btn>
-                  <v-btn v-if='finished' color="success" to="/result">Finish</v-btn>
-                  <v-btn v-else color="success" @click.native="next">Next</v-btn>
+                  <v-btn :disabled="pageIdx <= 1" name='btn-back' @click.native="prior">Back</v-btn>
+                  <v-btn v-if='finished' color="success" name='btn-finish' to="/result">Finish</v-btn>
+                  <v-btn v-else color="success" name="btn-next" @click.native="next">Next</v-btn>
                 </v-col>
               </v-row>
             </v-form>
