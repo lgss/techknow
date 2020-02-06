@@ -2,12 +2,12 @@
   <v-container>
     <v-row>
       <v-col>
-        <h1>Welcome to <b>techKNOW</b></h1>
+        <h1 id="title">Welcome to <b>techKNOW</b></h1>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <v-btn to="/assess">Go to assessment</v-btn>
+        <v-btn id="btn-home-start-assessment" to="/assess">Go to assessment</v-btn>
       </v-col>
     </v-row>
     <v-row>
