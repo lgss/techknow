@@ -1,5 +1,5 @@
 import unittest
-from jericho_config import config
+from jericho_config import jconfig
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import json
@@ -30,7 +30,7 @@ class JerichoTest(unittest.TestCase):
         if environment is not None:
             self.env = environment[self.__class__.__module__]
         else:
-            self.env = loadenvfile("config.json")
+            self.env = loadenvfile("tests/config.json")
 
 
     def screen_shot(self):
@@ -44,8 +44,8 @@ class JerichoTest(unittest.TestCase):
         chrome_options.add_argument('--window-size=1200,1000')
         chrome_options.add_argument('--ignore-certificate-errors')
 
-        if config.use_system_chrome:
-            self.browser = webdriver.Chrome(os.path.join(config.function_root, "./chromedriver" + (".exe" if platform.system() == "Windows" else "")), options=chrome_options)
+        if jconfig.use_system_chrome:
+            self.browser = webdriver.Chrome(os.path.join(jconfig.function_root, "./chromedriver" + (".exe" if platform.system() == "Windows" else "")), options=chrome_options)
         else:
             chrome_options.add_argument('--headless')
             chrome_options.add_argument('--disable-gpu')
