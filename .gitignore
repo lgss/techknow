@@ -4,11 +4,13 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.vscode/
 
 # Editor directories and files
 .idea
 *.suo
 *.ntvs*
 *.njsproj
-*.sln
-.vscode/launch.json
+*.sl
+*.pyc
+*_pycache_

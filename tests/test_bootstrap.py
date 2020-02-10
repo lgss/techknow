@@ -30,7 +30,7 @@ class JerichoTest(unittest.TestCase):
         if environment is not None:
             self.env = environment[self.__class__.__module__]
         else:
-            self.env = loadenvfile("config.json")
+            self.env = loadenvfile("tests/config.json")
 
 
     def screen_shot(self):
