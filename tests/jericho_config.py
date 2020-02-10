@@ -6,17 +6,17 @@ import getopt
 class JerichoConfig:
     __local_driver = None
 
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], "d:", ["driver="])
-    except getopt.GetoptError as err:
-        # print help information and exit:
-        print(err)  # will print something like "option -a not recognized"
-        sys.exit(2)
-    output = None
-    verbose = False
-    for o, a in opts:
-        if o in ("-d", "--driver"):
-            __local_driver = a
+    # try:
+    #     opts, args = getopt.getopt(sys.argv[1:], "d:", ["driver="])
+    # except getopt.GetoptError as err:
+    #     # print help information and exit:
+    #     print(err)  # will print something like "option -a not recognized"
+    #     sys.exit(2)
+    # output = None
+    # verbose = False
+    # for o, a in opts:
+    #     if o in ("-d", "--driver"):
+    #         __local_driver = a
 
     @staticmethod
     def __getbool(name, default):
