@@ -27,5 +27,5 @@ class ScdipTests(JerichoTest):
         finish = self.browser.find_elements_by_name("btn-finish")
         finish[-1].click()
 
-        dtable = self.browser.find_elements_by_class_name("v-data-table")
-        self.assertEqual(1, len(dtable))
+        resultsList = self.browser.find_elements_by_id("container-results")
+        self.assertEqual(1, len(resultsList))
