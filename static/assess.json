@@ -15,8 +15,7 @@
                     "label": "If you're filling this in with a parent or carer, what's their name?"
                 }
             ]
-        },
-        {
+        },{
             "title": "Emergencies",
             "questions": [
                 {
@@ -33,7 +32,12 @@
                             "tags":["fire"]
                         }
                     ]
-                },{
+                }
+            ]
+        },{
+            "title": "Emergencies",
+            "questions": [
+                {
                     "fieldType": "single-choice-input",
                     "name": "flood",
                     "label": "Do you know what to do if there is an accidental flood?",
@@ -47,7 +51,12 @@
                             "tags":["flood"]
                         }
                     ]
-                }, {
+                }
+            ]
+        },{
+            "title": "Emergencies",
+            "questions": [
+                {
                     "fieldType": "single-choice-input",
                     "name": "crime-victim",
                     "label": "Do you know what to do if you were a victim of a crime?",
@@ -61,7 +70,12 @@
                             "tags":["crime"]
                         }
                     ]
-                }, {
+                }
+            ]
+        },{
+            "title": "Emergencies",
+            "questions": [
+                {
                     "fieldType": "single-choice-input",
                     "name": "unsafe",
                     "label": "Do you feel unsafe right now?",
@@ -77,8 +91,7 @@
                     ]
                 }
             ]
-        },
-        {
+        },{
             "title": "Using your smart device",
             "questions": [
                 {
@@ -111,7 +124,12 @@
                             "tags":[]
                         }
                     ]
-                },{
+                }
+            ]
+        },{
+            "title": "Using your smart device",
+            "questions": [
+                {
                     "fieldType": "single-choice-input",
                     "name": "device-help-use",
                     "label": "Do you need some help to use these devices?",
@@ -125,7 +143,12 @@
                             "tags":[]
                         }
                     ]
-                },{
+                }
+            ]
+        },{
+            "title": "Using your smart device",
+            "questions": [
+                {
                     "fieldType": "single-choice-input",
                     "name": "device-help-apps",
                     "label": "Do you need help finding apps to use on these devices?",
@@ -139,7 +162,12 @@
                             "tags":[]
                         }
                     ]
-                },{
+                }
+            ]
+        },{
+            "title": "Using your smart device",
+            "questions": [
+                {
                     "fieldType": "single-choice-input",
                     "name": "online-safety",
                     "label": "Do you feel safe online?",
@@ -155,7 +183,7 @@
                     ]
                 }
             ]
-        }, {
+        },{
             "title": "Visitors",
             "questions": [
                 {
@@ -174,7 +202,11 @@
                             ]
                         }
                     ]
-                },
+                }
+            ]
+        },{
+            "title": "Visitors",
+            "questions": [
                 {
                     "fieldType": "single-choice-input",
                     "name": "safe-answering-door",
@@ -191,7 +223,12 @@
                             ]
                         }
                     ]
-                },{
+                }
+            ]
+        },{
+            "title": "Visitors",
+            "questions": [
+                {
                     "fieldType": "single-choice-input",
                     "name": "door-strangers",
                     "label": "Do you know what to do when you don't know the person at your front door?",
