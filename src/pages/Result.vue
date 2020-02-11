@@ -1,6 +1,6 @@
 <template>
   <v-container id="container-results">
-    <v-row v-for="resource in results.resources.filter(resource => checkTags(answers, resource.tags))" :key="resource.name">
+    <v-row v-for="resource in filteredList " :key="resource.name">
       <v-col>
           <v-card class="mx-auto" max-width="344">
             <v-card-text>
@@ -26,9 +26,6 @@ export default {
     components: {},
     props: ["results", "answers"],
     methods: {
-      checkTags(answers, tags) {
-        return tags.some(resourceTag => this.getAnswerTags(answers).some(answerTag => answerTag == resourceTag))
-      },
       getAnswerTags(answers) {
         let tags = []
         answers.forEach(answer => {
@@ -39,6 +36,13 @@ export default {
             })
         })
         return tags
+      }
+    },
+    computed: {
+      filteredList: {
+        get () {
+          return this.results.resources.filter(resource => resource.tags.some(resourceTag => this.getAnswerTags(this.answers).some(answerTag => answerTag == resourceTag)))
+        }
       }
     },
     data(){
