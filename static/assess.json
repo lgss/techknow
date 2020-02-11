@@ -2,7 +2,7 @@
     "pages": [
         {
             "title": "About you",
-            "questions": [
+            "items": [
                 {
                     "fieldType": "small-text-input",
                     "name": "name",
@@ -17,7 +17,7 @@
             ]
         },{
             "title": "Emergencies",
-            "questions": [
+            "items": [
                 {
                     "fieldType": "single-choice-input",
                     "name": "fire",
@@ -36,7 +36,7 @@
             ]
         },{
             "title": "Emergencies",
-            "questions": [
+            "items": [
                 {
                     "fieldType": "single-choice-input",
                     "name": "flood",
@@ -55,7 +55,7 @@
             ]
         },{
             "title": "Emergencies",
-            "questions": [
+            "items": [
                 {
                     "fieldType": "single-choice-input",
                     "name": "crime-victim",
@@ -74,7 +74,7 @@
             ]
         },{
             "title": "Emergencies",
-            "questions": [
+            "items": [
                 {
                     "fieldType": "single-choice-input",
                     "name": "unsafe",
@@ -93,7 +93,7 @@
             ]
         },{
             "title": "Using your smart device",
-            "questions": [
+            "items": [
                 {
                     "fieldType": "multiple-choice-input",
                     "name": "devices",
@@ -128,7 +128,7 @@
             ]
         },{
             "title": "Using your smart device",
-            "questions": [
+            "items": [
                 {
                     "fieldType": "single-choice-input",
                     "name": "device-help-use",
@@ -147,7 +147,7 @@
             ]
         },{
             "title": "Using your smart device",
-            "questions": [
+            "items": [
                 {
                     "fieldType": "single-choice-input",
                     "name": "device-help-apps",
@@ -166,7 +166,7 @@
             ]
         },{
             "title": "Using your smart device",
-            "questions": [
+            "items": [
                 {
                     "fieldType": "single-choice-input",
                     "name": "online-safety",
@@ -185,7 +185,7 @@
             ]
         },{
             "title": "Visitors",
-            "questions": [
+            "items": [
                 {
                     "fieldType": "single-choice-input",
                     "name": "remember-visitors",
@@ -206,7 +206,7 @@
             ]
         },{
             "title": "Visitors",
-            "questions": [
+            "items": [
                 {
                     "fieldType": "single-choice-input",
                     "name": "safe-answering-door",
@@ -227,7 +227,7 @@
             ]
         },{
             "title": "Visitors",
-            "questions": [
+            "items": [
                 {
                     "fieldType": "single-choice-input",
                     "name": "door-strangers",
