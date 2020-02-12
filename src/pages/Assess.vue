@@ -11,7 +11,6 @@
             :key="page.id"
             :step="idx + 1"
             class="assessment-page"
-            :id="page.id"
             :class="isCurrentPage(idx)">
             <v-form :ref="'page' + (idx + 1)">
               <h2>{{page.title}}</h2>
