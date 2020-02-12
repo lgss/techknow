@@ -6,13 +6,16 @@
         <span v-if="fields.pages.length < 20">Page {{pageIdx}}/{{fields.pages.length}}</span>
         <span v-else>{{percentDone}}%</span>
         <v-stepper-items>
-          <v-stepper-content
+          <v-stepper-content 
             v-for="(page, idx) in fields.pages"
             :key="page.id"
-            :step="idx + 1">
+            :step="idx + 1"
+            class="assessment-page"
+            :id="page.id"
+            :class="isCurrentPage(idx)">
             <v-form :ref="'page' + (idx + 1)">
               <h2>{{page.title}}</h2>
-              <v-row v-for="(field, index) in page.items" :key="index" >
+              <v-row v-for="(field, index) in page.items" :key="index" class="assessment-item">
                 <v-col>
                   <component @answered='(result)=>answered(result,field.name)' :is="field.fieldType" v-bind="field" />
                 </v-col>
@@ -51,20 +54,19 @@ export default {
       },
       finished() {
         return this.pageIdx >= this.fields.pages.length;
-
       }
     },
     methods: {
       next() {
-
+        
         if (this.pageIdx < this.fields.pages.length && this.$refs['page' + this.pageIdx]) {
           this.pageIdx++
         } else {
-
-        }
+          
+          }
       },
       prior() {
-          this.pageIdx--
+        this.pageIdx--
       },
       answered(result,name) {
         var answer = {
@@ -77,6 +79,9 @@ export default {
         } else {
           this.answers.push(answer)
         }
+      },
+      isCurrentPage(idx) {
+        return (idx + 1) == this.pageIdx ? `current` : null
       }
     },
     props: ["fields", "answers"],
