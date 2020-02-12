@@ -24,8 +24,25 @@ class ScdipTests(JerichoTest):
             btn.click()
             time.sleep(1)
 
+
         finish = self.browser.find_elements_by_name("btn-finish")
         finish[-1].click()
 
         resultsList = self.browser.find_elements_by_id("container-results")
         self.assertEqual(1, len(resultsList))
+    
+    def test_questionsRender(self):
+        self.test_home()
+        assessmentbtn = self.browser.find_element_by_id("btn-home-start-assessment")
+        assessmentbtn.click()
+
+        next = self.browser.find_elements_by_name("btn-next")
+        next.pop() #no next button on last page
+        for btn in next:
+            assessment_items = self.browser.find_elements_by_css_selector('.assessment-page.current form .assessment-item')
+            self.assertGreater(len(assessment_items),0)
+            btn.click()
+            time.sleep(1)
+
+
+
