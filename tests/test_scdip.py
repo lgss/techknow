@@ -61,9 +61,9 @@ class ScdipTests(JerichoTest):
     
     def fill_assessment(self):
         assessment_pages = self.browser.find_elements_by_css_selector(".assessment-page")
-        for page in assessment_pages:
+        for (index, page) in enumerate(assessment_pages):
             assessment_items = self.browser.find_elements_by_css_selector('.assessment-page.current form .assessment-item')
-            self.assertGreater(len(assessment_items),0)
+            self.assertIsNotNone(assessment_items, 'No items are present on page {page}'.format(page=index+1))
             for assessment_item in assessment_items:
                 self.fill_assessment_item(assessment_item)
             btn = page.find_elements_by_css_selector('*[name="btn-next"], *[name="btn-finish"]')
