@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h1 id="title">Welcome to <b>techKNOW</b></h1>
+        <h1 id="title">Welcome to <b>TECHknow</b></h1>
       </v-col>
     </v-row>
     <v-row>
