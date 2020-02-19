@@ -28,8 +28,11 @@ steps:
     TargetFolder: '$(build.artifactstagingdirectory)'
     CleanTargetFolder: true
 
-- task: PublishBuildArtifacts@1
+- task: GitHubPagesPublish@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+    docPath: 'dist'
+    githubusername: '13enedict'
+    githubaccesstoken: '$(publish_pat)'
+    repositoryname: 'lgss/techknow'
+    branchname: 'gh-pages'
+    commitmessage: 'Automated Release $(Release.ReleaseId)'
