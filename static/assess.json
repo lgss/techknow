@@ -29,7 +29,10 @@
                         },
                         {
                             "value":"No",
-                            "tags":["fire"]
+                            "tags":[
+                                "fire",
+                                "fire-safety"
+                            ]
                         }
                     ]
                 }
@@ -48,7 +51,9 @@
                         },
                         {
                             "value":"No",
-                            "tags":["flood"]
+                            "tags":[
+                                "flood"
+                            ]
                         }
                     ]
                 }
@@ -67,7 +72,10 @@
                         },
                         {
                             "value":"No",
-                            "tags":["crime"]
+                            "tags":[
+                                "crime",
+                                "theft"
+                            ]
                         }
                     ]
                 }
@@ -82,7 +90,10 @@
                     "options": [
                         {
                             "value":"Yes",
-                            "tags":["unsafe"]
+                            "tags":[
+                                "unsafe",
+                                "police"
+                            ]
                         },
                         {
                             "value":"No",
@@ -136,7 +147,9 @@
                     "options": [
                         {
                             "value":"Yes",
-                            "tags":[]
+                            "tags":[
+                                "accessibility"
+                            ]
                         },
                         {
                             "value":"No",
@@ -155,7 +168,7 @@
                     "options": [
                         {
                             "value":"Yes",
-                            "tags":[]
+                            "tags":["apps"]
                         },
                         {
                             "value":"No",
@@ -178,7 +191,10 @@
                         },
                         {
                             "value":"No",
-                            "tags":["vulnerable-online"]
+                            "tags":[
+                                "vulnerable-online",
+                                "online-safety"
+                            ]
                         }
                     ]
                 }
@@ -219,7 +235,8 @@
                         {
                             "value":"No",
                             "tags":[
-                                "home-security"
+                                "home-security",
+                                "security-advice"
                             ]
                         }
                     ]
@@ -240,7 +257,9 @@
                         {
                             "value":"No",
                             "tags":[
-                                "strangers"
+                                "strangers",
+                                "home-security",
+                                "scam-advice"
                             ]
                         }
                     ]
