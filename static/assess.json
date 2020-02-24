@@ -125,19 +125,19 @@
                         },
                         {
                             "value":"Tablet",
-                            "tags":[]
+                            "tags":["tablet"]
                         },
                         {
                             "value":"Laptop",
-                            "tags":[]
+                            "tags":["laptop"]
                         },
                         {
                             "value":"Desktop",
-                            "tags":[]
+                            "tags":["desktop"]
                         },
                         {
                             "value":"A Smart home assistant",
-                            "tags":[]
+                            "tags":["smart-home-assistant"]
                         }
                     ]
                 }
