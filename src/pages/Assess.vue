@@ -14,7 +14,7 @@
               <h2>{{page.title}}</h2>
               <v-row v-for="(field, index) in page.items" :key="index" class="assessment-item">
                 <v-col>
-                  <component @answered='(result)=>answered(result,field.name)' :is="field.fieldType" v-bind="field" />
+                  <component @responded='(selection)=>responded(selection,field.name)' :is="field.fieldType" v-bind="field" />
                 </v-col>
               </v-row>
               <v-row>
@@ -54,8 +54,7 @@ export default {
       }
     },
     methods: {
-      next() {
-        
+      next() {  
         if (this.pageIdx < this.fields.pages.length && this.$refs['page' + this.pageIdx]) {
           this.pageIdx++
         } else {
@@ -65,23 +64,23 @@ export default {
       prior() {
         this.pageIdx--
       },
-      answered(result,name) {
-        var answer = {
+      responded(selection,name) {
+        var response = {
           name: name,
-          options: result
+          choices: selection
         }
-        var currentAnswerIndex = this.answers.findIndex(answer => (answer.name === name))
-        if (currentAnswerIndex >= 0) {
-          this.answers[currentAnswerIndex] = answer
+        var currentResponseIndex = this.responses.findIndex(response => (response.name === name))
+        if (currentResponseIndex >= 0) {
+          this.responses[currentResponseIndex] = response
         } else {
-          this.answers.push(answer)
+          this.responses.push(response)
         }
       },
       isCurrentPage(idx) {
         return (idx + 1) == this.pageIdx ? `current` : null
       }
     },
-    props: ["fields", "answers"],
+    props: ["fields", "responses"],
     data() {
       return {
         pageIdx: 1

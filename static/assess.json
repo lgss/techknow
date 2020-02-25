@@ -22,7 +22,7 @@
                     "fieldType": "single-choice-input",
                     "name": "fire",
                     "label": "Do you know what to do in case of a fire?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":[]
@@ -44,7 +44,7 @@
                     "fieldType": "single-choice-input",
                     "name": "flood",
                     "label": "Do you know what to do if there is an accidental flood?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":[]
@@ -65,7 +65,7 @@
                     "fieldType": "single-choice-input",
                     "name": "crime-victim",
                     "label": "Do you know what to do if you were a victim of a crime?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":[]
@@ -87,7 +87,7 @@
                     "fieldType": "single-choice-input",
                     "name": "unsafe",
                     "label": "Do you feel unsafe right now?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":[
@@ -109,7 +109,7 @@
                     "fieldType": "multiple-choice-input",
                     "name": "devices",
                     "label": "What devices do you use?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"iPhone",
                             "tags":["mobile"]
@@ -144,7 +144,7 @@
                     "fieldType": "single-choice-input",
                     "name": "device-help-use",
                     "label": "Do you need some help to use these devices?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":[
@@ -165,7 +165,7 @@
                     "fieldType": "single-choice-input",
                     "name": "device-help-apps",
                     "label": "Do you need help finding apps to use on these devices?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":["apps"]
@@ -184,7 +184,7 @@
                     "fieldType": "single-choice-input",
                     "name": "online-safety",
                     "label": "Do you feel safe online?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":[]
@@ -206,7 +206,7 @@
                     "fieldType": "single-choice-input",
                     "name": "remember-visitors",
                     "label": "Do you remember when you have visitors?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":[]
@@ -227,7 +227,7 @@
                     "fieldType": "single-choice-input",
                     "name": "safe-answering-door",
                     "label": "Do you feel safe answering your front door?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":[]
@@ -249,7 +249,7 @@
                     "fieldType": "single-choice-input",
                     "name": "door-strangers",
                     "label": "Do you know what to do when you don't know the person at your front door?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":[]

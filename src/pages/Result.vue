@@ -24,13 +24,13 @@
 export default {
     name: 'Result',
     components: {},
-    props: ["results", "answers"],
+    props: ["resources", "responses"],
     methods: {
-      getAnswerTags(answers) {
+      getResponseTags(responses) {
         let tags = []
-        answers.forEach(answer => {
-            answer.options.forEach( option => {
-              option.tags.forEach(tag => {
+        responses.forEach(response => {
+            response.choices.forEach( choice => {
+              choice.tags.forEach(tag => {
                 tags.push(tag)
               })
             })
@@ -41,7 +41,7 @@ export default {
     computed: {
       filteredList: {
         get () {
-          return this.results.resources.filter(resource => resource.tags.some(resourceTag => this.getAnswerTags(this.answers).some(answerTag => answerTag == resourceTag)))
+          return this.resources.resources.filter(resource => resource.tags.some(resourceTag => this.getResponseTags(this.responses).some(responseTag => responseTag == resourceTag)))
         }
       }
     },
