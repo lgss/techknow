@@ -3,8 +3,6 @@
       <v-stepper v-model="pageIdx" style="box-shadow: none">
         <v-progress-linear tile="true" color="primary" :active='true' :value='percentDone'/>
         
-        <span v-if="fields.pages.length < 20">Page {{pageIdx}}/{{fields.pages.length}}</span>
-        <span v-else>{{percentDone}}%</span>
         <v-stepper-items>
           <v-stepper-content 
             v-for="(page, idx) in fields.pages"
