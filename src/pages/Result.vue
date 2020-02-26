@@ -48,7 +48,7 @@ export default {
       },
       restart() {
         if(confirm("Are you sure you want to start again? The current results will be lost")){
-
+          this.$router.push({ path: '/assess'})
         }
       }
     },
