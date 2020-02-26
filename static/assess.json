@@ -145,6 +145,10 @@
                         {
                             "value":"A Smart home assistant",
                             "tags":["smart-home-assistant"]
+                        },
+                        {
+                            "value":"I do not use any of these",
+                            "tags":["no-device"]
                         }
                     ],
                     "includeTags": [],
@@ -171,7 +175,7 @@
                         }
                     ],
                     "includeTags": [],
-                    "excludeTags" : []
+                    "excludeTags" : ["no-device"]
                 }
             ]
         },{
@@ -192,7 +196,7 @@
                         }
                     ],
                     "includeTags": [],
-                    "excludeTags" : []
+                    "excludeTags" : ["no-device"]
                 }
             ]
         },{
@@ -216,7 +220,7 @@
                         }
                     ],
                     "includeTags": [],
-                    "excludeTags" : []
+                    "excludeTags" : ["no-device"]
                 }
             ]
         },{
