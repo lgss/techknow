@@ -38,6 +38,7 @@ import SmallTextInput from '../components/controls/SmallTextInput.vue'
 import SingleChoiceInput from '../components/controls/SingleChoiceInput.vue'
 import MultipleChoiceInput from '../components/controls/MultipleChoiceInput.vue'
 import BooleanInput from '../components/controls/BooleanInput.vue'
+import Stimulus from '../components/controls/Stimulus.vue'
 
 export default {
     name: "Assess",
@@ -45,7 +46,8 @@ export default {
       'small-text-input': SmallTextInput,
       'single-choice-input': SingleChoiceInput,
       'multiple-choice-input': MultipleChoiceInput,
-      'boolean-input': BooleanInput
+      'boolean-input': BooleanInput,
+      'stimulus': Stimulus
     },
     computed: {
       percentDone() {

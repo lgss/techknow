@@ -13,6 +13,13 @@
                     "fieldType": "small-text-input",
                     "name": "carer",
                     "label": "If you're filling this in with a parent or carer, what's their name?"
+                },
+                {
+                    "fieldType": "stimulus",
+                    "name": "declaration-text",
+                    "label": "label foo",
+                    "content" : "content foo"
+
                 }
             ]
         },{
