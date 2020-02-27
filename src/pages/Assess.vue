@@ -78,7 +78,7 @@ export default {
     },
     methods: {
       next() {
-        if(this.isFormEnding()) {
+        if(this.proceedDialog()) {
           return
         }
         
@@ -107,12 +107,12 @@ export default {
         return (idx + 1) == this.pageIdx ? `current` : null
       },
       finish() {
-        if(this.isFormEnding()) {
+        if(this.proceedDialog()) {
           return
         }
         this.$router.push({ path: '/result'})
       },
-      isFormEnding() {
+      proceedDialog() {
         //map all answers to their dialogs, concat them together, and find the first one that is defined
         const dialog = [].concat.apply([], this.answers.map(answer => answer.options.map(choice => choice.dialog)))
           .find(dialog => typeof dialog != "undefined")
