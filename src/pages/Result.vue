@@ -1,12 +1,8 @@
 <template>
   <div>
-    <v-container>
-      <v-row>
-        <v-col align="left">
-          <v-btn id="btn-restart-assessment" @click.native="restart">Start Again</v-btn>
-        </v-col>
-      </v-row>
-    </v-container>
+    <div class="button-container">
+      <v-btn id="btn-restart-assessment" @click.native="restart">Start Again</v-btn>
+    </div>
     <v-container id="container-results">
       <v-row v-for="resource in filteredList " :key="resource.name">
         <v-col>
@@ -66,5 +62,7 @@ export default {
 </script>
 
 <style>
-
+  .button-container {
+    text-align: left; 
+  }
 </style>
