@@ -9,9 +9,9 @@
                 <span v-html="resource.content"></span>
               </div>
               <div> 
-                      <v-chip v-for="tag in resource.tags" :key="tag" class="ma-2">
-                        {{ tag }}
-                      </v-chip>
+                <v-chip v-for="tag in resource.tags" :key="tag" class="ma-2">
+                  {{ tag }}
+                </v-chip>
               </div>
             </v-card-text>
         </v-card>
@@ -21,10 +21,12 @@
 </template>
 
 <script>
+const resources =  require('../../static/resource.json');
+
 export default {
     name: 'Result',
     components: {},
-    props: ["resources", "responses"],
+    props: ["responses"],
     methods: {
       getResponseTags(responses) {
         let tags = []
@@ -46,7 +48,9 @@ export default {
       }
     },
     data(){
-        return {}
+        return {
+          resources
+        }
     }
 }
 </script>

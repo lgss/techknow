@@ -1,11 +1,10 @@
 <template>
     <v-card>
       <v-stepper v-model="pageIdx" style="box-shadow: none">
-        <v-progress-linear tile="true" color="primary" :active='true' :value='percentDone'/>
-        
+        <v-progress-linear tile="true" color="primary" :value='percentDone'/>
         <v-stepper-items>
           <v-stepper-content 
-            v-for="(page, idx) in fields.pages"
+            v-for="(page, idx) in displayPages"
             :key="page.id"
             :step="idx + 1"
             class="assessment-page"
@@ -20,7 +19,7 @@
               <v-row>
                 <v-col>
                   <v-btn :disabled="pageIdx <= 1" name='btn-back' @click.native="prior">Back</v-btn>
-                  <v-btn v-if='finished' color="success" name='btn-finish' to="/result">Finish</v-btn>
+                  <v-btn v-if='finished' color="success" name='btn-finish' :to="{name:'Result', params: {responses}}">Finish</v-btn>
                   <v-btn v-else color="success" name="btn-next" @click.native="next">Next</v-btn>
                 </v-col>
               </v-row>
@@ -51,34 +50,35 @@ export default {
       },
       finished() {
         return this.pageIdx >= this.fields.pages.length;
+      },
+      responseTags() {return this.getResponseTags(this.responses)},
+
+      displayPages() {
+        // Arguably, this should filter the pages but it'd make progress tracking harder
+        let self = this;
+
+        return this.fields.pages.map(pg => Object.assign(pg, 
+          {items: pg.items.filter(x => 
+            !self.intersects(x.excludeTags, self.responseTags)
+            && (self.intersects(x.includeTags, self.responseTags) 
+            || x.includeTags.length === 0))})
+        )
       }
     },
     methods: {
       next() {
-        this.getPageIdX("next")
+        this.movePage(() => this.pageIdx++)
       },
       prior() {
-        this.getPageIdX("prior")
+        this.movePage(() => this.pageIdx--)
       },
-      getPageIdX(direction) {
-        let exit = false
-        while(exit == false) {
-          //Check for direction
-          if(direction == "next") { 
-            this.pageIdx ++
-          } else {
-            this.pageIdx --
-          }
-          // check if the page has visible items
-          this.fields.pages[this.pageIdx-1].items.forEach(item => {
-            if (item["display"] == "visible") {
-              exit = true // if a page has a visible item then exit the loop
-            }
-            if (direction == "next" && this.pageIdx == this.fields.pages.length || direction == "prior" && this.pageIdx == 0 ) {
-              exit = true // if the user is on the last item then exit the loop
-            }
-          })
-        }
+      pageEmpty() {
+        return this.displayPages[this.pageIdx - 1].items.length < 1
+      },
+      movePage(step) {
+        step()
+        while (this.pageEmpty())
+          step()
       },
       responded(selection,name) {
         var response = {
@@ -91,66 +91,25 @@ export default {
         } else {
           this.responses.push(response)
         }
-        // evaluates which fields should be visible when a user updates their responses
-        this.isVisible()
       },
       isCurrentPage(idx) {
         return (idx + 1) == this.pageIdx ? `current` : null
       },
-      isVisible() {      
-        let responseTags = this.getResponseTags(this.responses)
-        this.fields.pages.forEach(page => {
-            page.items.forEach(item => {
-              if (this.intersection(item.excludeTags,responseTags)) { 
-                this.$set(item,'display', "hidden")
-                //item["display"] = "hidden" // if an exclude tag matchs a response tag then it will be hidden. 
-              }
-              else if (item.includeTags.length == 0) { 
-                this.$set(item,'display', "visible")
-                //item["display"] = "visible" // if no include tags are provide then the item will display as default
-              }
-              else if (this.intersection(item.includeTags,responseTags)) {
-                this.$set(item,'display', "visible")
-                //item["display"] = "visible" // if an include tag matchs a response tag then it will be displayed
-              }
-              else {
-                this.$set(item,'display', "hidden")
-                //item["display"] = "hidden" // if the include tags are not in the users responses then the item will be hidden
-              }
-            })
-        });
-      this.$forceUpdate() // this is being used to force refresh the dom when changes are made to the same page. 
+
+      intersects(one, two) {
+        return one && two && (one.find(element => two.includes(element)) !== undefined)
       },
-      intersection(fieldTags,responseTags) {
-        // checks if the two arrays have any elements that equal each other
-        return responseTags.filter(element => fieldTags.includes(element)).length > 0
-      },
+
       getResponseTags(responses) {
-        let tags = []
-        responses.forEach(response => {
-            response.choices.forEach( choice => {
-              choice.tags.forEach(tag => {
-                tags.push(tag)
-              })
-            })
-        })
-        return tags
+        return responses.flatMap(x => x.choices).flatMap(x => x.tags)
       }
     },
-    mounted() {
-      this.isVisible()
-    },
-    props: ["fields", "responses"],
+    props: ["fields"],
     data() {
       return {
-        pageIdx: 1
+        pageIdx: 1,
+        responses: []
       }
     }
 }
 </script>
-<style>
-.hidden {
-  visibility: hidden;
-  height:0;
-}
-</style>
