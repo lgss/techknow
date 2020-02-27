@@ -32,13 +32,13 @@ class ScdipTests(JerichoTest):
         resultsList = self.browser.find_elements_by_id("container-results")
         self.assertEqual(1, len(resultsList))
     
-    def test_questionsRender(self):
+    def test_questions_render(self):
         self.test_home()
         self.start_assessment()
         next = self.browser.find_elements_by_name("btn-next")
         next.pop() #no next button on last page
         for btn in next:
-            assessment_items = self.browser.find_elements_by_css_selector('.assessment-page.current form .assessment-item')
+            assessment_items = self.browser.find_elements_by_css_selector(self.CURRENT_PAGE_SELECTOR)
             self.assertGreater(len(assessment_items),0)
             btn.click()
             time.sleep(1)
@@ -65,7 +65,7 @@ class ScdipTests(JerichoTest):
     
     def fill_multi_choice_input(self, value=None, assessment_item=0):
         if isinstance(assessment_item, int):
-            group = self.browser.find_elements_by_css_selector('.assessment-page.current form .assessment-item')[assessment_item]
+            group = self.browser.find_elements_by_css_selector(self.CURRENT_PAGE_SELECTOR)[assessment_item]
         else:
             group = assessment_item
 
@@ -91,7 +91,7 @@ class ScdipTests(JerichoTest):
     def fill_assessment(self):
         assessment_pages = self.browser.find_elements_by_css_selector(".assessment-page")
         for (index, page) in enumerate(assessment_pages):
-            assessment_items = self.browser.find_elements_by_css_selector('.assessment-page.current form .assessment-item')
+            assessment_items = self.browser.find_elements_by_css_selector(self.CURRENT_PAGE_SELECTOR)
             self.assertIsNotNone(assessment_items, 'No items are present on page {page}'.format(page=index+1))
             for assessment_item in assessment_items:
                 self.fill_assessment_item(assessment_item)
@@ -124,6 +124,7 @@ class ScdipTests(JerichoTest):
                     typestep = step['type']
                 else:
                     raise ValueError('Needs a type')
+
                 if typestep == 'single_choice':
                     self.fill_single_choice_input(step["value_text"])
                     
@@ -131,7 +132,9 @@ class ScdipTests(JerichoTest):
                         self.click_next()
                 elif typestep == 'multi_choice':
                     self.fill_multi_choice_input(step["value_text"])
-                    self.click_next()
+
+                    if not 'do_next' in step or bool('do_next'):
+                        self.click_next()
             #elif numstep == 'assert':
             else:
                 raise ValueError('Unrecognised kind of step')
@@ -172,9 +175,7 @@ class ScdipTests(JerichoTest):
         # assert that it doesn't load
              
     def start_assessment(self):
-        assessmentbtn = self.browser.find_element_by_id("btn-home-start-assessment")
-        assessmentbtn.click()
+        self.browser.find_element_by_id("btn-home-start-assessment").click()
 
     def click_next(self):
         self.browser.find_element_by_css_selector(".v-stepper__content.assessment-page.current [name=btn-next]").click()
-        
