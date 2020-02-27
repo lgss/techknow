@@ -4,17 +4,19 @@
             "title": "About you",
             "items": [
                 {
-                    "fieldType": "small-text-input",
-                    "name": "name",
-                    "label": "Your name",
-                    "placeholder": "Your Name",
-                    "includeTags": [],
-                    "excludeTags" : []
-                },
-                {
-                    "fieldType": "small-text-input",
-                    "name": "carer",
-                    "label": "If you're filling this in with a parent or carer, what's their name?",
+                    "fieldType": "single-choice-input",
+                    "name": "visually impaired",
+                    "label": "Are you visually impaired?",
+                    "choices": [
+                        {
+                            "value":"Yes",
+                            "tags":["visually-impaired"]
+                        },
+                        {
+                            "value":"No",
+                            "tags":[]
+                        }
+                    ],
                     "includeTags": [],
                     "excludeTags" : []
                 }
@@ -110,8 +112,8 @@
                             "tags":[]
                         }
                     ],
-                    "includeTags": [],
-                    "excludeTags" : []
+                    "includeTags": ["crime"],
+                    "excludeTags": []
                 }
             ]
         },{
