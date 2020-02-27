@@ -277,7 +277,6 @@
                     "fieldType": "stimulus",
                     "name": "terms-conditions-text",
                     "label": "",
-                    "align":"justify",
                     "content" : "<h2>Before viewing your report please read this advice:</h2><br><p>TECHknow is a tool that will help you with information and advice on equipment that can aid with independent living.</p><p>Using TECHknow is not a substitute for an assessment by and occupational therapist or appropriate health care professional and you should consider whether you need a professional assessment before purchasing any equipment that may affect your balance, mobility, posture, pressure care, ability to summon help, or general safety that has been suggested by TECHknow.</p><p>Everyone's independence in completely unique and please apply the safety considerations that apply to you.</p><p>If you decide to buy equipment from a suggested provider, you should read the instructions carefully. For further information, seek advice either from the equipment supplier or manufacturer.</p><p>By clicking 'I Understand' you acknowledge that you have read and understood the above.</p>"
                 },
                 {

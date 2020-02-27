@@ -1,14 +1,8 @@
 <template>
-  <v-container fluid>
-        <v-col :align='this.align'>
-            <v-row>
-                <v-label>{{label}}</v-label>
-            </v-row>
-            <v-row>
-                <div v-html="content"></div>
-            </v-row>
-      </v-col>
-  </v-container>
+  <div class="stimulus">
+    <v-label v-if="label">{{label}}</v-label>
+    <div v-html="content"></div>
+  </div>
 </template>
 
 <script>
@@ -20,3 +14,9 @@
     }
   }
 </script>
+
+<style>
+  .stimulus {
+    text-align: left
+  }
+</style>
