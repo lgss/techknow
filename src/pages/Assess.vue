@@ -38,6 +38,7 @@ import BooleanInput from '../components/controls/BooleanInput.vue'
 
 export default {
     name: "Assess",
+    self: this,
     components: {
       'small-text-input': SmallTextInput,
       'single-choice-input': SingleChoiceInput,
@@ -51,34 +52,42 @@ export default {
       finished() {
         return this.pageIdx >= this.fields.pages.length;
       },
-      responseTags() {return this.getResponseTags(this.responses)},
-
+      
       displayPages() {
         // Arguably, this should filter the pages but it'd make progress tracking harder
         let self = this;
 
-        return this.fields.pages.map(pg => Object.assign(pg, 
-          {items: pg.items.filter(x => 
-            !self.intersects(x.excludeTags, self.responseTags)
-            && (self.intersects(x.includeTags, self.responseTags) 
-            || x.includeTags.length === 0))})
+        return this.fields.pages.map(function(pg) { 
+            let newPg = Object.assign({}, pg)
+
+            newPg.items = pg.items.filter(x => 
+              !self.intersects(x.excludeTags, self.tags)
+              && (self.intersects(x.includeTags, self.tags)
+              || x.includeTags.length === 0))
+              
+            return newPg
+          }
         )
       }
     },
     methods: {
       next() {
-        this.movePage(() => this.pageIdx++)
+        this.movePage(true)
       },
       prior() {
-        this.movePage(() => this.pageIdx--)
+        this.movePage(false)
       },
       pageEmpty() {
         return this.displayPages[this.pageIdx - 1].items.length < 1
       },
-      movePage(step) {
-        step()
-        while (this.pageEmpty())
-          step()
+      movePage(forwards) {
+        if (forwards)
+          this.pageIdx++
+        else 
+          this.pageIdx--
+
+        if (this.pageEmpty())
+          this.movePage(forwards)
       },
       responded(selection,name) {
         var response = {
@@ -91,6 +100,8 @@ export default {
         } else {
           this.responses.push(response)
         }
+
+        this.tags = this.responses.flatMap(x => x.choices).flatMap(x => x.tags)
       },
       isCurrentPage(idx) {
         return (idx + 1) == this.pageIdx ? `current` : null
@@ -108,7 +119,9 @@ export default {
     data() {
       return {
         pageIdx: 1,
-        responses: []
+        responses: [],
+        tags: [] // this is here to allow quick assessment mutations but I suspect that you
+                 // could achieve the same by watching `responses`
       }
     }
 }
