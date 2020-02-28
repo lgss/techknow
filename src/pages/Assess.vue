@@ -1,4 +1,5 @@
 <template>
+  <div>
     <v-card>
       <v-stepper v-model="pageIdx" style="box-shadow: none">
         <v-progress-linear tile="true" color="primary" :value='percentDone'/>
@@ -28,6 +29,26 @@
         </v-stepper-items>
       </v-stepper>
     </v-card>
+    <v-dialog v-model="showDialog" :fullscreen="dialog.fullscreen">
+      <v-card>
+        <v-container>
+          <v-row>
+            <v-col>
+              <h1 id="dialog-title" v-html="dialog.title"></h1>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <span v-html="dialog.content"></span>
+            </v-col>
+          </v-row>
+          <v-row justify="center">
+            <v-btn @click="showDialog = false">Back</v-btn>
+          </v-row>
+        </v-container>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 
 <script>
@@ -35,6 +56,7 @@ import SmallTextInput from '../components/controls/SmallTextInput.vue'
 import SingleChoiceInput from '../components/controls/SingleChoiceInput.vue'
 import MultipleChoiceInput from '../components/controls/MultipleChoiceInput.vue'
 import BooleanInput from '../components/controls/BooleanInput.vue'
+import Stimulus from '../components/controls/Stimulus.vue'
 
 export default {
     name: "Assess",
@@ -43,7 +65,8 @@ export default {
       'small-text-input': SmallTextInput,
       'single-choice-input': SingleChoiceInput,
       'multiple-choice-input': MultipleChoiceInput,
-      'boolean-input': BooleanInput
+      'boolean-input': BooleanInput,
+      'stimulus': Stimulus
     },
     computed: {
       percentDone() {
@@ -106,13 +129,31 @@ export default {
       isCurrentPage(idx) {
         return (idx + 1) == this.pageIdx ? `current` : null
       },
-
       intersects(one, two) {
         return one && two && (one.find(element => two.includes(element)) !== undefined)
       },
 
       getResponseTags(responses) {
         return responses.flatMap(x => x.choices).flatMap(x => x.tags)
+      },
+      finish() {
+        if(this.isFormEnding()) {
+          return
+        }
+        this.$router.push({ path: '/result'})
+      },
+      isFormEnding() {
+        //map all answers to their dialogs, concat them together, and find the first one that is defined
+        const dialog = [].concat.apply([], this.answers.map(answer => answer.options.map(choice => choice.dialog)))
+          .find(dialog => typeof dialog != "undefined")
+        if (dialog) {
+          this.dialog = dialog
+          this.showDialog = true
+          return true;
+        }
+        this.dialog = {};
+        this.showDialog = false;
+        return false;
       }
     },
     props: ["fields"],
@@ -122,6 +163,8 @@ export default {
         responses: [],
         tags: [] // this is here to allow quick assessment mutations but I suspect that you
                  // could achieve the same by watching `responses`
+        dialog: {},
+        showDialog: false
       }
     }
 }
