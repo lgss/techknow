@@ -1,7 +1,18 @@
 <template>
   <div>
     <div class="button-container">
-      <v-btn id="btn-restart-assessment" @click.native="restart">Start Again</v-btn>
+      <v-btn id="btn-restart-assessment" @click="restartDialog = true">Start Again</v-btn>
+      <v-dialog v-model="restartDialog" max-width="600px">
+        <v-card>
+          <v-card-title>Are you sure?</v-card-title>
+          <v-card-text>The resources currently shown will be lost. You will need to complete the assessment again from the beginning.</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn id="btn-restart-confirm" @click="restart">Continue</v-btn>
+            <v-btn id="btn-restart-cancel"  @click="restartDialog = false">Cancel</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </div>
     <v-container id="container-results">
       <v-row v-for="resource in filteredList " :key="resource.name">
@@ -43,9 +54,7 @@ export default {
         return tags
       },
       restart() {
-        if(confirm("Are you sure you want to start again? The current results will be lost")){
           this.$router.push({ path: '/assess'})
-        }
       }
     },
     computed: {
@@ -56,7 +65,9 @@ export default {
       }
     },
     data(){
-        return {}
+        return {
+          restartDialog: false
+        }
     }
 }
 </script>
