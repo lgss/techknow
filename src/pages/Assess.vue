@@ -29,25 +29,6 @@
         </v-stepper-items>
       </v-stepper>
     </v-card>
-    <v-dialog v-model="showDialog" :fullscreen="dialog.fullscreen">
-      <v-card>
-        <v-container>
-          <v-row>
-            <v-col>
-              <h1 id="dialog-title" v-html="dialog.title"></h1>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <span v-html="dialog.content"></span>
-            </v-col>
-          </v-row>
-          <v-row justify="center">
-            <v-btn @click="showDialog = false">Back</v-btn>
-          </v-row>
-        </v-container>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
@@ -86,7 +67,7 @@ export default {
             newPg.items = pg.items.filter(x => 
               !self.intersects(x.excludeTags, self.tags)
               && (self.intersects(x.includeTags, self.tags)
-              || x.includeTags.length === 0))
+              || (x.includeTags || []).length === 0))
               
             return newPg
           }
@@ -132,28 +113,8 @@ export default {
       intersects(one, two) {
         return one && two && (one.find(element => two.includes(element)) !== undefined)
       },
-
       getResponseTags(responses) {
         return responses.flatMap(x => x.choices).flatMap(x => x.tags)
-      },
-      finish() {
-        if(this.isFormEnding()) {
-          return
-        }
-        this.$router.push({ path: '/result'})
-      },
-      isFormEnding() {
-        //map all answers to their dialogs, concat them together, and find the first one that is defined
-        const dialog = [].concat.apply([], this.answers.map(answer => answer.options.map(choice => choice.dialog)))
-          .find(dialog => typeof dialog != "undefined")
-        if (dialog) {
-          this.dialog = dialog
-          this.showDialog = true
-          return true;
-        }
-        this.dialog = {};
-        this.showDialog = false;
-        return false;
       }
     },
     props: ["fields"],
@@ -161,8 +122,8 @@ export default {
       return {
         pageIdx: 1,
         responses: [],
-        tags: [] // this is here to allow quick assessment mutations but I suspect that you
-                 // could achieve the same by watching `responses`
+        tags: [], // this is here to allow quick assessment mutations but I suspect that you
+                  // could achieve the same by watching `responses`
         dialog: {},
         showDialog: false
       }
