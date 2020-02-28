@@ -11,7 +11,7 @@
             :class="isCurrentPage(idx)">
             <v-form :ref="'page' + (idx + 1)">
               <h2>{{page.title}}</h2>
-              <v-row v-for="(field, index) in page.items" :key="index" class="assessment-item" :class="field.display">
+              <v-row v-for="(field, index) in page.items" :key="index" class="assessment-item">
                 <v-col>
                   <component @responded='(selection)=>responded(selection,field.name)' :is="field.fieldType" v-bind="field"/>
                 </v-col>

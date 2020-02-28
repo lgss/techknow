@@ -9,8 +9,13 @@
                 <span v-html="resource.content"></span>
               </div>
               <div> 
-                <v-chip v-for="tag in resource.tags" :key="tag" class="ma-2">
-                  {{ tag }}
+                <v-chip v-for="iTag in resource.includeTags" :key="iTag" class="ma-2" color="green" text-color="white">
+                  {{ iTag }}
+                </v-chip>
+              </div>
+                            <div> 
+                <v-chip v-for="eTag in resource.excludeTags" :key="eTag" class="ma-2" color="red" text-color="white">
+                  {{ eTag }}
                 </v-chip>
               </div>
             </v-card-text>
@@ -29,21 +34,23 @@ export default {
     props: ["responses"],
     methods: {
       getResponseTags(responses) {
-        let tags = []
-        responses.forEach(response => {
-            response.choices.forEach( choice => {
-              choice.tags.forEach(tag => {
-                tags.push(tag)
-              })
-            })
-        })
-        return tags
+        return responses.flatMap(x => x.choices).flatMap(x => x.tags)
       }
     },
     computed: {
       filteredList: {
         get () {
-          return this.resources.resources.filter(resource => resource.tags.some(resourceTag => this.getResponseTags(this.responses).some(responseTag => responseTag == resourceTag)))
+          return this.resources.resources
+            .filter(resource => resource.includeTags
+              .some(IncludeTag => this.getResponseTags(this.responses)
+                .some(responseTag => responseTag == IncludeTag)
+              )
+            )
+            .filter(resource => !resource.excludeTags
+              .some(ExcludeTag => this.getResponseTags(this.responses)
+                .some(responseTag => responseTag == ExcludeTag)
+              )
+            )
         }
       }
     },
