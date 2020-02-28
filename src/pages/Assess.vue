@@ -76,6 +76,10 @@ export default {
     },
     methods: {
       next() {
+        let page_valid = this.validatePage()
+        if (!page_valid) {
+          return false
+        }
         this.movePage(true)
       },
       prior() {
@@ -115,6 +119,18 @@ export default {
       },
       getResponseTags(responses) {
         return responses.flatMap(x => x.choices).flatMap(x => x.tags)
+      },
+      validatePage(page) {
+        //find current page if null page argument
+        page = page || this.displayPages[this.pageIdx-1]
+        let page_valid = page.items.every(this.validateItem)
+        return page_valid
+      },
+      validateItem(item) {
+        item.valid = this.responses.some(response => {
+          return response.name === item.name && response.choices.length
+        })
+        return item.valid
       }
     },
     props: ["fields"],
