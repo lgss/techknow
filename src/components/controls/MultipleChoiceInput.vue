@@ -2,11 +2,11 @@
   <v-container fluid>
     <label>{{label}}</label>
     <v-checkbox 
-      v-for="option in options"
+      v-for="choice in choices"
       v-model="value"
-      :key="option.value"
-      :label="option.value"
-      :value="option"
+      :key="choice.value"
+      :label="choice.value"
+      :value="choice"
       hide-details
       @change="onChange"
     ></v-checkbox>
@@ -16,7 +16,7 @@
 <script>
   export default {
     name: 'MultipleChoiceInput',
-    props: ['label', 'name', 'options'],
+    props: ['label', 'name', 'choices'],
     data() {
         return {
             value: []
@@ -24,7 +24,7 @@
     },
     methods: {
       onChange: function() {
-        this.$emit('answered', this.value)
+        this.$emit('responded', this.value)
       }
     }
   }

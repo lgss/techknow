@@ -11,8 +11,11 @@
                     <span v-html="resource.content"></span>
                   </div>
                   <div> 
-                    <v-chip v-for="tag in resource.tags" :key="tag" class="ma-2">
-                      {{ tag }}
+                    <v-chip v-for="iTag in resource.includeTags" :key="iTag" class="ma-2" color="green" text-color="white">
+                      {{ iTag }}
+                    </v-chip>
+                    <v-chip v-for="eTag in resource.excludeTags" :key="eTag" class="ma-2" color="red" text-color="white">
+                      {{ eTag }}
                     </v-chip>
                   </div>
                 </v-card-text>
@@ -24,45 +27,43 @@
 </template>
 
 <script>
+const resources =  require('../../static/resource.json');
+
 export default {
     name: 'Result',
     components: {},
-    props: ["results", "answers"],
+    props: ["responses"],
     methods: {
-      getAnswerTags(answers) {
-        let tags = []
-        answers.forEach(answer => {
-            answer.options.forEach( option => {
-              option.tags.forEach(tag => {
-                tags.push(tag)
-              })
-            })
-        })
-        return tags
-      },
       startAgain() {
         this.$dialog('Start again', 'The resources currently shown will be lost. You will need to complete the assessment again from the beginning. Are you sure you want to start again?', ['Yes', 'No'])
           .then(result => {if (result === 0) 
               this.$router.push({ name: 'Assessment'})})
+      },
+      getResponseTags(responses) {
+        return responses.flatMap(x => x.choices).flatMap(x => x.tags)
       }
     },
     computed: {
       filteredList: {
         get () {
-          return this.results.resources.filter(resource => resource.tags.some(resourceTag => this.getAnswerTags(this.answers).some(answerTag => answerTag == resourceTag)))
+          return this.resources.resources
+            .filter(resource => resource.includeTags
+              .some(IncludeTag => this.getResponseTags(this.responses)
+                .some(responseTag => responseTag == IncludeTag)
+              )
+            )
+            .filter(resource => !resource.excludeTags
+              .some(ExcludeTag => this.getResponseTags(this.responses)
+                .some(responseTag => responseTag == ExcludeTag)
+              )
+            )
         }
       }
     },
     data(){
         return {
-          restartDialog: false
+          resources
         }
     }
 }
 </script>
-
-<style>
-  .button-container {
-    text-align: left; 
-  }
-</style>
