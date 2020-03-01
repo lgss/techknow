@@ -24,7 +24,9 @@ function Install (Vue, vuetify) {
       return createDialogCmp(options)
     }
   
-    Vue.prototype[property] = show
+    Vue.prototype[property] = show  
+    Vue.prototype[property].confirm = (title, message) => {return show(title, message, ['OK', 'Cancel'])}
+    Vue.prototype[property].fullscreen = (message) => {return show('', message, ['Back']), {fullscreen: true}}
   }
 
   if (typeof window !== 'undefined' && window.Vue) {

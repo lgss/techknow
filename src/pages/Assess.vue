@@ -28,7 +28,26 @@
           </v-stepper-content>
         </v-stepper-items>
       </v-stepper>
-    </v-card>
+    </v-card>    
+    <v-dialog v-model="showDialog" :fullscreen="dialog.fullscreen">
+      <v-card>
+        <v-container>
+          <v-row>
+            <v-col>
+              <h1 id="dialog-title" v-html="dialog.title"></h1>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <span v-html="dialog.content"></span>
+            </v-col>
+          </v-row>
+          <v-row justify="center">
+            <v-btn @click="showDialog = false">Back</v-btn>
+          </v-row>
+        </v-container>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -76,6 +95,8 @@ export default {
     },
     methods: {
       next() {
+        if (this.proceedDialog()) 
+          return
         this.movePage(true)
       },
       prior() {
@@ -109,6 +130,26 @@ export default {
       },
       isCurrentPage(idx) {
         return (idx + 1) == this.pageIdx ? `current` : null
+      },
+      finish() {
+        if(this.proceedDialog()) {
+          return
+        }
+        this.$router.push({ path: '/result'})
+      },
+      proceedDialog() {
+        //map all answers to their dialogs, concat them together, and find the first one that is defined
+        const dialog = this.responses.flatMap(response => (response.options || []).flatMap(choice => choice.dialog))
+          .find(dialog => typeof dialog != "undefined")
+
+        console.log(dialog)
+        if (dialog) {
+          this.dialog = dialog
+          this.showDialog = true
+          return true;
+        }
+        
+        return false;
       },
       intersects(one, two) {
         return one && two && (one.find(element => two.includes(element)) !== undefined)
