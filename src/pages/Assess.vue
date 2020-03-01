@@ -20,7 +20,7 @@
               <v-row>
                 <v-col>
                   <v-btn :disabled="pageIdx <= 1" name='btn-back' @click.native="prior">Back</v-btn>
-                  <v-btn v-if='finished' color="success" name='btn-finish' :to="{name:'Result', params: {responses}}">Finish</v-btn>
+                  <v-btn v-if='finished' color="success" name='btn-finish' @click="finish">Finish</v-btn>
                   <v-btn v-else color="success" name="btn-next" @click.native="next">Next</v-btn>
                 </v-col>
               </v-row>
@@ -57,6 +57,7 @@ import SingleChoiceInput from '../components/controls/SingleChoiceInput.vue'
 import MultipleChoiceInput from '../components/controls/MultipleChoiceInput.vue'
 import BooleanInput from '../components/controls/BooleanInput.vue'
 import Stimulus from '../components/controls/Stimulus.vue'
+import utils from '@/js/assess-utils.js'
 
 export default {
     name: "Assess",
@@ -84,8 +85,8 @@ export default {
             let newPg = Object.assign({}, pg)
 
             newPg.items = pg.items.filter(x => 
-              !self.intersects(x.excludeTags, self.tags)
-              && (self.intersects(x.includeTags, self.tags)
+              !utils.intersects(x.excludeTags, self.tags)
+              && (utils.intersects(x.includeTags, self.tags)
               || (x.includeTags || []).length === 0))
               
             return newPg
@@ -135,7 +136,7 @@ export default {
         if(this.proceedDialog()) {
           return
         }
-        this.$router.push({ path: '/result'})
+        this.$router.push({name:'Result', params: {responses: this.responses}})
       },
       proceedDialog() {
         const choice = this.responses.flatMap(response => (response.choices)).find(choice => "dialog" in choice)
@@ -147,12 +148,6 @@ export default {
         }
         
         return false;
-      },
-      intersects(one, two) {
-        return one && two && (one.find(element => two.includes(element)) !== undefined)
-      },
-      getResponseTags(responses) {
-        return responses.flatMap(x => x.choices).flatMap(x => x.tags)
       }
     },
     props: ["fields"],
