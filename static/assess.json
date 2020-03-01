@@ -4,15 +4,21 @@
             "title": "About you",
             "items": [
                 {
-                    "fieldType": "small-text-input",
-                    "name": "name",
-                    "label": "Your name",
-                    "placeholder": "Your Name"
-                },
-                {
-                    "fieldType": "small-text-input",
-                    "name": "carer",
-                    "label": "If you're filling this in with a parent or carer, what's their name?"
+                    "fieldType": "single-choice-input",
+                    "name": "visually impaired",
+                    "label": "Are you visually impaired?",
+                    "choices": [
+                        {
+                            "value":"Yes",
+                            "tags":["visually-impaired"]
+                        },
+                        {
+                            "value":"No",
+                            "tags":[]
+                        }
+                    ],
+                    "includeTags": [],
+                    "excludeTags" : []
                 }
             ]
         },{
@@ -22,7 +28,7 @@
                     "fieldType": "single-choice-input",
                     "name": "fire",
                     "label": "Do you know what to do in case of a fire?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":[]
@@ -34,7 +40,9 @@
                                 "fire-safety"
                             ]
                         }
-                    ]
+                    ],
+                    "includeTags": [],
+                    "excludeTags" : []
                 }
             ]
         },{
@@ -44,7 +52,7 @@
                     "fieldType": "single-choice-input",
                     "name": "flood",
                     "label": "Do you know what to do if there is an accidental flood?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":[]
@@ -55,7 +63,9 @@
                                 "flood"
                             ]
                         }
-                    ]
+                    ],
+                    "includeTags": [],
+                    "excludeTags" : []
                 }
             ]
         },{
@@ -65,7 +75,7 @@
                     "fieldType": "single-choice-input",
                     "name": "crime-victim",
                     "label": "Do you know what to do if you were a victim of a crime?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":[]
@@ -77,7 +87,9 @@
                                 "theft"
                             ]
                         }
-                    ]
+                    ],
+                    "includeTags": [],
+                    "excludeTags" : []
                 }
             ]
         },{
@@ -87,7 +99,7 @@
                     "fieldType": "single-choice-input",
                     "name": "unsafe",
                     "label": "Do you feel unsafe right now?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":[
@@ -104,7 +116,9 @@
                             "value":"No",
                             "tags":[]
                         }
-                    ]
+                    ],
+                    "includeTags": ["crime"],
+                    "excludeTags": []
                 }
             ]
         },{
@@ -114,7 +128,7 @@
                     "fieldType": "multiple-choice-input",
                     "name": "devices",
                     "label": "What devices do you use?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"iPhone",
                             "tags":["mobile"]
@@ -125,21 +139,27 @@
                         },
                         {
                             "value":"Tablet",
-                            "tags":[]
+                            "tags":["tablet"]
                         },
                         {
                             "value":"Laptop",
-                            "tags":[]
+                            "tags":["laptop"]
                         },
                         {
                             "value":"Desktop",
-                            "tags":[]
+                            "tags":["desktop"]
                         },
                         {
                             "value":"A Smart home assistant",
-                            "tags":[]
+                            "tags":["smart-home-assistant"]
+                        },
+                        {
+                            "value":"I do not use any of these",
+                            "tags":["no-device"]
                         }
-                    ]
+                    ],
+                    "includeTags": [],
+                    "excludeTags" : []
                 }
             ]
         },{
@@ -149,7 +169,7 @@
                     "fieldType": "single-choice-input",
                     "name": "device-help-use",
                     "label": "Do you need some help to use these devices?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":[
@@ -160,7 +180,9 @@
                             "value":"No",
                             "tags":[]
                         }
-                    ]
+                    ],
+                    "includeTags": [],
+                    "excludeTags" : ["no-device"]
                 }
             ]
         },{
@@ -170,7 +192,7 @@
                     "fieldType": "single-choice-input",
                     "name": "device-help-apps",
                     "label": "Do you need help finding apps to use on these devices?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":["apps"]
@@ -179,7 +201,9 @@
                             "value":"No",
                             "tags":[]
                         }
-                    ]
+                    ],
+                    "includeTags": [],
+                    "excludeTags" : ["no-device"]
                 }
             ]
         },{
@@ -189,7 +213,7 @@
                     "fieldType": "single-choice-input",
                     "name": "online-safety",
                     "label": "Do you feel safe online?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":[]
@@ -201,7 +225,9 @@
                                 "online-safety"
                             ]
                         }
-                    ]
+                    ],
+                    "includeTags": [],
+                    "excludeTags" : ["no-device"]
                 }
             ]
         },{
@@ -211,7 +237,7 @@
                     "fieldType": "single-choice-input",
                     "name": "remember-visitors",
                     "label": "Do you remember when you have visitors?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":[]
@@ -222,7 +248,9 @@
                                 "memory"
                             ]
                         }
-                    ]
+                    ],
+                    "includeTags": [],
+                    "excludeTags" : []
                 }
             ]
         },{
@@ -232,7 +260,7 @@
                     "fieldType": "single-choice-input",
                     "name": "safe-answering-door",
                     "label": "Do you feel safe answering your front door?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":[]
@@ -244,7 +272,9 @@
                                 "security-advice"
                             ]
                         }
-                    ]
+                    ],
+                    "includeTags": [],
+                    "excludeTags" : []
                 }
             ]
         },{
@@ -254,7 +284,7 @@
                     "fieldType": "single-choice-input",
                     "name": "door-strangers",
                     "label": "Do you know what to do when you don't know the person at your front door?",
-                    "options": [
+                    "choices": [
                         {
                             "value":"Yes",
                             "tags":[]
@@ -267,23 +297,31 @@
                                 "scam-advice"
                             ]
                         }
-                    ]
+                    ],
+                    "includeTags": [],
+                    "excludeTags" : []
                 }
             ]
         },{
-            "title": "Declaration",
+            "title": "Terms and Conditions",
             "items": [
                 {
+                    "fieldType": "stimulus",
+                    "name": "terms-conditions-text",
+                    "label": "",
+                    "content" : "<h2>Before viewing your report please read this advice:</h2><br><p>TECHknow is a tool that will help you with information and advice on equipment that can aid with independent living.</p><p>Using TECHknow is not a substitute for an assessment by and occupational therapist or appropriate health care professional and you should consider whether you need a professional assessment before purchasing any equipment that may affect your balance, mobility, posture, pressure care, ability to summon help, or general safety that has been suggested by TECHknow.</p><p>Everyone's independence in completely unique and please apply the safety considerations that apply to you.</p><p>If you decide to buy equipment from a suggested provider, you should read the instructions carefully. For further information, seek advice either from the equipment supplier or manufacturer.</p><p>By clicking 'I Understand' you acknowledge that you have read and understood the above.</p>"
+                },
+                {
                     "fieldType": "single-choice-input",
-                    "name": "declaration",
-                    "label": "Terms and conditions?",
+                    "name": "terms-conditions-check",
+                    "label": "",
                     "options": [
                         {
-                            "value":"Yes",
+                            "value":"I Understand",
                             "tags":[]
                         },
                         {
-                            "value":"No",
+                            "value":"Decline",
                             "tags":[],
                             "dialog": {
                                 "fullscreen": true,
