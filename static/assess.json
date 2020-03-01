@@ -106,7 +106,7 @@
                                 "unsafe",
                                 "police"
                             ],
-                            "dialog" : {
+                            "dialog": {
                                 "fullscreen": true,
                                 "title": "Emergency",
                                 "content": "<p>Call 999 if:</p><ul><li>A serious offence is happening or has just happened</li><li>Someone is in danger of harm</li><li>Things are going to get damaged</li></ul><br><h1>Emergency and Cannot speak</h1><br><p>If you are in a dangerous situation and you cannot talk, you can call us on 999 and press 55</p>"

@@ -138,13 +138,10 @@ export default {
         this.$router.push({ path: '/result'})
       },
       proceedDialog() {
-        //map all answers to their dialogs, concat them together, and find the first one that is defined
-        const dialog = this.responses.flatMap(response => (response.options || []).flatMap(choice => choice.dialog))
-          .find(dialog => typeof dialog != "undefined")
+        const choice = this.responses.flatMap(response => (response.choices)).find(choice => "dialog" in choice)
 
-        console.log(dialog)
-        if (dialog) {
-          this.dialog = dialog
+        if (choice && "dialog" in choice) {
+          this.dialog = choice.dialog
           this.showDialog = true
           return true;
         }
