@@ -3,47 +3,47 @@ Transform: AWS::Serverless-2016-10-31
 Description: Simple SCDIP web service for retrieving questions and resources
 Resources:
     ScdipGetItems:
-        Type: AWS::Serverless::Function
-        Properties:
+      Type: AWS::Serverless::Function
+      Properties:
         Handler: index.getitems
         Runtime: nodejs12.x
         CodeUri: src/
         Policies:
-            - DynamoDBReadPolicy:
+          - DynamoDBReadPolicy:
             TableName: !Ref Table
         Environment:
-            Variables:
+          Variables:
             TABLE_NAME: !Ref Table
         Events:
-            GetResource:
+          GetItems:
             Type: Api
             Properties:
-                Path: /test/{testId}
-                Method: get
+              Path: /test/{testId}
+              Method: get
 
 
     ScdipGetResources:
         Type: AWS::Serverless::Function
         Properties:
-            Handler: index.getresources
-            Runtime: nodejs12.x
-            CodeUri: src/
-            Policies:
+          Handler: index.getresources
+          Runtime: nodejs12.x
+          CodeUri: src/
+          Policies:
             - DynamoDBReadPolicy:
-                TableName: !Ref Table
-            Environment:
+              TableName: !Ref Table
+          Environment:
             Variables:
-                TABLE_NAME: !Ref Table
-            Events:
-            GetResource:
-                Type: Api
-                Properties:
+              TABLE_NAME: !Ref Table
+          Events:
+            GetResources:
+              Type: Api
+              Properties:
                 Path: /resources/{testId}
                 Method: get
 
-  Table:
-    TableName: ScdipTest
-    Type: AWS::Serverless::SimpleTable
+    Table:
+      TableName: ScdipTest
+      Type: AWS::Serverless::SimpleTable
 
 Outputs:
   ApiURL:
