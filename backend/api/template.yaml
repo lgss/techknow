@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Simple SCDIP web service for retrieving questions and resources
+Resources:
+    ScdipGetItems:
+        Type: AWS::Serverless::Function
+        Properties:
+        Handler: index.getitems
+        Runtime: nodejs12.x
+        CodeUri: src/
+        Policies:
+            - DynamoDBReadPolicy:
+            TableName: !Ref Table
+        Environment:
+            Variables:
+            TABLE_NAME: !Ref Table
+        Events:
+            GetResource:
+            Type: Api
+            Properties:
+                Path: /test/{testId}
+                Method: get
+
+
+    ScdipGetResources:
+        Type: AWS::Serverless::Function
+        Properties:
+            Handler: index.getresources
+            Runtime: nodejs12.x
+            CodeUri: src/
+            Policies:
+            - DynamoDBReadPolicy:
+                TableName: !Ref Table
+            Environment:
+            Variables:
+                TABLE_NAME: !Ref Table
+            Events:
+            GetResource:
+                Type: Api
+                Properties:
+                Path: /resources/{testId}
+                Method: get
+
+  Table:
+    TableName: ScdipTest
+    Type: AWS::Serverless::SimpleTable
+
+Outputs:
+  ApiURL:
+    Description: "API endpoint URL for Prod environment"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/dev/"
