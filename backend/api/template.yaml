@@ -10,7 +10,7 @@ Resources:
         CodeUri: src/
         Policies:
           - DynamoDBReadPolicy:
-            TableName: !Ref Table
+              TableName: !Ref Table
         Environment:
           Variables:
             TABLE_NAME: !Ref Table
@@ -30,7 +30,7 @@ Resources:
           CodeUri: src/
           Policies:
             - DynamoDBReadPolicy:
-              TableName: !Ref Table
+                TableName: !Ref Table
           Environment:
             Variables:
               TABLE_NAME: !Ref Table
