@@ -6,7 +6,7 @@
                 {
                     "fieldType": "single-choice-input",
                     "name": "visually impaired",
-                    "label": "Are you visually impaired?",
+                    "label": "Are you blind or partially sighted?",
                     "choices": [
                         {
                             "value":"Yes",
