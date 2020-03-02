@@ -96,8 +96,16 @@ export default {
     },
     methods: {
       next() {
-        if (this.proceedDialog()) 
+        // validates that all items of the page have responses
+        let page_valid = this.validatePage()
+        if (!page_valid) {
           return
+        }
+        // checks if a dialog needs to be displayed to the user
+        if (this.proceedDialog()) {
+          return
+        }
+        // navigates to the next page
         this.movePage(true)
       },
       prior() {
@@ -148,6 +156,18 @@ export default {
         }
         
         return false;
+      },
+      validatePage(page) {
+        //find current page if null page argument
+        page = page || this.displayPages[this.pageIdx-1]
+        let page_valid = page.items.every(this.validateItem)
+        return page_valid
+      },
+      validateItem(item) {
+        item.valid = this.responses.some(response => {
+          return response.name === item.name && response.choices.length
+        })
+        return item.valid
       }
     },
     props: ["fields"],
