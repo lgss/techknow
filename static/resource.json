@@ -10,7 +10,7 @@
             "name": "Cambs Fire & Resuce",
             "content": "<p>Although we are always available to respond if there's a fire, we want to stop fires from happening in the first place. Our community safety work is prioritised so that we help those most at risk of a fire in the home first.</p><p>A free Safe and Well visit may be available to you - requests are prioritised according to an individual's risk.</p>",
             "includeTags": ["fire","fire-safety"],
-            "excludeTags": ["visually-impaired"]
+            "excludeTags": []
         },
         {
             "name": "Cambs Constabulary",
