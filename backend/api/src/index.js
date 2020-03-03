@@ -33,7 +33,7 @@ function simple_get(event, ident, callback) {
 }
 
 exports.getitems = (event, context, callback) => {
-    return simple_get(event, 'ITEMS_' + event.pathParameters.testId, callback)
+    return simple_get(event, 'TEST_' + event.pathParameters.testId, callback)
 };
 
 exports.getresources = (event, context, callback) => {
