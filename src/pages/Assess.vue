@@ -10,7 +10,7 @@
             :step="idx + 1"
             class="assessment-page"
             :class="isCurrentPage(idx)">
-            <v-form :ref="'page' + (idx + 1)">
+            <v-form ref="page" lazy-validation>
               <h2>{{page.title}}</h2>
               <v-row v-for="(field, index) in page.items" :key="index" class="assessment-item">
                 <v-col>
@@ -96,7 +96,9 @@ export default {
     },
     methods: {
       next() {
-        // validates that all items of the page have responses
+        // Vuetify form validation
+        this.$refs.page[this.pageIdx - 1].validate() 
+        // Custom item validation
         let page_valid = this.validatePage()
         if (!page_valid) {
           return
