@@ -9,6 +9,7 @@
       :value="choice"
       hide-details
       @change="onChange"
+      :rules="[value => value.length > 0 || 'Please select at least one response']"
     ></v-checkbox>
   </v-container>
 </template>
