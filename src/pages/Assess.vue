@@ -96,8 +96,6 @@ export default {
     },
     methods: {
       next() {
-        if (this.proceedDialog()) 
-          return
         this.movePage(true)
       },
       prior() {
@@ -107,6 +105,9 @@ export default {
         return this.displayPages[this.pageIdx - 1].items.length < 1
       },
       movePage(forwards) {
+        if (this.proceedDialog()) 
+          return
+
         if (forwards)
           this.pageIdx++
         else 
