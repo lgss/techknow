@@ -28,6 +28,7 @@
 
 <script>
 const resources =  require('../../static/resource.json');
+import utils from '@/js/assess-utils.js'
 
 export default {
     name: 'Result',
@@ -38,26 +39,15 @@ export default {
         this.$dialog.confirm('Start again', 'The resources currently shown will be lost. You will need to complete the assessment again from the beginning. Are you sure you want to start again?')
           .then(result => {if (result === 0) 
               this.$router.push({ name: 'Assessment'})})
-      },
-      getResponseTags(responses) {
-        return responses || [].flatMap(x => x.choices).flatMap(x => x.tags)
       }
     },
     computed: {
-      filteredList: {
-        get () {
-          return this.resources.resources
-            .filter(resource => resource.includeTags
-              .some(IncludeTag => this.getResponseTags(this.responses)
-                .some(responseTag => responseTag == IncludeTag)
-              )
-            )
-            .filter(resource => !resource.excludeTags
-              .some(ExcludeTag => this.getResponseTags(this.responses)
-                .some(responseTag => responseTag == ExcludeTag)
-              )
-            )
-        }
+      filteredList() {
+        let responseTags = utils.getResponseTags(this.responses)
+        
+        return this.resources.resources.filter(resource => 
+          utils.intersects(resource.includeTags, responseTags) && 
+          !utils.intersects(resource.excludeTags, responseTags))
       }
     },
     data(){
