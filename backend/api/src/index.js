@@ -6,7 +6,7 @@ const dynamo = new AWS.DynamoDB.DocumentClient();
 
 const tableName = process.env.TABLE_NAME;
 
-const createResponse = (statusCode, body) => ({ statusCode, body });
+const createResponse = (statusCode, body) => ({ statusCode, body, headers: {"Access-Control-Allow-Origin": "*"}});
 
 function simple_get(event, ident, callback) {
     

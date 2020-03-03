@@ -5,8 +5,6 @@ import Home from '@/pages/Home'
 import Assess from '@/pages/Assess'
 import Result from '@/pages/Result'
 
-const fields = require('../../static/assess.json');
-
 Vue.use(Router)
 
 
@@ -20,10 +18,7 @@ export default new Router({
     {
       path: '/assess',
       name: 'Assessment',
-      component: Assess,
-      props: {
-        fields
-      }
+      component: Assess
     },
     {
       path: '/result',

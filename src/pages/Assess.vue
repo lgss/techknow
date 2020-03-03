@@ -2,7 +2,12 @@
   <div>
     <v-card>
       <v-stepper v-model="pageIdx" style="box-shadow: none">
-        <v-progress-linear tile="true" color="primary" :value='percentDone'/>
+        <v-progress-linear tile="true" color="primary" :value='percentDone' :indeterminate="loading" />
+        <div v-if="loading">
+          <br/>
+          <h2>Loading...</h2>
+          <br/>
+        </div>
         <v-stepper-items>
           <v-stepper-content 
             v-for="(page, idx) in displayPages"
@@ -69,17 +74,29 @@ export default {
       'boolean-input': BooleanInput,
       'stimulus': Stimulus
     },
+    created() {
+      fetch('https://1dds21470e.execute-api.eu-west-2.amazonaws.com/dev/test/1')
+        .then(x => x.json())
+        .then(x => {this.fields = x})
+        .finally(() => {
+          this.loading = false
+          this.pageIdx = 1
+        })
+    },
     computed: {
       percentDone() {
-        return Math.round(this.pageIdx/this.fields.pages.length*100)
+        return Math.round(this.pageIdx/this.displayPages.length*100)
       },
       finished() {
-        return this.pageIdx >= this.fields.pages.length;
+        return this.pageIdx >= this.displayPages.length;
       },
       
       displayPages() {
         // Arguably, this should filter the pages but it'd make progress tracking harder
         let self = this;
+
+        if (!this.fields.pages)
+          return []
 
         return this.fields.pages.map(function(pg) { 
             let newPg = Object.assign({}, pg)
@@ -150,10 +167,11 @@ export default {
         return false;
       }
     },
-    props: ["fields"],
     data() {
       return {
-        pageIdx: 1,
+        loading: true,
+        fields: {},
+        pageIdx: 0,
         responses: [],
         tags: [], // this is here to allow quick assessment mutations but I suspect that you
                   // could achieve the same by watching `responses`
