@@ -96,10 +96,8 @@ export default {
     },
     methods: {
       next() {
-        // Vuetify form validation
-        this.$refs.page[this.pageIdx - 1].validate() 
-        // Custom item validation
-        let page_valid = this.validatePage()
+        // Validate that items on the page contain responses
+        let page_valid = this.$refs.page[this.pageIdx - 1].validate() 
         if (!page_valid) {
           return
         }
@@ -158,18 +156,6 @@ export default {
         }
         
         return false;
-      },
-      validatePage(page) {
-        //find current page if null page argument
-        page = page || this.displayPages[this.pageIdx-1]
-        let page_valid = page.items.every(this.validateItem)
-        return page_valid
-      },
-      validateItem(item) {
-        item.valid = this.responses.some(response => {
-          return response.name === item.name && response.choices.length
-        })
-        return item.valid
       }
     },
     props: ["fields"],
