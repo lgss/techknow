@@ -3,67 +3,80 @@
         {
             "name": "HFT Smarthouse",
             "content": "Help with improving your independence, quality of life and increase your safety. A way to find out new and existing assistive technology for your home!",
-            "tags": ["home","safety","independence"]
+            "includeTags": ["home","safety","independence"],
+            "excludeTags": []
         },
         {
             "name": "Cambs Fire & Resuce",
             "content": "<p>Although we are always available to respond if there's a fire, we want to stop fires from happening in the first place. Our community safety work is prioritised so that we help those most at risk of a fire in the home first.</p><p>A free Safe and Well visit may be available to you - requests are prioritised according to an individual's risk.</p>",
-            "tags": ["fire","fire-safety"]
+            "includeTags": ["fire","fire-safety"],
+            "excludeTags": []
         },
         {
             "name": "Cambs Constabulary",
             "content": "<p>Our vision is to create a safer Cambridgeshire and to achieve this, we work in line with the Chief Constable’s mission and values.</p><p>Our police force is proud to serve the diverse communities of Cambridgeshire and help protect a population of more than 800,000.</p>",
-            "tags": ["crime","police"]
+            "includeTags": ["crime","police"],
+            "excludeTags": []
         },
         {
             "name": "Cambs Constabulary Burglary",
             "content": "<p>Are you looking for information regarding a burglary?</p>",
-            "tags": ["burglary","theft","stolen"]
+            "includeTags": ["burglary","theft","stolen"],
+            "excludeTags": []
         },
         {
             "name": "NHS Apps Library",
             "content": "<p>Find apps and online tools to help you manage your health and wellbeing!</p><p>Any product must meet a certain criteria to be considered for publication on the NHS Apps Library.</p>",
-            "tags": ["NHS","health","wellbeing","apps","mobile"]
+            "includeTags": ["NHS","health","wellbeing","apps","mobile"],
+            "excludeTags": []
         },
         {
             "name": "Orcha",
             "content": "<p>Unlocking the power of digital health for the population. We work with organisations to empower people to actively use and embrace digital health.</p>",
-            "tags": ["health", "digital-health"]
+            "includeTags": ["health", "digital-health"],
+            "excludeTags": []
         },
         {
             "name": "Ability.NET",
             "content": "<p>Ability.Net supports people of any age, living with any disability or impairment to use technology to achieve their goals at home, at work and in education. We do this by providing specialist advice services, free information resources and by helping to build a more accessible digital world.</p>",
-            "tags": ["assisted-living", "disability", "accessibilty"]
+            "includeTags": ["assisted-living", "disability", "accessibilty"],
+            "excludeTags": []
         },
         {
             "name":"Cambs Constabulary Online",
             "content":"<p>Local police guidance on staying safe online for all.</p>",
-            "tags": ["online","online-safety"]
+            "includeTags": ["online","online-safety"],
+            "excludeTags": []
         },
         {
             "name":"Mencap",
             "content":"<p>If you have a learning disability and have joined the learning disability register, you might also be able to have a free Annual Health Check.</p><ul><li>It is available for most people aged 14 and older with a learning disability at GP surgeries that offer the service.</li><li>You don&#39;t need to be ill to get a health check, but you can ask your doctor about anything that is hurting or worrying you.</li><li>It is a good way to get to know your doctor better, and for them to find out more about you.</li></ul>",
-            "tags": ["learning-disability","health","doctor"]
+            "includeTags": ["learning-disability","health","doctor"],
+            "excludeTags": []
         },
         {
             "name":"TEC Team Online",
             "content":"<p>CCC Page 2 covers; Cambridgeshire County Councils Technology Enabled Care Team can offer help on; keeping in touch with friends, smart technology and apps, energy saving etc.</p>",
-            "tags": ["apps","TEC","online"]
+            "includeTags": ["apps","TEC","online"],
+            "excludeTags": []
         },
         {
             "name":"TEC Team Online Equipment and Health",
             "content":"CCC Main page; Cambridgeshire County Councils Technology Enabled Care Team can offer help on a variety of TEC solutions; medication management, activity assessments, epilepsy alerts etc.",
-            "tags":["TEC","medication","activity-assessments","epilepsy"]
+            "includeTags":["TEC","medication","activity-assessments","epilepsy"],
+            "excludeTags": []
         },
         {
             "name":"CCC Library - Digital Buddies Service",
             "content":"The library service offer computer use and training through their “digital buddies”",
-            "tags":["library","computer-training","digital-buddies","computer-use"]
+            "includeTags":["library","computer-training","digital-buddies","computer-use"],
+            "excludeTags": []
         },
         {
             "name":"The Bobby Scheme",
             "content":"<p>Our Bobbies fit security devices and alarms, give advice on securing your home and staying safe.</p><p>The Bobby will visit the homes of elderly victims, vulnerable victims and domestic abuse victims. Our Bobbies also give security advice on how to react to bogus callers and doorstep scammers. They advise how to stay safe away from the home, online or spotting a scam.</p>",
-            "tags":["home-safety","home-security","vulnerable-person","security-advice","scam-advice","online-safety"]
+            "includeTags":["home-safety","home-security","vulnerable-person","security-advice","scam-advice","online-safety"],
+            "excludeTags": []
         }
     ]
 }
