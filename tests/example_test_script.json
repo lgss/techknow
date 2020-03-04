@@ -1,0 +1,32 @@
+{
+    "version": "0.1",
+    "steps": [
+        {
+            "step": "next"
+        },
+        {
+            "step": "respond",
+            "type": "single_choice",
+            "value_text": "No"
+        },
+        {
+            "step": "next"
+        },
+        {
+            "step": "respond",
+            "type": "single_choice",
+            "value_text": "Yes"
+        },
+        {
+            "step": "next"
+        },
+        {
+            "step": "respond",
+            "type": "multi_choice",
+            "value_text": ["iPhone", "Tablet", "Desktop"]
+        },
+        {
+            "step": "next"
+        }
+    ]
+}

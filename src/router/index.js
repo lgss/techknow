@@ -6,11 +6,9 @@ import Assess from '@/pages/Assess'
 import Result from '@/pages/Result'
 
 const fields = require('../../static/assess.json');
-const answers =[];
 
 Vue.use(Router)
 
-const results =  require('../../static/resource.json');
 
 export default new Router({
   routes: [
@@ -24,18 +22,14 @@ export default new Router({
       name: 'Assessment',
       component: Assess,
       props: {
-        fields,
-        answers
+        fields
       }
     },
     {
       path: '/result',
       name: 'Result',
       component: Result,
-      props: {
-          results,
-          answers
-      }
+      props: true
     }
   ]
 })
