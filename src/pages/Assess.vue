@@ -96,7 +96,7 @@ export default {
         let self = this;
 
         if (!this.fields.pages)
-          return []
+          return [{}]
 
         return this.fields.pages.map(function(pg) { 
             let newPg = Object.assign({}, pg)
