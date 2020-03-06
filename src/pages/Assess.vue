@@ -10,7 +10,7 @@
             :step="idx + 1"
             class="assessment-page"
             :class="isCurrentPage(idx)">
-            <v-form :ref="'page' + (idx + 1)">
+            <v-form ref="page" lazy-validation>
               <h2>{{page.title}}</h2>
               <v-row v-for="(field, index) in page.items" :key="index" class="assessment-item">
                 <v-col>
@@ -96,6 +96,16 @@ export default {
     },
     methods: {
       next() {
+        // Validate that items on the page contain responses
+        let page_valid = this.$refs.page[this.pageIdx - 1].validate() 
+        if (!page_valid) {
+          return
+        }
+        // checks if a dialog needs to be displayed to the user
+        if (this.proceedDialog()) {
+          return
+        }
+        // navigates to the next page
         this.movePage(true)
       },
       prior() {
