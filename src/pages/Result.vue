@@ -1,10 +1,18 @@
 <template>
   <div>
+    <div v-if="filteredList.length === 0">
+      <h1>No results header</h1>
+      <p>When no results are returned content should be displayed here like: Lorem ipsum dolor sit amet,
+         consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+         Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+         Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
     <v-btn id="btn-restart-assessment" @click="startAgain">Start again</v-btn>
     <v-container id="container-results">
         <v-row v-for="resource in filteredList " :key="resource.name">
           <v-col>
-              <v-card class="mx-auto" max-width="344">
+              <v-card class="mx-auto resource">
                 <v-card-text>
                   <p class="display-1 text--primary"> {{ resource.name }}</p>
                   <div class="text--primary"> 
@@ -57,3 +65,9 @@ export default {
     }
 }
 </script>
+
+<style>
+.v-card.resource {
+  max-width: 600;
+}
+</style>
