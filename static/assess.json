@@ -315,7 +315,7 @@
                     "fieldType": "single-choice-input",
                     "name": "terms-conditions-check",
                     "label": "",
-                    "options": [
+                    "choices": [
                         {
                             "value":"I Understand",
                             "tags":[]
