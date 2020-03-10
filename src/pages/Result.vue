@@ -34,7 +34,6 @@
 </template>
 
 <script>
-//const resources =  require('../../static/resource.json');
 import utils from '@/js/assess-utils.js'
 
 export default {
