@@ -9,6 +9,13 @@
          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     </div>
     <v-btn id="btn-restart-assessment" @click="startAgain">Start again</v-btn>
+    
+    <div v-if="loading">
+      <br/>
+      <h2>Loading...</h2>
+      <br/>
+    </div>
+
     <v-container id="container-results">
         <v-row v-for="resource in filteredList " :key="resource.name">
           <v-col>
@@ -35,12 +42,20 @@
 </template>
 
 <script>
-const resources =  require('../../static/resource.json');
 import utils from '@/js/assess-utils.js'
 
 export default {
     name: 'Result',
+    self: this,
     components: {},
+    created() {
+      fetch('https://1dds21470e.execute-api.eu-west-2.amazonaws.com/dev/resources/1')
+        .then(x =>x.json())
+        .then(x => {this.resources = x})
+        .finally(() => {
+          this.loading = false
+        })
+    },
     props: ["responses"],
     methods: {
       startAgain() {
@@ -50,9 +65,13 @@ export default {
       }
     },
     computed: {
-      filteredList() {
+      filteredList() {          
+        if(this.loading == true) {
+          return []
+        }
+
         let responseTags = utils.getResponseTags(this.responses)
-        
+
         return this.resources.resources.filter(resource => 
           utils.intersects(resource.includeTags, responseTags) && 
           !utils.intersects(resource.excludeTags, responseTags))
@@ -60,7 +79,8 @@ export default {
     },
     data(){
         return {
-          resources
+          loading: true,
+          resources: {}
         }
     }
 }
