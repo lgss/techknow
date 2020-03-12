@@ -1,3 +1,6 @@
 {
-  "root": "localhost:8080"
+  "root": "localhost:8080",
+  "conditional_question": "Do you feel unsafe right now?",
+  "validation_message": "Please select a response",
+  "halt_dialog": "Emergency"
 }

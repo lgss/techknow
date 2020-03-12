@@ -43,32 +43,41 @@ class ScdipTests(JerichoTest):
             btn.click()
             time.sleep(1)
 
-    def fill_single_choice_input(self, value=None, assessment_item=0):
+    def get_single_choice_input(self, assessment_item=0):
         if isinstance(assessment_item, int):
-            group = self.browser.find_elements_by_css_selector(f'{self.CURRENT_PAGE_SELECTOR} .v-input--radio-group')[assessment_item]
+            return self.browser.find_elements_by_css_selector(f'{self.CURRENT_PAGE_SELECTOR} .v-input--radio-group')[assessment_item]
         else:
-            group = assessment_item 
+            return assessment_item
+
+    def get_multi_choice_input(self, assessment_item=0):
+        if isinstance(assessment_item, int):
+            return self.browser.find_elements_by_css_selector(self.CURRENT_PAGE_SELECTOR)[assessment_item]
+        else:
+            return assessment_item
+
+    def item_stimulus(self, index=0):
+        return self.browser.find_elements_by_css_selector(f"{self.CURRENT_PAGE_SELECTOR} .item-stimulus")[index].text
+
+    def fill_single_choice_input(self, value=None, assessment_item=0):
+        group = self.get_single_choice_input(assessment_item)
 
         radios = group.find_elements_by_css_selector('.v-radio')
         self.assertIsNotNone(radios)
 
         if value is None:
             radio = random.choice(radios)
+            radio.click()
         else:    
             for radio in radios:
                 if radio.text == value:
                     radio.click()
-
-                    selected = "v-item--active" in radio.get_attribute('class')
-                    self.assertTrue(selected)
                     break
+                
+        selected = "v-item--active" in radio.get_attribute('class')
+        self.assertTrue(selected)
     
     def fill_multi_choice_input(self, value=None, assessment_item=0):
-        if isinstance(assessment_item, int):
-            group = self.browser.find_elements_by_css_selector(self.CURRENT_PAGE_SELECTOR)[assessment_item]
-        else:
-            group = assessment_item
-
+        group = self.get_multi_choice_input(assessment_item)
         checkboxes = group.find_elements_by_css_selector('.v-input--checkbox')
         self.assertIsNotNone(checkboxes)
 
@@ -126,7 +135,10 @@ class ScdipTests(JerichoTest):
                     raise ValueError('Needs a type')
 
                 if typestep == 'single_choice':
-                    self.fill_single_choice_input(step["value_text"])
+                    if "value_text" in step:
+                        self.fill_single_choice_input(step["value_text"])
+                    else:
+                        self.fill_single_choice_input()
                     
                     if not 'do_next' in step or bool('do_next'):
                         self.click_next()
@@ -144,35 +156,62 @@ class ScdipTests(JerichoTest):
         self.run_script('tests/example_test_script.json')
 
     def test_choice_validation(self):
-        self.assertEqual(1,1)
-        # get to a choice question
-        # click next
-        # assert validation error
+        self.run_script('tests/validation_test.json')
 
-    def test_conditional_question(self):
-        self.assertEqual(1,1)
-        # get to condition question
-        # select positive condition
-        # get to conditionAL question
-        # assert that it loads
+        self.assertEquals(self.env['validation_message'],  self.item_stimulus(0))
+
+    def test_conditional_question(self, script=None):
+        if not script == None:
+            self.run_script(script)
+
+        self.fill_single_choice_input('No')
+        self.click_next()
+        time.sleep(1)
+
+        self.assertEquals(self.env["conditional_question"], self.item_stimulus(0))
         
-    def test_conditional_question_neg(self):
-        self.assertEqual(1,1)
-        # get to condition question
-        # select negative condition
-        # get to conditionAL question
-        # assert that it doesn't load
+    def test_conditional_question_neg(self, script=None):
+        if not script == None:
+            self.run_script(script)
+
+        self.fill_single_choice_input('Yes')
+        self.click_next()
+        time.sleep(1)
+
+        self.assertNotEquals(self.env["conditional_question"], self.item_stimulus(0))
     
     def test_conditional_question_back(self):
-        self.assertEqual(1,1)
-        # get to condition question
-        # select positive condition
-        # get to conditionAL question
-        # assert that it loads (?)
-        # go back to condition
-        # select negative condition
-        # get to conditional question
-        # assert that it doesn't load
+        self.test_conditional_question('tests/conditional_question_test.json')
+        self.browser.find_element_by_css_selector(".v-stepper__content.assessment-page.current [name=btn-back]").click()
+        time.sleep(1)
+        self.test_conditional_question_neg()
+
+    def test_halt_dialog_neg(self, script=None):
+        if not script == None:
+            self.run_script(script)
+
+        self.fill_single_choice_input("Yes")
+        self.click_next()
+        time.sleep(1)
+
+        self.assertEquals(self.env["halt_dialog"], self.browser.find_element_by_id('dialog-title').text)
+    
+    def test_halt_dialog_pass(self, script=None):
+        if not script == None:
+            self.run_script(script)
+
+        self.fill_single_choice_input("No")
+        self.click_next()
+        time.sleep(1)
+
+        halt_title = self.browser.find_elements_by_id('dialog-title')
+        self.assertIsNotNone(halt_title)
+
+    def test_halt_dialog_back(self):
+        self.test_halt_dialog_neg('tests/halt_test.json')
+        self.browser.find_element_by_class_name("v-btn").click()
+        time.sleep(1)
+        self.test_halt_dialog_pass()
              
     def start_assessment(self):
         self.browser.find_element_by_id("btn-home-start-assessment").click()

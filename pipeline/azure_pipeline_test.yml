@@ -1,0 +1,40 @@
+parameters:
+  param : []
+
+steps:
+  - script: |
+      echo "##vso[task.setvariable variable=errcount]0"
+  - ${{ each p in parameters.param}}:
+    - script: |
+        python3 -m xmlrunner ${{ p }}.py -o ${{ p }}
+        echo $(ls ${{ p }} | head -1)
+        ResultFile=$(ls -t ${{ p }} | head -1)
+        TestErrors=$(python3 pipeline/parse_result.py "$(System.DefaultWorkingDirectory)/${{ p }}/$ResultFile")
+        ResultFiles="$(results)$(System.DefaultWorkingDirectory)/${{ p }}/$ResultFile "
+        RunIDs="$(runids)$(Build.BuildNumber) "
+        let TotalErrors=$TestErrors+$(errcount)
+        export TotalErrors=$TotalErrors
+        export ResultFiles=$ResultFiles
+        export RunIDs=$RunIDs
+        echo "##vso[task.setvariable variable=errcount]$TotalErrors"
+        echo "##vso[task.setvariable variable=results]$ResultFiles"
+        echo "##vso[task.setvariable variable=runids]$RunIDs"
+      displayName: 'Run ${{ p }} tests'
+      continueOnError: true
+    - task: PublishTestResults@2
+      displayName: 'Publish ${{ p }} result'
+      inputs:
+        testResultsFiles: '$(System.DefaultWorkingDirectory)/${{ p }}/*.xml'
+        testRunTitle: ${{ p }}
+      
+  - script: |
+      today=$(date +%F)
+      tomorrow=$(date +%F --date='tomorrow')
+      url="$(System.TeamFoundationCollectionUri)/$(System.TeamProject)/_apis/test/runs?minLastUpdatedDate=$today&maxLastUpdatedDate=$tomorrow&buildIds=$(Build.BuildId)"
+      url=${url// /%20}
+      curl -u blah:nnsscd5ivmxrdcesd5v7ay5grhwo43ygoeksl5sq6qxodsf6tn4q -s -o result.js "$url"
+      export use_slack=$(use_slack)
+      export slack_endpoint=$(slack_endpoint)
+      export buildID=$(Build.BuildId)
+      python3 $(System.DefaultWorkingDirectory)/pipeline/post_to_slack.py $(results)
+    displayName: 'Post results to Slack'

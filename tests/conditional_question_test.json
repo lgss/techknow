@@ -1,0 +1,17 @@
+{
+    "version": "0.1",
+    "steps": [
+        {
+            "step": "respond",
+            "type": "single_choice"
+        },
+        {
+            "step": "respond",
+            "type": "single_choice"
+        },
+        {
+            "step": "respond",
+            "type": "single_choice"
+        }
+    ]
+}

@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <label>{{label}}</label>
+    <label class="item-stimulus">{{label}}</label>
     <v-radio-group v-model="selectedChoice" @change="onChange" :rules="[choice => choice.value !== undefined || 'Please select a response']" :class="name">
       <v-radio 
         v-for="choice in choices" 
