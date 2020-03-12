@@ -60,7 +60,7 @@ export default {
     computed: {
       filteredList() {          
         if(this.loading == true) {
-          return {}
+          return []
         }
 
         let responseTags = utils.getResponseTags(this.responses)
