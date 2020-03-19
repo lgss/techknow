@@ -19,7 +19,7 @@
               <h2>{{page.title}}</h2>
               <v-row v-for="(field, index) in page.items" :key="index" class="assessment-item">
                 <v-col>
-                  <component @responded='(selection)=>responded(selection,field.name)' :is="field.fieldType" v-bind="field"/>
+                  <component @responded='(selection)=>responded(selection,field.name)' @journeyResponded='(selection)=>journeyResponded(selection,field.name)' :is="field.fieldType" v-bind="field"/>
                 </v-col>
               </v-row>
               <v-row>
@@ -60,6 +60,7 @@
 import SmallTextInput from '../components/controls/SmallTextInput.vue'
 import SingleChoiceInput from '../components/controls/SingleChoiceInput.vue'
 import MultipleChoiceInput from '../components/controls/MultipleChoiceInput.vue'
+import JourneySelector from '../components/controls/JourneySelector.vue'
 import BooleanInput from '../components/controls/BooleanInput.vue'
 import Stimulus from '../components/controls/Stimulus.vue'
 import utils from '@/js/assess-utils.js'
@@ -72,13 +73,40 @@ export default {
       'single-choice-input': SingleChoiceInput,
       'multiple-choice-input': MultipleChoiceInput,
       'boolean-input': BooleanInput,
-      'stimulus': Stimulus
+      'stimulus': Stimulus,
+      'journey-selector': JourneySelector
     },
     created() {
-      fetch('https://1dds21470e.execute-api.eu-west-2.amazonaws.com/dev/test/1')
+      fetch('https://aqvneinxel.execute-api.eu-west-2.amazonaws.com/dev/journeys/')
         .then(x => x.json())
-        .then(x => {this.fields = x})
+        .then(x => {this.journeys = x})
         .finally(() => {
+          // Manipulate journeys to be a choice list
+          let choices = []
+          this.journeys.forEach(j => {
+            let choice = {
+              "value": j.label,
+              "doc": JSON.parse(j.doc)
+            }
+            choices.push(choice)
+          });
+          // Create a false page to display list of journeys
+          this.fields = 
+          {
+            "pages": [
+              {
+                "title": "How can we help you today?",
+                "items": [
+                  {
+                    "fieldType":"journey-selector",
+                    "name":"journey-selection",
+                    "label":"Select items that you need help with",
+                    "choices": choices
+                  }
+                ]
+              }
+            ]
+          }
           this.loading = false
           this.pageIdx = 1
         })
@@ -88,7 +116,7 @@ export default {
         return Math.round(this.pageIdx/this.displayPages.length*100)
       },
       finished() {
-        return this.pageIdx >= this.displayPages.length;
+        return this.pageIdx >= this.displayPages.length && this.start;
       },
       
       displayPages() {
@@ -113,17 +141,22 @@ export default {
     },
     methods: {
       next() {
-        // Validate that items on the page contain responses
-        let page_valid = this.$refs.page[this.pageIdx - 1].validate() 
-        if (!page_valid) {
-          return
+        if(this.start) {
+          // Validate that items on the page contain responses
+          let page_valid = this.$refs.page[this.pageIdx - 1].validate() 
+          if (!page_valid) {
+            return
+          }
+          // checks if a dialog needs to be displayed to the user
+          if (this.proceedDialog()) {
+            return
+          }
+          // navigates to the next page
+          this.movePage(true)
+        } else {
+          this.fields = this.concatFields
+          this.start = true;
         }
-        // checks if a dialog needs to be displayed to the user
-        if (this.proceedDialog()) {
-          return
-        }
-        // navigates to the next page
-        this.movePage(true)
       },
       prior() {
         this.movePage(false)
@@ -157,6 +190,12 @@ export default {
 
         this.tags = this.responses.flatMap(x => x.choices).flatMap(x => x.tags)
       },
+      journeyResponded(selection) {
+        let concatPages = {
+          "pages": selection.flatMap(x => x.doc.pages)
+        }
+        this.concatFields = concatPages
+      },
       isCurrentPage(idx) {
         return (idx + 1) == this.pageIdx ? `current` : null
       },
@@ -181,6 +220,9 @@ export default {
     data() {
       return {
         loading: true,
+        journeys:[],
+        start: false,
+        concatFields: {},
         fields: {},
         pageIdx: 0,
         responses: [],
