@@ -19,7 +19,7 @@
               <h2>{{page.title}}</h2>
               <v-row v-for="(field, index) in page.items" :key="index" class="assessment-item">
                 <v-col>
-                  <component @responded='(selection)=>responded(selection,field.name)' @journeyResponded='(selection)=>journeyResponded(selection,field.name)' :is="field.fieldType" v-bind="field"/>
+                  <component @responded='(selection)=>responded(selection,field.name)' :is="field.fieldType" v-bind="field"/>
                 </v-col>
               </v-row>
               <v-row>
@@ -60,7 +60,6 @@
 import SmallTextInput from '../components/controls/SmallTextInput.vue'
 import SingleChoiceInput from '../components/controls/SingleChoiceInput.vue'
 import MultipleChoiceInput from '../components/controls/MultipleChoiceInput.vue'
-import JourneySelector from '../components/controls/JourneySelector.vue'
 import BooleanInput from '../components/controls/BooleanInput.vue'
 import Stimulus from '../components/controls/Stimulus.vue'
 import utils from '@/js/assess-utils.js'
@@ -73,8 +72,7 @@ export default {
       'single-choice-input': SingleChoiceInput,
       'multiple-choice-input': MultipleChoiceInput,
       'boolean-input': BooleanInput,
-      'stimulus': Stimulus,
-      'journey-selector': JourneySelector
+      'stimulus': Stimulus
     },
     created() {
       fetch('https://aqvneinxel.execute-api.eu-west-2.amazonaws.com/dev/journeys/')
@@ -98,7 +96,7 @@ export default {
                 "title": "How can we help you today?",
                 "items": [
                   {
-                    "fieldType":"journey-selector",
+                    "fieldType":"multiple-choice-input",
                     "name":"journey-selection",
                     "label":"Select items that you need help with",
                     "choices": choices
@@ -177,24 +175,24 @@ export default {
           this.movePage(forwards)
       },
       responded(selection,name) {
-        var response = {
-          name: name,
-          choices: selection
-        }
-        var currentResponseIndex = this.responses.findIndex(response => (response.name === name))
-        if (currentResponseIndex >= 0) {
-          this.responses[currentResponseIndex] = response
+        if(name == "journey-selection") {
+          this.concatFields = {
+            "pages": selection.flatMap(x => x.doc.pages)
+          }
         } else {
-          this.responses.push(response)
-        }
+          var response = {
+            name: name,
+            choices: selection
+          }
+          var currentResponseIndex = this.responses.findIndex(response => (response.name === name))
+          if (currentResponseIndex >= 0) {
+            this.responses[currentResponseIndex] = response
+          } else {
+            this.responses.push(response)
+          }
 
-        this.tags = this.responses.flatMap(x => x.choices).flatMap(x => x.tags)
-      },
-      journeyResponded(selection) {
-        let concatPages = {
-          "pages": selection.flatMap(x => x.doc.pages)
+          this.tags = this.responses.flatMap(x => x.choices).flatMap(x => x.tags)
         }
-        this.concatFields = concatPages
       },
       isCurrentPage(idx) {
         return (idx + 1) == this.pageIdx ? `current` : null
