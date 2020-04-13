@@ -75,7 +75,7 @@ export default {
       'stimulus': Stimulus
     },
     created() {
-      fetch('https://aqvneinxel.execute-api.eu-west-2.amazonaws.com/dev/journeys/')
+      fetch('https://nngfac1fjl.execute-api.eu-west-2.amazonaws.com/dev' + '/journeys/')
         .then(x => x.json())
         .then(x => {this.journeys = x})
         .finally(() => {
