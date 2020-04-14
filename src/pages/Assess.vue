@@ -79,16 +79,7 @@ export default {
         .then(x => x.json())
         .then(x => {this.journeys = x})
         .finally(() => {
-          // Manipulate journeys to be a choice list
-          let choices = []
-          this.journeys.forEach(j => {
-            let choice = {
-              "value": j.label,
-              "doc": JSON.parse(j.doc)
-            }
-            choices.push(choice)
-          });
-          // Create a false page to display list of journeys
+          // Create page structures that will calculate the required journeys for an assessment
           this.fields = 
           {
             "pages": [
@@ -97,9 +88,20 @@ export default {
                 "items": [
                   {
                     "fieldType":"multiple-choice-input",
+                    "name":"parent-selection",
+                    "label":"Select items that you need help with",
+                    "choices": this.journeyParents()
+                  }
+                ]
+              },
+              {
+                "title": "How can we help you today?",
+                "items": [
+                  {
+                    "fieldType":"multiple-choice-input",
                     "name":"journey-selection",
                     "label":"Select items that you need help with",
-                    "choices": choices
+                    "choices": []
                   }
                 ]
               }
@@ -115,8 +117,7 @@ export default {
       },
       finished() {
         return this.pageIdx >= this.displayPages.length && this.start;
-      },
-      
+      },    
       displayPages() {
         // Arguably, this should filter the pages but it'd make progress tracking harder
         let self = this;
@@ -139,7 +140,11 @@ export default {
     },
     methods: {
       next() {
-        if(this.start) {
+        if(!this.start && this.pageIdx == 2) {
+          this.fields = this.concatFields //merge selected journeys
+          this.pageIdx = 1 //reset to page one
+          this.start = true; // start assessment
+        } else {
           // Validate that items on the page contain responses
           let page_valid = this.$refs.page[this.pageIdx - 1].validate() 
           if (!page_valid) {
@@ -149,11 +154,11 @@ export default {
           if (this.proceedDialog()) {
             return
           }
+          if(!this.start){
+            this.fields.pages[1].items[0].choices = this.availableJourneys()
+          }
           // navigates to the next page
           this.movePage(true)
-        } else {
-          this.fields = this.concatFields
-          this.start = true;
         }
       },
       prior() {
@@ -213,6 +218,31 @@ export default {
         }
         
         return false;
+      },
+      availableJourneys() {
+        let choices = []
+        let tags = utils.getResponseTags(this.responses)
+        this.journeys.forEach(j => {
+          if(tags.some(tag => {return tag === j.parent})){
+            let choice = {
+              "value": j.label,
+              "parent": j.parent,
+              "doc": JSON.parse(j.doc)
+            } 
+            choices.push(choice)
+          }
+        })
+        return choices
+      },
+      journeyParents(){
+        let choices = []
+        this.journeys.forEach(j => {
+          let addChoice = choices.some((choice) => { return choice.value === j.parent })
+          if(!addChoice) {
+            choices.push({"value": j.parent, "tags":[j.parent]})
+          }
+        })
+        return choices
       }
     },
     data() {
@@ -227,7 +257,9 @@ export default {
         tags: [], // this is here to allow quick assessment mutations but I suspect that you
                   // could achieve the same by watching `responses`
         dialog: {},
-        showDialog: false
+        showDialog: false,
+        parentChoices: [],
+        journeyChoices: []
       }
     }
 }
