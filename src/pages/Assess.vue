@@ -203,6 +203,10 @@ export default {
         return (idx + 1) == this.pageIdx ? `current` : null
       },
       finish() {
+        // Validate page
+        if(!this.$refs.page[this.pageIdx - 1].validate()){
+          return
+        };
         if(this.proceedDialog()) {
           return
         }
