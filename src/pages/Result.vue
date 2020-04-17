@@ -47,7 +47,7 @@ export default {
     self: this,
     components: {},
     created() {
-      fetch('https://1dds21470e.execute-api.eu-west-2.amazonaws.com/dev/resources')
+      fetch('https://nngfac1fjl.execute-api.eu-west-2.amazonaws.com/dev/resources')
         .then(x =>x.json())
         .then(x => {this.resources = x})
         .catch((err)=>{})
