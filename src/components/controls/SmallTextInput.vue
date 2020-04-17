@@ -13,10 +13,11 @@
 <script>
   export default {
     name: 'SmallTextInput',
-    props: ['placeholder', 'label', 'name'],
+    props: ['placeholder', 'label', 'name', 'isMandatory'],
     data() {
         return {
-            value: ''
+            value: '',
+            rules: this.isMandatory ? [value => value.length > 0 || "Please provide a value" ] : []
         }
     }
   }
