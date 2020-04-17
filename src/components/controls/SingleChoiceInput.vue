@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <label>{{label}}</label>
-    <v-radio-group v-model="selectedChoice" @change="onChange" :rules="[choice => choice.value !== undefined || 'Please select a response']" :class="name">
+    <v-radio-group v-model="selectedChoice" @change="onChange" :rules="rules" :class="name">
       <v-radio 
         v-for="choice in choices" 
         :key="choice.value" 
@@ -15,10 +15,11 @@
 <script>
   export default {
     name: 'SingleChoiceInput',
-    props: ['label', 'name', 'choices'],
+    props: ['label', 'name', 'choices', 'isMandatory'],
     data() {
         return {
-            selectedChoice: {}
+            selectedChoice: {},
+            rules: this.isMandatory ? [choice => choice.value !== undefined || 'Please select a response'] : []
         }
     },
     methods: {
