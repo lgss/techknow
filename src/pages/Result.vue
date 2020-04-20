@@ -15,15 +15,15 @@
         <v-col>
             <v-card class="mx-auto resource">
               <v-card-text>
-                <p class="display-1 text--primary"> {{ resource.name }}</p>
+                <p class="display-1 text--primary"> {{ resource.doc.name }}</p>
                 <div class="text--primary"> 
-                  <span v-html="resource.content"></span>
+                  <span v-html="resource.doc.content"></span>
                 </div>
                 <div> 
-                  <v-chip v-for="iTag in resource.includeTags" :key="iTag" class="ma-2" color="green" text-color="white">
+                  <v-chip v-for="iTag in resource.doc.includeTags" :key="iTag" class="ma-2" color="green" text-color="white">
                     {{ iTag }}
                   </v-chip>
-                  <v-chip v-for="eTag in resource.excludeTags" :key="eTag" class="ma-2" color="red" text-color="white">
+                  <v-chip v-for="eTag in resource.doc.excludeTags" :key="eTag" class="ma-2" color="red" text-color="white">
                     {{ eTag }}
                   </v-chip>
                 </div>
@@ -71,8 +71,8 @@ export default {
         let responseTags = utils.getResponseTags(this.responses)
         try {
           return this.resources.filter(resource => 
-            utils.intersects(resource.includeTags, responseTags) && 
-            !utils.intersects(resource.excludeTags, responseTags))
+            utils.intersects(resource.doc.includeTags, responseTags) && 
+            !utils.intersects(resource.doc.excludeTags, responseTags))
         } catch (error) {
           return []          
         }
