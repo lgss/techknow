@@ -6,12 +6,8 @@
       <br/>
     </div>
     <div v-else-if="filteredList.length === 0">
-      <h1>No results header</h1>
-      <p>When no results are returned content should be displayed here like: Lorem ipsum dolor sit amet,
-         consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-         Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-         Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <h1>{{ noResults.title }}</h1>
+      <v-col v-html="noResults.content"></v-col>
       <v-btn id="btn-restart-assessment" @click="startAgain">Start again</v-btn>
     </div>
     <v-container v-else id="container-results">
@@ -19,15 +15,15 @@
         <v-col>
             <v-card class="mx-auto resource">
               <v-card-text>
-                <p class="display-1 text--primary"> {{ resource.name }}</p>
+                <p class="display-1 text--primary"> {{ resource.doc.name }}</p>
                 <div class="text--primary"> 
-                  <span v-html="resource.content"></span>
+                  <span v-html="resource.doc.content"></span>
                 </div>
                 <div> 
-                  <v-chip v-for="iTag in resource.includeTags" :key="iTag" class="ma-2" color="green" text-color="white">
+                  <v-chip v-for="iTag in resource.doc.includeTags" :key="iTag" class="ma-2" color="green" text-color="white">
                     {{ iTag }}
                   </v-chip>
-                  <v-chip v-for="eTag in resource.excludeTags" :key="eTag" class="ma-2" color="red" text-color="white">
+                  <v-chip v-for="eTag in resource.doc.excludeTags" :key="eTag" class="ma-2" color="red" text-color="white">
                     {{ eTag }}
                   </v-chip>
                 </div>
@@ -51,6 +47,10 @@ export default {
         .then(x =>x.json())
         .then(x => {this.resources = x})
         .catch((err)=>{})
+      fetch('https://nngfac1fjl.execute-api.eu-west-2.amazonaws.com/dev/config/positive-outcome')
+        .then(x=>x.json())
+        .then(x=> this.noResults = x)
+        .catch((err)=>{})
         .finally(() => {
           this.loading = false
         })
@@ -71,8 +71,8 @@ export default {
         let responseTags = utils.getResponseTags(this.responses)
         try {
           return this.resources.filter(resource => 
-            utils.intersects(resource.includeTags, responseTags) && 
-            !utils.intersects(resource.excludeTags, responseTags))
+            utils.intersects(resource.doc.includeTags, responseTags) && 
+            !utils.intersects(resource.doc.excludeTags, responseTags))
         } catch (error) {
           return []          
         }
@@ -81,7 +81,8 @@ export default {
     data(){
         return {
           loading: true,
-          resources: {}
+          resources: {},
+          noResults: {}
         }
     }
 }
