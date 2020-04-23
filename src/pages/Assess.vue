@@ -251,7 +251,7 @@ export default {
     },
     data() {
       return {
-        endpoint: "https://0ynfhl6ndh.execute-api.eu-west-2.amazonaws.com/dev",
+        endpoint: "https://nngfac1fjl.execute-api.eu-west-2.amazonaws.com/dev",
         loading: true,
         journeys:[],
         start: false,
