@@ -75,7 +75,7 @@ export default {
       'stimulus': Stimulus
     },
     created() {
-      fetch('https://nngfac1fjl.execute-api.eu-west-2.amazonaws.com/dev' + '/journeys/')
+      fetch(this.endpoint + '/journeys/')
         .then(x => x.json())
         .then(x => {this.journeys = x})
         .finally(() => {
@@ -231,7 +231,7 @@ export default {
             let choice = {
               "value": j.label,
               "parent": j.parent,
-              "doc": JSON.parse(j.doc)
+              "doc": j.doc
             } 
             choices.push(choice)
           }
@@ -251,6 +251,7 @@ export default {
     },
     data() {
       return {
+        endpoint: "https://nngfac1fjl.execute-api.eu-west-2.amazonaws.com/dev",
         loading: true,
         journeys:[],
         start: false,
