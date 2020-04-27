@@ -18,7 +18,7 @@ import landing from '@/js/landing.js';
 export default {
   name: 'App',
   created() {
-    fetch('https://nngfac1fjl.execute-api.eu-west-2.amazonaws.com/dev/config/general')
+    fetch(this.endpoint + '/config/general')
       .then(x => x.json())
       .then( x => {
         document.title = x.title
@@ -37,7 +37,8 @@ export default {
   data: () => ({
     loading: true,
     title: "loading...",
-    primary: 'white'
+    primary: 'white',
+    endpoint: process.env.VUE_APP_API_ENDPOINT
   }),
 };
 </script>

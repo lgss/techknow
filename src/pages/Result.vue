@@ -43,11 +43,11 @@ export default {
     self: this,
     components: {},
     created() {
-      fetch('https://nngfac1fjl.execute-api.eu-west-2.amazonaws.com/dev/resources')
+      fetch(this.endpoint + '/resources')
         .then(x =>x.json())
         .then(x => {this.resources = x})
         .catch((err)=>{console.log(err)})
-      fetch('https://nngfac1fjl.execute-api.eu-west-2.amazonaws.com/dev/config/positive-outcome')
+      fetch(this.endpoint + '/config/positive-outcome')
         .then(x=>x.json())
         .then(x=> this.noResults = x)
         .catch((err)=>{console.log(err)})
@@ -83,7 +83,8 @@ export default {
         return {
           loading: true,
           resources: {},
-          noResults: {}
+          noResults: {},
+          endpoint: process.env.VUE_APP_API_ENDPOINT
         }
     }
 }
