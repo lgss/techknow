@@ -13,7 +13,7 @@
 
 <script>
 import Toolbar from '@/components/Toolbar';
-import landing from '@/js/landing.js'
+import landing from '@/js/landing.js';
 
 export default {
   name: 'App',
@@ -31,7 +31,7 @@ export default {
   },
 
   components: {
-    Toolbar,
+    Toolbar
   },
 
   data: () => ({

@@ -46,11 +46,11 @@ export default {
       fetch('https://nngfac1fjl.execute-api.eu-west-2.amazonaws.com/dev/resources')
         .then(x =>x.json())
         .then(x => {this.resources = x})
-        .catch((err)=>{})
+        .catch((err)=>{console.log(err)})
       fetch('https://nngfac1fjl.execute-api.eu-west-2.amazonaws.com/dev/config/positive-outcome')
         .then(x=>x.json())
         .then(x=> this.noResults = x)
-        .catch((err)=>{})
+        .catch((err)=>{console.log(err)})
         .finally(() => {
           this.loading = false
         })
@@ -74,6 +74,7 @@ export default {
             utils.intersects(resource.doc.includeTags, responseTags) && 
             !utils.intersects(resource.doc.excludeTags, responseTags))
         } catch (error) {
+          console.log(error)
           return []          
         }
       }
