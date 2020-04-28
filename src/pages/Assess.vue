@@ -206,7 +206,7 @@ export default {
         // Validate page
         if(!this.$refs.page[this.pageIdx - 1].validate()){
           return
-        };
+        }
         if(this.proceedDialog()) {
           return
         }
@@ -251,7 +251,6 @@ export default {
     },
     data() {
       return {
-        endpoint: "https://nngfac1fjl.execute-api.eu-west-2.amazonaws.com/dev",
         loading: true,
         journeys:[],
         start: false,
@@ -264,7 +263,8 @@ export default {
         dialog: {},
         showDialog: false,
         parentChoices: [],
-        journeyChoices: []
+        journeyChoices: [],
+        endpoint: process.env.VUE_APP_API_ENDPOINT
       }
     }
 }
