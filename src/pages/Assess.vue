@@ -2,7 +2,12 @@
   <div>
     <v-card>
       <v-stepper v-model="pageIdx" style="box-shadow: none">
-        <v-progress-linear tile="true" color="primary" :value='percentDone'/>
+        <v-progress-linear tile="true" color="primary" :value='percentDone' :indeterminate="loading" />
+        <div v-if="loading">
+          <br/>
+          <h2>Loading...</h2>
+          <br/>
+        </div>
         <v-stepper-items>
           <v-stepper-content 
             v-for="(page, idx) in displayPages"
@@ -69,17 +74,56 @@ export default {
       'boolean-input': BooleanInput,
       'stimulus': Stimulus
     },
+    created() {
+      fetch(this.endpoint + '/journeys/')
+        .then(x => x.json())
+        .then(x => {this.journeys = x})
+        .finally(() => {
+          // Create page structures that will calculate the required journeys for an assessment
+          this.fields = 
+          {
+            "pages": [
+              {
+                "title": "How can we help you today?",
+                "items": [
+                  {
+                    "fieldType":"multiple-choice-input",
+                    "name":"parent-selection",
+                    "label":"Select items that you need help with",
+                    "choices": this.journeyParents()
+                  }
+                ]
+              },
+              {
+                "title": "How can we help you today?",
+                "items": [
+                  {
+                    "fieldType":"multiple-choice-input",
+                    "name":"journey-selection",
+                    "label":"Select items that you need help with",
+                    "choices": []
+                  }
+                ]
+              }
+            ]
+          }
+          this.loading = false
+          this.pageIdx = 1
+        })
+    },
     computed: {
       percentDone() {
-        return Math.round(this.pageIdx/this.fields.pages.length*100)
+        return Math.round(this.pageIdx/this.displayPages.length*100)
       },
       finished() {
-        return this.pageIdx >= this.fields.pages.length;
-      },
-      
+        return this.pageIdx >= this.displayPages.length && this.start;
+      },    
       displayPages() {
         // Arguably, this should filter the pages but it'd make progress tracking harder
         let self = this;
+
+        if (!this.fields.pages)
+          return [{}]
 
         return this.fields.pages.map(function(pg) { 
             let newPg = Object.assign({}, pg)
@@ -96,17 +140,26 @@ export default {
     },
     methods: {
       next() {
-        // Validate that items on the page contain responses
-        let page_valid = this.$refs.page[this.pageIdx - 1].validate() 
-        if (!page_valid) {
-          return
+        if(!this.start && this.pageIdx == 2) {
+          this.fields = this.concatFields //merge selected journeys
+          this.pageIdx = 1 //reset to page one
+          this.start = true; // start assessment
+        } else {
+          // Validate that items on the page contain responses
+          let page_valid = this.$refs.page[this.pageIdx - 1].validate() 
+          if (!page_valid) {
+            return
+          }
+          // checks if a dialog needs to be displayed to the user
+          if (this.proceedDialog()) {
+            return
+          }
+          if(!this.start){
+            this.fields.pages[1].items[0].choices = this.availableJourneys()
+          }
+          // navigates to the next page
+          this.movePage(true)
         }
-        // checks if a dialog needs to be displayed to the user
-        if (this.proceedDialog()) {
-          return
-        }
-        // navigates to the next page
-        this.movePage(true)
       },
       prior() {
         this.movePage(false)
@@ -127,23 +180,33 @@ export default {
           this.movePage(forwards)
       },
       responded(selection,name) {
-        var response = {
-          name: name,
-          choices: selection
-        }
-        var currentResponseIndex = this.responses.findIndex(response => (response.name === name))
-        if (currentResponseIndex >= 0) {
-          this.responses[currentResponseIndex] = response
+        if(name == "journey-selection") {
+          this.concatFields = {
+            "pages": selection.flatMap(x => x.doc.pages)
+          }
         } else {
-          this.responses.push(response)
-        }
+          var response = {
+            name: name,
+            choices: selection
+          }
+          var currentResponseIndex = this.responses.findIndex(response => (response.name === name))
+          if (currentResponseIndex >= 0) {
+            this.responses[currentResponseIndex] = response
+          } else {
+            this.responses.push(response)
+          }
 
-        this.tags = this.responses.flatMap(x => x.choices).flatMap(x => x.tags)
+          this.tags = this.responses.flatMap(x => x.choices).flatMap(x => x.tags)
+        }
       },
       isCurrentPage(idx) {
         return (idx + 1) == this.pageIdx ? `current` : null
       },
       finish() {
+        // Validate page
+        if(!this.$refs.page[this.pageIdx - 1].validate()){
+          return
+        }
         if(this.proceedDialog()) {
           return
         }
@@ -159,17 +222,49 @@ export default {
         }
         
         return false;
+      },
+      availableJourneys() {
+        let choices = []
+        let tags = utils.getResponseTags(this.responses)
+        this.journeys.forEach(j => {
+          if(tags.some(tag => {return tag === j.parent})){
+            let choice = {
+              "value": j.label,
+              "parent": j.parent,
+              "doc": j.doc
+            } 
+            choices.push(choice)
+          }
+        })
+        return choices
+      },
+      journeyParents(){
+        let choices = []
+        this.journeys.forEach(j => {
+          let addChoice = choices.some((choice) => { return choice.value === j.parent })
+          if(!addChoice) {
+            choices.push({"value": j.parent, "tags":[j.parent]})
+          }
+        })
+        return choices
       }
     },
-    props: ["fields"],
     data() {
       return {
-        pageIdx: 1,
+        loading: true,
+        journeys:[],
+        start: false,
+        concatFields: {},
+        fields: {},
+        pageIdx: 0,
         responses: [],
         tags: [], // this is here to allow quick assessment mutations but I suspect that you
                   // could achieve the same by watching `responses`
         dialog: {},
-        showDialog: false
+        showDialog: false,
+        parentChoices: [],
+        journeyChoices: [],
+        endpoint: process.env.VUE_APP_API_ENDPOINT
       }
     }
 }

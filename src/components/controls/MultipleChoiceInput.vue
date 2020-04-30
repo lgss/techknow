@@ -9,7 +9,7 @@
       :value="choice"
       hide-details
       @change="onChange"
-      :rules="[value => value.length > 0 || 'Please select at least one response']"
+      :rules="rules"
     ></v-checkbox>
   </v-container>
 </template>
@@ -17,10 +17,11 @@
 <script>
   export default {
     name: 'MultipleChoiceInput',
-    props: ['label', 'name', 'choices'],
+    props: ['label', 'name', 'choices', 'isMandatory'],
     data() {
         return {
-            value: []
+            value: [],
+            rules: this.isMandatory ? [value => value.length > 0 || 'Please select at least one response'] : []
         }
     },
     methods: {
