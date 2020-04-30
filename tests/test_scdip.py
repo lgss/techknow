@@ -48,6 +48,10 @@ class ScdipTests(JerichoTest):
         )
         journeys = journey_page.find_elements_by_css_selector('.v-input--checkbox')
         self.assertGreater(len(journeys),0)
+        for journey in journeys:
+            journey.click()
+        next = self.browser.find_element_by_css_selector('.assessment-page.current').find_element_by_name('btn-next')
+        next.click()
         return
 
     def test_journeys_render(self):
