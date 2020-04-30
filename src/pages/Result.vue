@@ -82,7 +82,7 @@ export default {
     data(){
         return {
           loading: true,
-          resources: {},
+          resources: [],
           noResults: {},
           endpoint: process.env.VUE_APP_API_ENDPOINT
         }
