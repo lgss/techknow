@@ -11,8 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 class ScdipTests(JerichoTest):
     CURRENT_PAGE_SELECTOR = '.assessment-page.current form .assessment-item'
-
-    def test_home(self):
+    def page_home(self):
         self.browser.get(self.env["root"])
         try: 
             heading = WebDriverWait(self.browser, 10).until(
@@ -21,9 +20,41 @@ class ScdipTests(JerichoTest):
             self.assertEqual(heading.text, self.env['title'], 'Title Check')
             assessmentbtn = self.browser.find_elements_by_id("btn-home-start-assessment")
             self.assertEqual(len(assessmentbtn), 1)
+            assessmentbtn[0].click()
         except:
             raise Exception('Failed')
-                 
+    
+    def test_home(self):
+        self.page_home()
+    
+    def page_parents(self):
+        parent_page = WebDriverWait(self.browser,10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, self.CURRENT_PAGE_SELECTOR))
+        )
+        journey_parents = parent_page.find_elements_by_css_selector('.v-input--checkbox')
+        self.assertGreater(len(journey_parents),0)
+        for parent in journey_parents:
+            parent.click()
+        next = self.browser.find_element_by_css_selector('.assessment-page.current').find_element_by_name('btn-next')
+        next.click()
+    
+    def test_parents_render(self):
+        self.test_home()
+        self.page_parents()
+
+    def page_journeys(self):
+        journey_page = WebDriverWait(self.browser,10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, self.CURRENT_PAGE_SELECTOR))
+        )
+        journeys = journey_page.find_elements_by_css_selector('.v-input--checkbox')
+        self.assertGreater(len(journeys),0)
+        return
+
+    def test_journeys_render(self):
+        self.page_home()
+        self.page_parents()
+        self.page_journeys()
+
     def test_results(self):
         self.test_home()
         self.start_assessment()
@@ -39,7 +70,7 @@ class ScdipTests(JerichoTest):
 
         resultsList = self.browser.find_elements_by_id("container-results")
         self.assertEqual(1, len(resultsList))
-    
+
     def test_questions_render(self):
         self.test_home()
         self.start_assessment()
