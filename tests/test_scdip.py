@@ -4,18 +4,26 @@ import random
 from test_bootstrap import JerichoTest
 import json
 
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 class ScdipTests(JerichoTest):
     CURRENT_PAGE_SELECTOR = '.assessment-page.current form .assessment-item'
 
     def test_home(self):
         self.browser.get(self.env["root"])
-
-        heading = self.browser.find_element_by_id("title")
-        self.assertEqual(heading.text, 'Welcome to techKNOW', 'Title Check')
-
-        assessmentbtn = self.browser.find_elements_by_id("btn-home-start-assessment")
-        self.assertEqual(len(assessmentbtn), 1)
-
+        try: 
+            heading = WebDriverWait(self.browser, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR,'.v-toolbar__title b'))
+            )
+            self.assertEqual(heading.text, self.env['title'], 'Title Check')
+            assessmentbtn = self.browser.find_elements_by_id("btn-home-start-assessment")
+            self.assertEqual(len(assessmentbtn), 1)
+        except:
+            raise Exception('Failed')
+                 
     def test_results(self):
         self.test_home()
         self.start_assessment()
