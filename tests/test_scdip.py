@@ -52,7 +52,6 @@ class ScdipTests(JerichoTest):
             journey.click()
         next = self.browser.find_element_by_css_selector('.assessment-page.current').find_element_by_name('btn-next')
         next.click()
-        return
 
     def test_journeys_render(self):
         self.page_home()
@@ -76,8 +75,10 @@ class ScdipTests(JerichoTest):
         self.assertEqual(1, len(resultsList))
 
     def test_questions_render(self):
-        self.test_home()
-        self.start_assessment()
+        self.page_home()
+        self.page_parents()
+        self.page_journeys()
+        #self.start_assessment()
         next = self.browser.find_elements_by_name("btn-next")
         next.pop() #no next button on last page
         for btn in next:
