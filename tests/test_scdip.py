@@ -267,7 +267,6 @@ class ScdipTests(JerichoTest):
         WebDriverWait(self.browser,10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR,".v-stepper__content.assessment-page.current [name=btn-next]"))
         ).click()
-        #self.browser.find_element_by_css_selector(".v-stepper__content.assessment-page.current [name=btn-next]").click()
 
     def click_finish(self):
         WebDriverWait(self.browser,10).until(
