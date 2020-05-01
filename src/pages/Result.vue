@@ -5,7 +5,7 @@
       <h2>Loading...</h2>
       <br/>
     </div>
-    <div v-else-if="filteredList.length === 0">
+    <div v-else-if="filteredList.length === 0" name='no_results'>
       <h1>{{ noResults.title }}</h1>
       <v-col v-html="noResults.content"></v-col>
       <v-btn id="btn-restart-assessment" @click="startAgain">Start again</v-btn>

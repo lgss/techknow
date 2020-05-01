@@ -165,20 +165,23 @@ class ScdipTests(JerichoTest):
             return json.load(f)
 
     def run_script(self, name):
-        self.test_home()
-        self.start_assessment()
+        self.page_home()
+        #self.start_assessment()
         script = self.open_json(name)
         for step in script['steps']:
             numstep = step['step']
-            if numstep == "next":
+
+            if   numstep == "next":
                 self.click_next()
+            elif numstep == "finish":
+                self.click_finish()
             elif numstep == "respond":
                 if "type" in step:
                     typestep = step['type']
                 else:
                     raise ValueError('Needs a type')
 
-                if typestep == 'single_choice':
+                if typestep == 'single-choice-input':
                     if "value_text" in step:
                         self.fill_single_choice_input(step["value_text"])
                     else:
@@ -186,14 +189,14 @@ class ScdipTests(JerichoTest):
                     
                     if not 'do_next' in step or bool('do_next'):
                         self.click_next()
-                elif typestep == 'multi_choice':
+                elif typestep == 'multiple-choice-input':
                     self.fill_multi_choice_input(step["value_text"])
 
                     if not 'do_next' in step or bool('do_next'):
                         self.click_next()
             #elif numstep == 'assert':
             else:
-                raise ValueError('Unrecognised kind of step')
+                raise ValueError(f'Unrecognised step type: {numstep}')
             time.sleep(0.5)
 
     def test_script(self):
@@ -261,4 +264,21 @@ class ScdipTests(JerichoTest):
         self.browser.find_element_by_id("btn-home-start-assessment").click()
 
     def click_next(self):
-        self.browser.find_element_by_css_selector(".v-stepper__content.assessment-page.current [name=btn-next]").click()
+        WebDriverWait(self.browser,10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR,".v-stepper__content.assessment-page.current [name=btn-next]"))
+        ).click()
+        #self.browser.find_element_by_css_selector(".v-stepper__content.assessment-page.current [name=btn-next]").click()
+
+    def click_finish(self):
+        self.browser.find_element_by_name('btn-finish').click()
+        #self.browser.find_elements_by_css_selector(".v-stepper_content.assessment-page.current [name=btn-finish]").click()
+
+    def test_null_resource_content(self):
+        self.run_script('tests/scripts/no_journey.json')
+        no_results_container = WebDriverWait(self.browser,10).until(
+            EC.presence_of_element_located((By.NAME, 'no_results'))
+        )
+        header = no_results_container.find_element_by_css_selector('h1')
+        self.assertEqual(header.text,"We couldn't find anything but...")
+        return
+    

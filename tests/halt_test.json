@@ -3,19 +3,19 @@
     "steps": [
         {
             "step": "respond",
-            "type": "single_choice"
+            "type": "single-choice-input"
         },
         {
             "step": "respond",
-            "type": "single_choice"
+            "type": "single-choice-input"
         },
         {
             "step": "respond",
-            "type": "single_choice"
+            "type": "single-choice-input"
         },
         {
             "step": "respond",
-            "type": "single_choice",
+            "type": "single-choice-input",
             "value_text": "No"
         }
     ]

@@ -1,0 +1,14 @@
+{
+    "version": "0.1",
+    "steps": [
+        {
+            "step": "next"
+        },
+        {
+            "step": "next"
+        },
+        {
+            "step": "finish"
+        }
+    ]
+}

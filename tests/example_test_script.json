@@ -6,7 +6,7 @@
         },
         {
             "step": "respond",
-            "type": "single_choice",
+            "type": "single-choice-input",
             "value_text": "No"
         },
         {
@@ -14,7 +14,7 @@
         },
         {
             "step": "respond",
-            "type": "single_choice",
+            "type": "single-choice-input",
             "value_text": "Yes"
         },
         {
@@ -22,7 +22,7 @@
         },
         {
             "step": "respond",
-            "type": "multi_choice",
+            "type": "multiple-choice-input",
             "value_text": ["iPhone", "Tablet", "Desktop"]
         },
         {
