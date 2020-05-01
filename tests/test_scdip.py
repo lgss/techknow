@@ -200,10 +200,10 @@ class ScdipTests(JerichoTest):
             time.sleep(0.5)
 
     def test_script(self):
-        self.run_script('tests/example_test_script.json')
+        self.run_script('tests/scripts/example_test_script.json')
 
     def test_choice_validation(self):
-        self.run_script('tests/validation_test.json')
+        self.run_script('tests/scripts/validation_test.json')
 
         self.assertEquals(self.env['validation_message'],  self.item_stimulus(0))
 
@@ -228,7 +228,7 @@ class ScdipTests(JerichoTest):
         self.assertNotEquals(self.env["conditional_question"], self.item_stimulus(0))
     
     def test_conditional_question_back(self):
-        self.test_conditional_question('tests/conditional_question_test.json')
+        self.test_conditional_question('tests/scripts/conditional_question_test.json')
         self.browser.find_element_by_css_selector(".v-stepper__content.assessment-page.current [name=btn-back]").click()
         time.sleep(1)
         self.test_conditional_question_neg()
@@ -255,7 +255,7 @@ class ScdipTests(JerichoTest):
         self.assertIsNotNone(halt_title)
 
     def test_halt_dialog_back(self):
-        self.test_halt_dialog_neg('tests/halt_test.json')
+        self.test_halt_dialog_neg('tests/scripts/halt_test.json')
         self.browser.find_element_by_class_name("v-btn").click()
         time.sleep(1)
         self.test_halt_dialog_pass()
