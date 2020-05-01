@@ -3,5 +3,9 @@
   "conditional_question": "Do you feel unsafe right now?",
   "validation_message": "Please select a response",
   "halt_dialog": "Emergency",
-  "title": "techKnow (Dev)"
+  "title": "techKnow (Dev)",
+  "null_result" :{
+    "title": "We couldn't find anything but...",
+    "content": "Place some text about how we can help"
+  }
 }
