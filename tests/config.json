@@ -1,7 +1,7 @@
 {
   "root": "localhost:8080",
   "conditional_question": "Do you feel unsafe right now?",
-  "validation_message": "Please select a response",
+  "validation_message": "Select items that you need help with",
   "halt_dialog": "Emergency",
   "title": "techKnow (Dev)",
   "null_result" :{
