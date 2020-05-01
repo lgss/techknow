@@ -270,15 +270,18 @@ class ScdipTests(JerichoTest):
         #self.browser.find_element_by_css_selector(".v-stepper__content.assessment-page.current [name=btn-next]").click()
 
     def click_finish(self):
-        self.browser.find_element_by_name('btn-finish').click()
-        #self.browser.find_elements_by_css_selector(".v-stepper_content.assessment-page.current [name=btn-finish]").click()
-
-    def test_null_resource_content(self):
+        WebDriverWait(self.browser,10).until(
+            EC.presence_of_element_located((By.NAME,"btn-finish"))
+        ).click()
+        
+    def test_null_result_content(self):
         self.run_script('tests/scripts/no_journey.json')
-        no_results_container = WebDriverWait(self.browser,10).until(
+        null_result_container = WebDriverWait(self.browser,10).until(
             EC.presence_of_element_located((By.NAME, 'no_results'))
         )
-        header = no_results_container.find_element_by_css_selector('h1')
-        self.assertEqual(header.text,"We couldn't find anything but...")
-        return
+        title = null_result_container.find_element_by_css_selector('h1')
+        self.assertEqual(title.text,self.env['null_result']['title'])
+        content = null_result_container.find_element_by_css_selector('.col')
+        self.assertEqual(content.text, self.env['null_result']['content'])
+
     
