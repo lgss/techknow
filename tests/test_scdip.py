@@ -114,9 +114,7 @@ class ScdipTests(JerichoTest):
 
         if value is None:
             check = random.choice(checkboxes)
-        elif not isinstance(value, list):
-            raise TypeError("Multiple choice inputs expect value of type list or None")
-        else:
+        elif isinstance(value, list):
             for v in value:
                 for check in checkboxes:
                     if check.text == v:
@@ -124,6 +122,8 @@ class ScdipTests(JerichoTest):
 
                         selected = 'v-input--is-label-active' in check.get_attribute('class')
                         self.assertTrue(selected)
+        else:
+            raise TypeError(f"Expected value argument of type list or NoneType, not {type(value)}")
                     
     def fill_assessment_item(self, assessment_item, value=None):
         fieldtype = assessment_item.find_element_by_css_selector('.container').get_attribute('fieldtype')
