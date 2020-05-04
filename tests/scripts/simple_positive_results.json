@@ -1,0 +1,20 @@
+{
+    "version": "0.1",
+    "steps": [
+        {
+            "step": "respond",
+            "type": "multiple-choice-input",
+            "value_text": ["Sample-Journey-Parent"]
+        },
+        {
+            "step": "respond",
+            "type": "multiple-choice-input",
+            "value_text": "Sample-Journey"
+        },
+        {
+            "step": "respond",
+            "type": "single-choice-input",
+            "value_text": "Show resource"
+        }
+    ]
+}

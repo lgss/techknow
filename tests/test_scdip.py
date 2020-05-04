@@ -153,10 +153,7 @@ class ScdipTests(JerichoTest):
             time.sleep(1)
 
     def test_resources_render(self):
-        self.test_home()
-        self.start_assessment()
-        self.fill_assessment()
-        time.sleep(1)
+        self.run_script('tests/scripts/simple_positive_results.json')
         resource_rows = self.browser.find_elements_by_css_selector("#container-results .row")
         self.assertIsNotNone(resource_rows,"No results were found")
 
