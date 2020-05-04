@@ -2,20 +2,9 @@
     "version": "0.1",
     "steps": [
         {
-            "step": "next"
-        },
-        {
             "step": "respond",
-            "type": "single-choice-input",
-            "value_text": "No"
-        },
-        {
-            "step": "next"
-        },
-        {
-            "step": "respond",
-            "type": "single-choice-input",
-            "value_text": "Yes"
+            "type" :"multiple-choice-input",
+            "value_text" : ["Sample-Journey-Parent"]
         },
         {
             "step": "next"
@@ -23,10 +12,18 @@
         {
             "step": "respond",
             "type": "multiple-choice-input",
-            "value_text": ["iPhone", "Tablet", "Desktop"]
+            "value_text": ["Sample-Journey"]
         },
         {
             "step": "next"
+        },
+        {
+            "step": "respond",
+            "type": "single-choice-input",
+            "value_text": "Show resource"
+        },
+        {
+            "step": "finish"
         }
     ]
 }
