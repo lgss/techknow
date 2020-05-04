@@ -58,22 +58,6 @@ class ScdipTests(JerichoTest):
         self.page_parents()
         self.page_journeys()
 
-    def test_results(self):
-        self.test_home()
-        self.start_assessment()
-
-        next = self.browser.find_elements_by_name("btn-next")
-        next.pop() #no next button on last page
-        for btn in next:
-            btn.click()
-            time.sleep(1)
-        
-        finish = self.browser.find_elements_by_name("btn-finish")
-        finish[-1].click()
-
-        resultsList = self.browser.find_elements_by_id("container-results")
-        self.assertEqual(1, len(resultsList))
-
     def test_questions_render(self):
         self.page_home()
         self.page_parents()
@@ -95,7 +79,10 @@ class ScdipTests(JerichoTest):
 
     def get_multi_choice_input(self, assessment_item=0):
         if isinstance(assessment_item, int):
-            return self.browser.find_elements_by_css_selector(self.CURRENT_PAGE_SELECTOR)[assessment_item]
+            return WebDriverWait(self.browser, 10).until(
+                EC.presence_of_all_elements_located((By.CSS_SELECTOR, self.CURRENT_PAGE_SELECTOR))
+            )[assessment_item]
+            #return self.browser.find_elements_by_css_selector(self.CURRENT_PAGE_SELECTOR)[assessment_item]
         else:
             return assessment_item
 
@@ -127,6 +114,8 @@ class ScdipTests(JerichoTest):
 
         if value is None:
             check = random.choice(checkboxes)
+        elif not isinstance(value, list):
+            raise TypeError("Multiple choice inputs expect value of type list or None")
         else:
             for v in value:
                 for check in checkboxes:
@@ -183,14 +172,8 @@ class ScdipTests(JerichoTest):
                         self.fill_single_choice_input(step["value_text"])
                     else:
                         self.fill_single_choice_input()
-                    
-                    if not 'do_next' in step or bool('do_next'):
-                        self.click_next()
                 elif typestep == 'multiple-choice-input':
                     self.fill_multi_choice_input(step["value_text"])
-
-                    if not 'do_next' in step or bool('do_next'):
-                        self.click_next()
             #elif numstep == 'assert':
             else:
                 raise ValueError(f'Unrecognised step type: {numstep}')
