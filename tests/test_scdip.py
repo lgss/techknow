@@ -166,7 +166,6 @@ class ScdipTests(JerichoTest):
                     typestep = step['type']
                 else:
                     raise ValueError('Needs a type')
-
                 if typestep == 'single-choice-input':
                     if "value_text" in step:
                         self.fill_single_choice_input(step["value_text"])

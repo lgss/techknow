@@ -8,9 +8,15 @@
             
         },
         {
+            "step": "next"
+        },
+        {
             "step": "respond",
             "type": "multiple-choice-input",
-            "value_text": "Sample-Journey"
+            "value_text": ["Sample-Journey"]
+        },
+        {
+            "step": "next"
         },
         {
             "step": "respond",
