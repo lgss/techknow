@@ -76,7 +76,10 @@ export default {
       'stimulus': Stimulus
     },
     created() {
-      fetch(this.endpoint + '/journeys/')
+      fetch(this.endpoint + '/journeys', {
+        method: "POST",
+        data: this.journey
+      })
         .then(x => x.json())
         .then(x => {this.fields = x})
         .then(() => {

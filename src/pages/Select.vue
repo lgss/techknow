@@ -60,7 +60,7 @@ import landing from '@/js/landing.js'
 export default {
   name: "Selection",
   created() {
-    fetch(this.endpoint + '/journeys/')
+    fetch(this.endpoint + '/journeys')
       .then(x => x.json())
       .then(x => {
         this.journeys = x
