@@ -221,12 +221,7 @@ export default {
                   // could achieve the same by watching `responses`
         dialog: {},
         showDialog: false,
-<<<<<<< Updated upstream
-        parentChoices: [],
-        journeyChoices: []
-=======
         endpoint: process.env.VUE_APP_API_ENDPOINT
->>>>>>> Stashed changes
       }
     }
 }
