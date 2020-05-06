@@ -200,19 +200,6 @@ class ScdipTests(JerichoTest):
         self.page_parents()
         self.page_journeys()
 
-    def test_questions_render(self):
-        self.page_home()
-        self.page_parents()
-        self.page_journeys()
-        #self.start_assessment()
-        next = self.browser.find_elements_by_name("btn-next")
-        next.pop() #no next button on last page
-        for btn in next:
-            assessment_items = self.browser.find_elements_by_css_selector(self.CURRENT_PAGE_SELECTOR)
-            self.assertGreater(len(assessment_items),0)
-            btn.click()
-            time.sleep(1)
-
     def test_resources_render(self):
         self.run_script('tests/scripts/simple_positive_results.json')
         resource_rows = self.browser.find_elements_by_css_selector("#container-results .row")
@@ -278,6 +265,23 @@ class ScdipTests(JerichoTest):
         )
         error_text = error_elem.find_element_by_class_name('v-messages__message')
         self.assertEqual(error_text.text, "Please select a response")
+
+    def test_render_stimulus(self):
+        self.run_script(f'tests/scripts/{self.func_name()}.json')
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, f'{self.CURRENT_PAGE_SELECTOR} .stimulus'))
+        )
+    def test_render_single_choice_input(self):
+        self.run_script(f'tests/scripts/{self.func_name()}.json')
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, f'{self.CURRENT_PAGE_SELECTOR} .single-choice-input'))
+        )
+    def test_render_multiple_choice_input(self):
+        self.run_script(f'tests/scripts/{self.func_name()}.json')
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, f'{self.CURRENT_PAGE_SELECTOR} .multiple-choice-input'))
+        )
+
 
 
 

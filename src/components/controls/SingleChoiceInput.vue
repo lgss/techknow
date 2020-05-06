@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid>
+  <v-container fluid :class="name">
     <label>{{label}}</label>
-    <v-radio-group v-model="selectedChoice" @change="onChange" :rules="rules" :class="name">
+    <v-radio-group v-model="selectedChoice" @change="onChange" :rules="rules">
       <v-radio 
         v-for="choice in choices" 
         :key="choice.value" 

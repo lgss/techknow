@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid :class="name">
     <label class="item-stimulus">{{label}}</label>
     <v-checkbox 
       v-for="choice in choices"
