@@ -165,6 +165,9 @@ class ScdipTests(JerichoTest):
             else:
                 raise ValueError(f'Unrecognised step type: {numstep}')
             time.sleep(0.5)
+        if "data" in script:
+            return script["data"]
+
 
     def start_assessment(self):
         self.browser.find_element_by_id("btn-home-start-assessment").click()
@@ -267,6 +270,14 @@ class ScdipTests(JerichoTest):
         self.assertEqual(title.text,self.env['null_result']['title'])
         content = null_result_container.find_element_by_css_selector('.col')
         self.assertEqual(content.text, self.env['null_result']['content'])
+
+    def test_try_skip_mandatory_item(self):
+        self.run_script(f'tests/scripts/{self.func_name()}.json')
+        error_elem = WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, f'{self.CURRENT_PAGE_SELECTOR} .error--text'))
+        )
+        error_text = error_elem.find_element_by_class_name('v-messages__message')
+        self.assertEqual(error_text.text, "Please select a response")
 
 
 
