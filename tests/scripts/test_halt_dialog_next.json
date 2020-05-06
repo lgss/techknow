@@ -1,0 +1,29 @@
+{
+    "version": "0.1",
+    "steps": [
+        {
+            "step": "respond",
+            "type": "multiple-choice-input",
+            "value_text": ["Sample-Journey-Parent"]
+        },
+        {
+            "step" : "next"
+        },
+        {
+            "step": "respond",
+            "type": "multiple-choice-input",
+            "value_text": ["Halting-Journey"]
+        },
+        {
+            "step": "next"
+        },
+        {
+            "step": "respond",
+            "type":"single-choice-input",
+            "value_text": "Halt"
+        },
+        {
+            "step": "next"
+        }
+    ]
+}

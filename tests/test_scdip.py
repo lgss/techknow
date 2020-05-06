@@ -3,14 +3,30 @@ import time
 import random
 from test_bootstrap import JerichoTest
 import json
+import inspect
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+
 class ScdipTests(JerichoTest):
+
+    # Definitions
     CURRENT_PAGE_SELECTOR = '.assessment-page.current form .assessment-item'
+
+    # Utility functions
+    def func_name(self):
+        return inspect.stack()[1].function
+
+    def assertDialog(self):
+        dialog = WebDriverWait(self.browser,10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR,'.v-dialog--fullscreen'))
+        )
+        self.assertIsNotNone(dialog.find_element_by_id('dialog-title').text)
+        self.assertIsNotNone(dialog.find_element_by_id('dialog-content').text)
+
     def page_home(self):
         self.browser.get(self.env["root"])
         try: 
@@ -24,9 +40,6 @@ class ScdipTests(JerichoTest):
         except:
             raise Exception('Failed')
     
-    def test_home(self):
-        self.page_home()
-    
     def page_parents(self):
         parent_page = WebDriverWait(self.browser,10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, self.CURRENT_PAGE_SELECTOR))
@@ -37,10 +50,6 @@ class ScdipTests(JerichoTest):
             parent.click()
         next = self.browser.find_element_by_css_selector('.assessment-page.current').find_element_by_name('btn-next')
         next.click()
-    
-    def test_parents_render(self):
-        self.test_home()
-        self.page_parents()
 
     def page_journeys(self):
         journey_page = WebDriverWait(self.browser,10).until(
@@ -52,24 +61,6 @@ class ScdipTests(JerichoTest):
             journey.click()
         next = self.browser.find_element_by_css_selector('.assessment-page.current').find_element_by_name('btn-next')
         next.click()
-
-    def test_journeys_render(self):
-        self.page_home()
-        self.page_parents()
-        self.page_journeys()
-
-    def test_questions_render(self):
-        self.page_home()
-        self.page_parents()
-        self.page_journeys()
-        #self.start_assessment()
-        next = self.browser.find_elements_by_name("btn-next")
-        next.pop() #no next button on last page
-        for btn in next:
-            assessment_items = self.browser.find_elements_by_css_selector(self.CURRENT_PAGE_SELECTOR)
-            self.assertGreater(len(assessment_items),0)
-            btn.click()
-            time.sleep(1)
 
     def get_single_choice_input(self, assessment_item=0):
         if isinstance(assessment_item, int):
@@ -141,11 +132,6 @@ class ScdipTests(JerichoTest):
             btn[0].click()
             time.sleep(1)
 
-    def test_resources_render(self):
-        self.run_script('tests/scripts/simple_positive_results.json')
-        resource_rows = self.browser.find_elements_by_css_selector("#container-results .row")
-        self.assertIsNotNone(resource_rows,"No results were found")
-
     def open_json(self, path):
         with open(path) as f:
             return json.load(f)
@@ -161,6 +147,8 @@ class ScdipTests(JerichoTest):
                 self.click_next()
             elif numstep == "finish":
                 self.click_finish()
+            elif numstep == "back":
+                self.click_back()
             elif numstep == "respond":
                 if "type" in step:
                     typestep = step['type']
@@ -177,6 +165,55 @@ class ScdipTests(JerichoTest):
             else:
                 raise ValueError(f'Unrecognised step type: {numstep}')
             time.sleep(0.5)
+
+    def start_assessment(self):
+        self.browser.find_element_by_id("btn-home-start-assessment").click()
+
+    def click_next(self):
+        WebDriverWait(self.browser,10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR,".v-stepper__content.assessment-page.current [name=btn-next]"))
+        ).click()
+
+    def click_finish(self):
+        WebDriverWait(self.browser,10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR,".v-stepper__content.assessment-page.current [name=btn-finish]"))
+        ).click()
+    
+    def click_back(self):
+        WebDriverWait(self.browser,10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR,".v-stepper__content.assessment-page.current [name=btn-back]"))
+        ).click()
+        
+    # Tests   
+    def test_home(self):
+        self.page_home()
+
+    def test_parents_render(self):
+        self.test_home()
+        self.page_parents()
+
+    def test_journeys_render(self):
+        self.page_home()
+        self.page_parents()
+        self.page_journeys()
+
+    def test_questions_render(self):
+        self.page_home()
+        self.page_parents()
+        self.page_journeys()
+        #self.start_assessment()
+        next = self.browser.find_elements_by_name("btn-next")
+        next.pop() #no next button on last page
+        for btn in next:
+            assessment_items = self.browser.find_elements_by_css_selector(self.CURRENT_PAGE_SELECTOR)
+            self.assertGreater(len(assessment_items),0)
+            btn.click()
+            time.sleep(1)
+
+    def test_resources_render(self):
+        self.run_script('tests/scripts/simple_positive_results.json')
+        resource_rows = self.browser.find_elements_by_css_selector("#container-results .row")
+        self.assertIsNotNone(resource_rows,"No results were found")
 
     def test_script(self):
         self.run_script('tests/scripts/example_test_script.json')
@@ -212,46 +249,18 @@ class ScdipTests(JerichoTest):
         time.sleep(1)
         self.test_conditional_question_neg()
 
-    def test_halt_dialog_neg(self, script=None):
-        if not script == None:
-            self.run_script(script)
-
-        self.fill_single_choice_input("Yes")
-        self.click_next()
-        time.sleep(1)
-
-        self.assertEquals(self.env["halt_dialog"], self.browser.find_element_by_id('dialog-title').text)
-    
-    def test_halt_dialog_pass(self, script=None):
-        if not script == None:
-            self.run_script(script)
-
-        self.fill_single_choice_input("No")
-        self.click_next()
-        time.sleep(1)
-
-        halt_title = self.browser.find_elements_by_id('dialog-title')
-        self.assertIsNotNone(halt_title)
-
-    def test_halt_dialog_back(self):
-        self.test_halt_dialog_neg('tests/scripts/halt_test.json')
-        self.browser.find_element_by_class_name("v-btn").click()
-        time.sleep(1)
-        self.test_halt_dialog_pass()
-             
-    def start_assessment(self):
-        self.browser.find_element_by_id("btn-home-start-assessment").click()
-
-    def click_next(self):
-        WebDriverWait(self.browser,10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR,".v-stepper__content.assessment-page.current [name=btn-next]"))
-        ).click()
-
-    def click_finish(self):
-        WebDriverWait(self.browser,10).until(
-            EC.presence_of_element_located((By.NAME,"btn-finish"))
-        ).click()
+    def test_halt_dialog_finish(self):
+        self.run_script(f'tests/scripts/{self.func_name()}.json')
+        self.assertDialog()
         
+    def test_halt_dialog_next(self):
+        self.run_script(f'tests/scripts/{self.func_name()}.json')
+        self.assertDialog()
+    
+    def test_halt_dialog_back(self):
+        self.run_script(f'tests/scripts/{self.func_name()}.json')
+        self.assertDialog()
+             
     def test_null_result_content(self):
         self.run_script('tests/scripts/no_journey.json')
         null_result_container = WebDriverWait(self.browser,10).until(
@@ -262,4 +271,5 @@ class ScdipTests(JerichoTest):
         content = null_result_container.find_element_by_css_selector('.col')
         self.assertEqual(content.text, self.env['null_result']['content'])
 
-    
+
+
