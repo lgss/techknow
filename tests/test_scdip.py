@@ -215,9 +215,6 @@ class ScdipTests(JerichoTest):
         resource_rows = self.browser.find_elements_by_css_selector("#container-results .row")
         self.assertIsNotNone(resource_rows,"No results were found")
 
-    def test_script(self):
-        self.run_script('tests/scripts/example_test_script.json')
-
     def test_choice_validation(self):
         self.run_script('tests/scripts/validation_test.json')
 
@@ -261,8 +258,8 @@ class ScdipTests(JerichoTest):
         self.run_script(f'tests/scripts/{self.func_name()}.json')
         self.assertDialog()
              
-    def test_null_result_content(self):
-        self.run_script('tests/scripts/no_journey.json')
+    def test_no_resources_content(self):
+        self.run_script(f'tests/scripts/{self.func_name()}.json')
         null_result_container = WebDriverWait(self.browser,10).until(
             EC.presence_of_element_located((By.NAME, 'no_results'))
         )
