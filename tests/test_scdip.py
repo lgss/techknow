@@ -13,10 +13,10 @@ from selenium.webdriver.support import expected_conditions as EC
 
 class ScdipTests(JerichoTest):
 
-    # Definitions
+    ## Definitions
     CURRENT_PAGE_SELECTOR = '.assessment-page.current form .assessment-item'
 
-    # Utility functions
+    ## Utility functions
     def func_name(self):
         return inspect.stack()[1].function
 
@@ -90,10 +90,13 @@ class ScdipTests(JerichoTest):
             radio = random.choice(radios)
             radio.click()
         else:    
+            radio_found = False
             for radio in radios:
                 if radio.text == value:
+                    radio_found = True
                     radio.click()
                     break
+            self.assertTrue(radio_found, f"Failed to find value {value} in available choices.")
                 
         selected = "v-item--active" in radio.get_attribute('class')
         self.assertTrue(selected)
@@ -107,12 +110,14 @@ class ScdipTests(JerichoTest):
             check = random.choice(checkboxes)
         elif isinstance(value, list):
             for v in value:
+                v_found = False
                 for check in checkboxes:
                     if check.text == v:
+                        v_found = True
                         check.find_element_by_class_name('v-input--selection-controls__ripple').click()
-
                         selected = 'v-input--is-label-active' in check.get_attribute('class')
                         self.assertTrue(selected)
+                self.assertTrue(v_found,f"Failed to find value {v} in available choices.")
         else:
             raise TypeError(f"Expected value argument of type list or NoneType, not {type(value)}")
                     
@@ -187,7 +192,7 @@ class ScdipTests(JerichoTest):
             EC.presence_of_element_located((By.CSS_SELECTOR,".v-stepper__content.assessment-page.current [name=btn-back]"))
         ).click()
         
-    # Tests   
+    ## Tests   
     def test_home(self):
         self.page_home()
 
@@ -207,47 +212,54 @@ class ScdipTests(JerichoTest):
 
     def test_choice_validation(self):
         self.run_script('tests/scripts/validation_test.json')
-
         self.assertEquals(self.env['validation_message'],  self.item_stimulus(0))
 
+    #Test that a conditional question is rendered when expected
     def test_conditional_question(self, script=None):
-        if not script == None:
-            self.run_script(script)
-
-        self.fill_single_choice_input('No')
-        self.click_next()
-        time.sleep(1)
-
-        self.assertEquals(self.env["conditional_question"], self.item_stimulus(0))
-        
-    def test_conditional_question_neg(self, script=None):
-        if not script == None:
-            self.run_script(script)
-
-        self.fill_single_choice_input('Yes')
-        self.click_next()
-        time.sleep(1)
-
-        self.assertNotEquals(self.env["conditional_question"], self.item_stimulus(0))
+        data = self.run_script(f'tests/scripts/{self.func_name()}.json')
+        if data is None or not 'page_title' in data or not 'item_label' in data:
+            raise ValueError("Insufficient assertion data has been provided")
+        title = self.browser.find_element_by_css_selector(f'.assessment-page.current form h2')
+        self.assertEqual(title.text, data['page_title'])
+        item = self.browser.find_element_by_css_selector(f'{self.CURRENT_PAGE_SELECTOR} label')
+        self.assertEqual(item.text, data['item_label'])
     
+    #Test that a conditional question is not rendered when expected
+    def test_conditional_question_neg(self, script=None):
+        data = self.run_script(f'tests/scripts/{self.func_name()}.json')
+        if data is None or not 'page_title' in data or not 'item_label' in data:
+            raise ValueError("Insufficient assertion data has been provided")
+        title = self.browser.find_element_by_css_selector(f'.assessment-page.current form h2')
+        self.assertNotEqual(title.text, data['page_title'])
+        item = self.browser.find_element_by_css_selector(f'{self.CURRENT_PAGE_SELECTOR} label')
+        self.assertNotEqual(item.text, data['item_label'])
+    
+    #Test that a conditional question that was not rendered is rendered once the selected choice is changed
     def test_conditional_question_back(self):
-        self.test_conditional_question('tests/scripts/conditional_question_test.json')
-        self.browser.find_element_by_css_selector(".v-stepper__content.assessment-page.current [name=btn-back]").click()
-        time.sleep(1)
-        self.test_conditional_question_neg()
+        data = self.run_script(f'tests/scripts/{self.func_name()}.json')
+        if data is None or not 'page_title' in data or not 'item_label' in data:
+            raise ValueError("Insufficient assertion data has been provided")
+        title = self.browser.find_element_by_css_selector(f'.assessment-page.current form h2')
+        self.assertEqual(title.text, data['page_title'])
+        item = self.browser.find_element_by_css_selector(f'{self.CURRENT_PAGE_SELECTOR} label')
+        self.assertEqual(item.text, data['item_label'])
 
+    #Test an assessment is halted when finishing with a form ending choice
     def test_halt_dialog_finish(self):
         self.run_script(f'tests/scripts/{self.func_name()}.json')
         self.assertDialog()
-        
+    
+    #Test an assessment is halted when nexting with a form ending choice
     def test_halt_dialog_next(self):
         self.run_script(f'tests/scripts/{self.func_name()}.json')
         self.assertDialog()
     
+    #Test an assessment is halted when backing with a form ending choice
     def test_halt_dialog_back(self):
         self.run_script(f'tests/scripts/{self.func_name()}.json')
         self.assertDialog()
-             
+
+    #Test the content when no resources were found         
     def test_no_resources_content(self):
         self.run_script(f'tests/scripts/{self.func_name()}.json')
         null_result_container = WebDriverWait(self.browser,10).until(
@@ -258,6 +270,7 @@ class ScdipTests(JerichoTest):
         content = null_result_container.find_element_by_css_selector('.col')
         self.assertEqual(content.text, self.env['null_result']['content'])
 
+    #Test that a mandatory item may not be skipped
     def test_try_skip_mandatory_item(self):
         self.run_script(f'tests/scripts/{self.func_name()}.json')
         error_elem = WebDriverWait(self.browser, 10).until(
@@ -266,16 +279,21 @@ class ScdipTests(JerichoTest):
         error_text = error_elem.find_element_by_class_name('v-messages__message')
         self.assertEqual(error_text.text, "Please select a response")
 
+    #Test that a stimulus renders
     def test_render_stimulus(self):
         self.run_script(f'tests/scripts/{self.func_name()}.json')
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, f'{self.CURRENT_PAGE_SELECTOR} .stimulus'))
         )
+    
+    #Test that a single-choice-input renders
     def test_render_single_choice_input(self):
         self.run_script(f'tests/scripts/{self.func_name()}.json')
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, f'{self.CURRENT_PAGE_SELECTOR} .single-choice-input'))
         )
+    
+    #Test that a multiple-choice-input renders
     def test_render_multiple_choice_input(self):
         self.run_script(f'tests/scripts/{self.func_name()}.json')
         WebDriverWait(self.browser, 10).until(

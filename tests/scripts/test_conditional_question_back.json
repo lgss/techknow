@@ -1,0 +1,45 @@
+{
+    "version": "0.1",
+    "steps": [
+        {
+            "step": "respond",
+            "type": "multiple-choice-input",
+            "value_text": ["Conditional-Journey-Test"]
+            
+        },
+        {
+            "step": "next"
+        },
+        {
+            "step": "respond",
+            "type": "multiple-choice-input",
+            "value_text": ["Conditional-Journey-Test"]
+        },
+        {
+            "step": "next"
+        },
+        {
+            "step": "respond",
+            "type": "single-choice-input",
+            "value_text": "conditional-input-a"
+        },
+        {
+            "step" :"next"
+        },
+        {
+            "step": "back"
+        },
+        {
+            "step": "respond",
+            "type": "single-choice-input",
+            "value_text": "conditional-input-b"
+        },
+        {
+            "step": "next"
+        }
+    ],
+    "data" : {
+        "page_title" :"conditional-input",
+        "item_label": "conditional-input-b"
+    }
+}

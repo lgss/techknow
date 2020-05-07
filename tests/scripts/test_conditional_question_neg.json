@@ -1,0 +1,34 @@
+{
+    "version": "0.1",
+    "steps": [
+        {
+            "step": "respond",
+            "type": "multiple-choice-input",
+            "value_text": ["Conditional-Journey-Test"]
+            
+        },
+        {
+            "step": "next"
+        },
+        {
+            "step": "respond",
+            "type": "multiple-choice-input",
+            "value_text": ["Conditional-Journey-Test"]
+        },
+        {
+            "step": "next"
+        },
+        {
+            "step": "respond",
+            "type": "single-choice-input",
+            "value_text": "conditional-input-b"
+        },
+        {
+            "step" :"next"
+        }
+    ],
+    "data" : {
+        "page_title" :"conditional-input-a",
+        "item_label": "conditional-input-a"
+    }
+}
