@@ -9,18 +9,18 @@
     "deploy": "vue-cli-service s3-deploy"
   },
   "dependencies": {
+    "aws-sdk": "^2.631.0",
     "core-js": "^3.6.4",
     "fibers": "^4.0.2",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "prosemirror-tables": "^1.0.0",
     "sass": "^1.26.2",
     "sass-loader": "^8.0.2",
-    "tiptap-vuetify": "^2.13.2",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",
     "vuedraggable": "^2.23.2",
     "vuetify": "^2.2.15",
-    "aws-sdk": "^2.631.0"
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.2.0",
@@ -52,6 +52,7 @@
   },
   "browserslist": [
     "> 1%",
-    "last 2 versions"
+    "last 2 versions",
+    "ie 11"
   ]
 }
