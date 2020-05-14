@@ -1,21 +1,5 @@
 # techknow
 
-> TECHknow
+This project provides an interface for users to complete an assessment and retrieve results based on their responses. Data is provided to this service by setting up the [rekommend-api](https://github.com/lgss/rekommend-editor-api/) service.
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+More information about this service can be found in the [wiki](https://github.com/lgss/techknow/wiki/)

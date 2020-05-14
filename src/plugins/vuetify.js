@@ -5,20 +5,14 @@ Vue.use(Vuetify);
 
 import 'vuetify/dist/vuetify.min.css';
 import colors from 'vuetify/lib/util/colors';
+import Dialog from '@/components/dialog.js';
 
-import { TiptapVuetifyPlugin } from 'tiptap-vuetify'
-import 'tiptap-vuetify/dist/main.css'
-
+Vue.use(Dialog, vuetify)
 
 let vuetify = new Vuetify({
     theme: {
         base: colors.cyan.base
     }
 });
-
-Vue.use(TiptapVuetifyPlugin, {
-    vuetify,
-    iconsGroup: 'mdi'
-  })
 
 export default vuetify

@@ -10,20 +10,8 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
-
-- script: |
-    npm install -g webpack webpack-cli --save-dev
-    npm install
-    npm run build
-  displayName: 'npm install, run build'
-
 - task: CopyFiles@2
   inputs:
-    SourceFolder: 'dist'
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
     CleanTargetFolder: true
@@ -31,5 +19,5 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
+    ArtifactName: 'source-code'
     publishLocation: 'Container'

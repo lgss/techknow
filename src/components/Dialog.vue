@@ -30,7 +30,7 @@ export default {
         this.value = value
         this.$destroy()
       },
-      change(res) {
+      change() {
         this.$destroy()
       }
     },
