@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     beginAssessment() {
-      this.$router.push({"name": "Assessment", props: {"journeys": this.selectedJourneys}})
+      this.$router.push({"name": "Assessment", params: {journeys: this.selectedJourneys}})
     }
   },
   data() {

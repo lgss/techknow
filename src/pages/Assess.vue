@@ -76,9 +76,13 @@ export default {
       'stimulus': Stimulus
     },
     created() {
-      fetch(this.endpoint + '/journeys', {
-        method: "POST",
-        data: this.journey
+      console.log(this.journeys)
+      fetch(this.endpoint + '/journey', {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({journeys: this.journeys})
       })
         .then(x => x.json())
         .then(x => {this.fields = x})

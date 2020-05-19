@@ -19,6 +19,7 @@ export default new Router({
     {
       path: '/assess',
       name: 'Assessment',
+      props: true,
       component: Assess
     },
     {
