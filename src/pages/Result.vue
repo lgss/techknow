@@ -57,7 +57,7 @@ export default {
       startAgain() {
         this.$dialog.confirm('Start again', 'The resources currently shown will be lost. You will need to complete the assessment again from the beginning. Are you sure you want to start again?')
           .then(result => {if (result === 0) 
-              this.$router.push({ name: 'Assessment'})})
+              this.$router.push({ name: 'Select'})})
       }
     },
     computed: {
