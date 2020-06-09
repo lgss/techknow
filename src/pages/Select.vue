@@ -64,7 +64,8 @@ export default {
       .then(x => x.json())
       .then(x => {
         this.journeys = x
-        this.categories = Array.from(new Set(x.map(journey => {return {"name": journey.parent, "selected": false}})))
+        let uniqueParents = Array.from(new Set(x.map(journey => {return journey.parent})))
+        this.categories = uniqueParents.map( parent => {return{"name":parent,"selected":false}})
         this.loading = false
       })
   },
@@ -102,6 +103,7 @@ export default {
       categoriesSelected: false,
       endpoint: process.env.VUE_APP_API_ENDPOINT,
       categories: [],
+      categories2: [],
       journeys: []
     }
   }
