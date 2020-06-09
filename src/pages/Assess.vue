@@ -67,6 +67,7 @@ import utils from '@/js/assess-utils.js'
 export default {
     name: "Assess",
     self: this,
+    props: ['journeys'],
     components: {
       'small-text-input': SmallTextInput,
       'single-choice-input': SingleChoiceInput,
@@ -75,38 +76,18 @@ export default {
       'stimulus': Stimulus
     },
     created() {
-      fetch(this.endpoint + '/journeys/')
+      console.log(this.journeys)
+      fetch(this.endpoint + '/journey', {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({journeys: this.journeys})
+      })
         .then(x => x.json())
-        .then(x => {this.journeys = x})
-        .finally(() => {
-          // Create page structures that will calculate the required journeys for an assessment
-          this.fields = 
-          {
-            "pages": [
-              {
-                "title": "How can we help you today?",
-                "items": [
-                  {
-                    "fieldType":"multiple-choice-input",
-                    "name":"parent-selection",
-                    "label":"Select items that you need help with",
-                    "choices": this.journeyParents()
-                  }
-                ]
-              },
-              {
-                "title": "How can we help you today?",
-                "items": [
-                  {
-                    "fieldType":"multiple-choice-input",
-                    "name":"journey-selection",
-                    "label":"Select items that you need help with",
-                    "choices": []
-                  }
-                ]
-              }
-            ]
-          }
+        .then(x => {this.fields = x})
+        .then(() => {
+          // Create page structures that will calculate the required journeys for an assessment          
           this.loading = false
           this.pageIdx = 1
         })
@@ -116,7 +97,7 @@ export default {
         return Math.round(this.pageIdx/this.displayPages.length*100)
       },
       finished() {
-        return this.pageIdx >= this.displayPages.length && this.start;
+        return this.pageIdx >= this.displayPages.length
       },    
       displayPages() {
         // Arguably, this should filter the pages but it'd make progress tracking harder
@@ -140,26 +121,18 @@ export default {
     },
     methods: {
       next() {
-        if(!this.start && this.pageIdx == 2) {
-          this.fields = this.concatFields //merge selected journeys
-          this.pageIdx = 1 //reset to page one
-          this.start = true; // start assessment
-        } else {
-          // Validate that items on the page contain responses
-          let page_valid = this.$refs.page[this.pageIdx - 1].validate() 
-          if (!page_valid) {
-            return
-          }
-          // checks if a dialog needs to be displayed to the user
-          if (this.proceedDialog()) {
-            return
-          }
-          if(!this.start){
-            this.fields.pages[1].items[0].choices = this.availableJourneys()
-          }
-          // navigates to the next page
-          this.movePage(true)
+        // Validate that items on the page contain responses
+        let page_valid = this.$refs.page[this.pageIdx - 1].validate() 
+        if (!page_valid) {
+          return
         }
+        // checks if a dialog needs to be displayed to the user
+        if (this.proceedDialog()) {
+          return
+        }
+        
+        // navigates to the next page
+        this.movePage(true)
       },
       prior() {
         this.movePage(false)
@@ -180,24 +153,18 @@ export default {
           this.movePage(forwards)
       },
       responded(selection,name) {
-        if(name == "journey-selection") {
-          this.concatFields = {
-            "pages": selection.flatMap(x => x.doc.pages)
-          }
-        } else {
-          var response = {
-            name: name,
-            choices: selection
-          }
-          var currentResponseIndex = this.responses.findIndex(response => (response.name === name))
-          if (currentResponseIndex >= 0) {
-            this.responses[currentResponseIndex] = response
-          } else {
-            this.responses.push(response)
-          }
-
-          this.tags = this.responses.flatMap(x => x.choices).flatMap(x => x.tags)
+        var response = {
+          name: name,
+          choices: selection
         }
+        var currentResponseIndex = this.responses.findIndex(response => (response.name === name))
+        if (currentResponseIndex >= 0) {
+          this.responses[currentResponseIndex] = response
+        } else {
+          this.responses.push(response)
+        }
+
+        this.tags = this.responses.flatMap(x => x.choices).flatMap(x => x.tags)
       },
       isCurrentPage(idx) {
         return (idx + 1) == this.pageIdx ? `current` : null
@@ -223,6 +190,7 @@ export default {
         
         return false;
       },
+      //kill
       availableJourneys() {
         let choices = []
         let tags = utils.getResponseTags(this.responses)
@@ -252,9 +220,6 @@ export default {
     data() {
       return {
         loading: true,
-        journeys:[],
-        start: false,
-        concatFields: {},
         fields: {},
         pageIdx: 0,
         responses: [],
@@ -262,8 +227,6 @@ export default {
                   // could achieve the same by watching `responses`
         dialog: {},
         showDialog: false,
-        parentChoices: [],
-        journeyChoices: [],
         endpoint: process.env.VUE_APP_API_ENDPOINT
       }
     }
