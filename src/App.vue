@@ -8,11 +8,14 @@
     <v-content>
       <router-view/>
     </v-content>
+
+    <Footer/>
   </v-app>
 </template>
 
 <script>
 import Toolbar from '@/components/Toolbar';
+import Footer from '@/components/Footer';
 import landing from '@/js/landing.js';
 
 export default {
@@ -31,7 +34,8 @@ export default {
   },
 
   components: {
-    Toolbar
+    Toolbar,
+    Footer
   },
 
   data: () => ({
