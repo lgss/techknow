@@ -1,14 +1,18 @@
 <template>
-    <div>
-        <v-progress-circular id="loading-terms" v-if="loading"></v-progress-circular>
-        <div v-else-if="terms" class='text-left'>
-            <h1>Terms and Conditions</h1>
-            <div id='terms-content' class='text-left'>
-                {{terms}}
+    <v-container>
+        <v-card>
+            <v-progress-circular id="loading-terms" v-if="loading"></v-progress-circular>
+            <div v-else-if="terms" class='text-left'>
+                <v-container>
+                <h1 id='terms-title'>{{terms.title}}</h1>
+                </v-container>
+                <v-divider/>
+                <v-container id='terms-content' class='text-left' v-html="terms.content">
+                </v-container>
             </div>
-        </div>
-        <div v-else>We're sorry, but we're unable to find this at the moment.</div>
-    </div>
+            <div v-else>We're sorry, but we're unable to find this at the moment.</div>
+        </v-card>
+    </v-container>
 </template>
 
 <style>
