@@ -16,3 +16,4 @@ yarn-error.log*
 *.sl
 *.pyc
 __pycache__
+.env
