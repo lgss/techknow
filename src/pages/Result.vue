@@ -74,6 +74,17 @@ export default {
           console.log(error)
           return []          
         }
+      },
+      categorisedList() {
+        if (!this.filteredList.length) 
+          return []
+        return this.filteredList
+          .flatMap(r => r.doc.categories)
+          .filter((cat, i, a) => a.indexOf(cat) == i)
+          .map(cat => ({
+            "category":cat,
+            "resources": this.filteredList.filter(r => r.doc.categories.some(c => c== cat))
+          })) 
       }
     },
     data(){
