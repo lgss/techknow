@@ -10,38 +10,29 @@
         <v-btn id="btn-restart-assessment" @click="startAgain">Start again</v-btn>
       </div>
       <v-container v-else id="container-results">
-        <v-row v-for="resource in filteredList " :key="resource.name">
+        <v-row v-for="category in categorisedList " :key="category.category">
           <v-col>
-              <v-card class="mx-auto resource">
-                <v-card-text>
-                  <p class="display-1 text--primary"> {{ resource.doc.name }}</p>
-                  <div class="text--primary"> 
-                    <span v-html="resource.doc.content"></span>
-                  </div>
-                  <div> 
-                    <v-chip v-for="iTag in resource.doc.includeTags" :key="iTag" class="ma-2" color="green" text-color="white">
-                      {{ iTag }}
-                    </v-chip>
-                    <v-chip v-for="eTag in resource.doc.excludeTags" :key="eTag" class="ma-2" color="red" text-color="white">
-                      {{ eTag }}
-                    </v-chip>
-                  </div>
-                </v-card-text>
-              </v-card>
+            <h1>{{category.category}}</h1>
+          <v-row v-for="resource in category.resources" :key="resource.name">
+            <v-col>
+              <resource v-bind="resource"/>
             </v-col>
           </v-row>
-        </v-container>
-      </div>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
   </div>
 </template>
 
 <script>
 import utils from '@/js/assess-utils.js'
+import resource from '@/components/Resource.vue'
 
 export default {
     name: 'Result',
     self: this,
-    components: {},
+    components: { resource },
     created() {
       Promise.all([
         fetch(this.endpoint + '/resources')
