@@ -3,7 +3,7 @@
     <v-progress-circular indeterminate size="100" width="10" color="#dddddd"/>
   </div>
   <v-app v-else>
-    <toolbar :title="title" :primary="primary" />
+    <toolbar :title="title" :header="pageHeader" :primary="primary" />
 
     <v-content>
       <router-view/>
@@ -38,8 +38,14 @@ export default {
     loading: true,
     title: "loading...",
     primary: 'white',
-    endpoint: process.env.VUE_APP_API_ENDPOINT
+    endpoint: process.env.VUE_APP_API_ENDPOINT,
+    pageHeader: "Hello and Welcome"
   }),
+  watch: {
+    '$route'(to) {
+      this.pageHeader = to.meta? to.meta.title : null;
+    }
+  }
 };
 </script>
 
