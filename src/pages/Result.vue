@@ -1,96 +1,126 @@
 <template>
-  <div>
-    <div v-if="loading" >
-      <v-skeleton-loader type="card" v-for="n in 5" :key="n"/>
+    <div>
+        <div v-if="loading">
+            <v-skeleton-loader type="card" v-for="n in 5" :key="n" />
+        </div>
+        <div v-else>
+            <div v-if="filteredList.length === 0">
+                <h1>{{ noResults.title }}</h1>
+                <v-col v-html="noResults.content"></v-col>
+                <v-btn id="btn-restart-assessment" @click="startAgain"
+                    >Start again</v-btn
+                >
+            </div>
+            <v-container v-else id="container-results">
+                <v-row
+                    v-for="category in categorisedList"
+                    :key="category.category"
+                >
+                    <v-container class="resource-category">
+                        <h1>{{ category.category }}</h1>
+                    </v-container>
+                    <v-container>
+                        <v-row>
+                            <v-col
+                                cols="12"
+                                md="6"
+                                v-for="resource in category.resources"
+                                :key="resource.name"
+                            >
+                                <resource v-bind="resource" />
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-row>
+            </v-container>
+        </div>
     </div>
-    <div v-else>
-      <div v-if="filteredList.length === 0">
-        <h1>{{ noResults.title }}</h1>
-        <v-col v-html="noResults.content"></v-col>
-        <v-btn id="btn-restart-assessment" @click="startAgain">Start again</v-btn>
-      </div>
-      <v-container v-else id="container-results">
-        <v-row v-for="category in categorisedList " :key="category.category">
-          <v-col>
-            <h1>{{category.category}}</h1>
-          <v-row v-for="resource in category.resources" :key="resource.name">
-            <v-col>
-              <resource v-bind="resource"/>
-            </v-col>
-          </v-row>
-          </v-col>
-        </v-row>
-      </v-container>
-    </div>
-  </div>
 </template>
 
 <script>
-import utils from '@/js/assess-utils.js'
-import resource from '@/components/Resource.vue'
+import utils from "@/js/assess-utils.js";
+import resource from "@/components/Resource.vue";
 
 export default {
-    name: 'Result',
+    name: "Result",
     self: this,
     components: { resource },
     created() {
-      Promise.all([
-        fetch(this.endpoint + '/resources')
-          .then(x =>x.json())
-          .then(x => {this.resources = x}),
-        fetch(this.endpoint + '/config/positive-outcome')
-          .then(x=>x.json())
-          .then(x=> this.noResults = x)]
-      ).then(() => {this.loading = false})
+        Promise.all([
+            fetch(this.endpoint + "/resources")
+                .then((x) => x.json())
+                .then((x) => {
+                    this.resources = x;
+                }),
+            fetch(this.endpoint + "/config/positive-outcome")
+                .then((x) => x.json())
+                .then((x) => (this.noResults = x)),
+        ]).then(() => {
+            this.loading = false;
+        });
     },
     props: ["responses"],
     methods: {
-      startAgain() {
-        this.$dialog.confirm('Start again', 'The resources currently shown will be lost. You will need to complete the assessment again from the beginning. Are you sure you want to start again?')
-          .then(result => {if (result === 0) 
-              this.$router.push({ name: 'Select'})})
-      }
+        startAgain() {
+            this.$dialog
+                .confirm(
+                    "Start again",
+                    "The resources currently shown will be lost. You will need to complete the assessment again from the beginning. Are you sure you want to start again?"
+                )
+                .then((result) => {
+                    if (result === 0) this.$router.push({ name: "Select" });
+                });
+        },
     },
     computed: {
-      filteredList() {          
-        if(this.loading == true) {
-          return []
-        }
-        let responseTags = utils.getResponseTags(this.responses)
-        try {
-          return this.resources.filter(resource => 
-            utils.intersects(resource.doc.includeTags, responseTags) && 
-            !utils.intersects(resource.doc.excludeTags, responseTags))
-        } catch (error) {
-          console.log(error)
-          return []          
-        }
-      },
-      categorisedList() {
-        if (!this.filteredList.length) 
-          return []
-        return this.filteredList
-          .flatMap(r => r.doc.categories)
-          .filter((cat, i, a) => a.indexOf(cat) == i)
-          .map(cat => ({
-            "category":cat,
-            "resources": this.filteredList.filter(r => r.doc.categories.some(c => c== cat))
-          })) 
-      }
+        filteredList() {
+            if (this.loading == true) {
+                return [];
+            }
+            let responseTags = utils.getResponseTags(this.responses);
+            try {
+                return this.resources.filter(
+                    (resource) =>
+                        utils.intersects(
+                            resource.doc.includeTags,
+                            responseTags
+                        ) &&
+                        !utils.intersects(
+                            resource.doc.excludeTags,
+                            responseTags
+                        )
+                );
+            } catch (error) {
+                console.log(error);
+                return [];
+            }
+        },
+        categorisedList() {
+            if (!this.filteredList.length) return [];
+            return this.filteredList
+                .flatMap((r) => r.doc.categories)
+                .filter((cat, i, a) => a.indexOf(cat) == i)
+                .map((cat) => ({
+                    category: cat,
+                    resources: this.filteredList.filter((r) =>
+                        r.doc.categories.some((c) => c == cat)
+                    ),
+                }));
+        },
     },
-    data(){
+    data() {
         return {
-          loading: true,
-          resources: [],
-          noResults: {},
-          endpoint: process.env.VUE_APP_API_ENDPOINT
-        }
-    }
-}
+            loading: true,
+            resources: [],
+            noResults: {},
+            endpoint: process.env.VUE_APP_API_ENDPOINT,
+        };
+    },
+};
 </script>
 
 <style>
-.v-card.resource {
-  max-width: 600;
+.resource-category {
+    text-align: left;
 }
 </style>
