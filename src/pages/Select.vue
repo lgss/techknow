@@ -1,76 +1,50 @@
 <template>
   <div>
-    <journey/>
+    
     <v-skeleton-loader v-show="loading" type="card"/>
-    <v-card v-show="!loading && !showJourneys">
-      <h1>How can we help you today?</h1>
-      <v-item-group multiple class="pa-5" model="sel">
-        <v-row>
-          <v-col v-for="(cat, index) in categories" :key="'c-' + index" cols="12" md="4">
-            <v-item v-slot:default="{ active, toggle }" :value="'c-' + index">
-                <v-card 
-                  :color="active ? 'primary' : 'grey lighten-3'"
-                  class="d-flex align-center"
-                  height="200"
-                  @click="toggle(); cat.selected = !active"
-                >
-                  <span class="display-3 flex-grow-1 text-center">{{cat.name}}</span>
-                </v-card>
-            </v-item>
-          </v-col>
-        </v-row>
-      </v-item-group>
+
+    <v-container v-show="!loading && !showJourneys">
+      <item
+        v-show="!loading && !showJourneys"
+        title="Where do you need support?"
+        subtitle="Please select one or more"
+        :items="categories"
+        itemLabelKey="name"
+      />
       <v-row center>
         <v-col>
           <v-btn @click="categoriesSelected=true">Continue</v-btn>
         </v-col>
       </v-row>
-    </v-card>
-    <v-card v-show="!loading && showJourneys">
-      <h1>How can we help you today?</h1>
-      <v-item-group multiple class="pa-5" model="selj">
-        <v-row>
-          <v-col v-for="(journey, index) in possibleJourneys" :key="'j-' + index" cols="12" md="4">
-            <v-item v-slot:default="{ active, toggle }" :value="'j-' + index">
-              <!-- <journey/> -->
-                <v-card 
-                  :color="active ? 'primary' : 'grey lighten-3'"
-                  class="d-flex align-center justify-left"
-                  height="100"
-                  :value="index"
-                  @click="toggle(); journey.selected = !active"
-                > <v-container>
-                  <v-img
-                    contain
-                    :alt="journey.image ? journey.image.alt : null"
-                    :src="journey.image ? journey.image.src : undefined"
-                    max-height=100
-                    lazy-src="https://via.placeholder.com/251">
-                  </v-img>
-                  <span class="display-1 flex-grow-1 text-center">{{journey.label}}</span>
-                  </v-container>
-                </v-card>
-            </v-item>
-          </v-col>
-        </v-row>
-      </v-item-group>
+
+    </v-container>
+    
+    <v-container v-show="!loading && showJourneys">
+      <item
+          v-show="!loading && showJourneys"
+          title="Where do you need support?"
+          subtitle="Please select one or more"
+          :items="possibleJourneys"
+          itemLabelKey="label"
+      />
       <v-row center>
         <v-col>
           <v-btn @click="categoriesSelected=false">Back</v-btn>
           <v-btn color="success" @click="beginAssessment">Begin</v-btn>
         </v-col>
       </v-row>
-    </v-card>
+    </v-container>
+
   </div>
 </template>
 
 <script>
 import landing from '@/js/landing.js'
-import Journey from '@/components/Journey.vue'
+import Item from '@/components/Item.vue'
 
 export default {
   components: {
-    Journey
+    Item
   },
   name: "Selection",
   created() {
