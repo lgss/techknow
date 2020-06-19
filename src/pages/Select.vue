@@ -1,5 +1,6 @@
 <template>
   <div>
+    <journey/>
     <v-skeleton-loader v-show="loading" type="card"/>
     <v-card v-show="!loading && !showJourneys">
       <h1>How can we help you today?</h1>
@@ -31,14 +32,23 @@
         <v-row>
           <v-col v-for="(journey, index) in possibleJourneys" :key="'j-' + index" cols="12" md="4">
             <v-item v-slot:default="{ active, toggle }" :value="'j-' + index">
+              <!-- <journey/> -->
                 <v-card 
                   :color="active ? 'primary' : 'grey lighten-3'"
-                  class="d-flex align-center"
+                  class="d-flex align-center justify-left"
                   height="100"
                   :value="index"
                   @click="toggle(); journey.selected = !active"
-                >
+                > <v-container>
+                  <v-img
+                    contain
+                    :alt="journey.image ? journey.image.alt : null"
+                    :src="journey.image ? journey.image.src : undefined"
+                    max-height=100
+                    lazy-src="https://via.placeholder.com/251">
+                  </v-img>
                   <span class="display-1 flex-grow-1 text-center">{{journey.label}}</span>
+                  </v-container>
                 </v-card>
             </v-item>
           </v-col>
@@ -56,8 +66,12 @@
 
 <script>
 import landing from '@/js/landing.js'
+import Journey from '@/components/Journey.vue'
 
 export default {
+  components: {
+    Journey
+  },
   name: "Selection",
   created() {
     fetch(this.endpoint + '/journeys')
