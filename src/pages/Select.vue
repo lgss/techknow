@@ -13,7 +13,7 @@
       />
       <v-row center>
         <v-col>
-          <v-btn @click="categoriesSelected=true">Continue</v-btn>
+          <v-btn color="success" @click="categoriesSelected=true">Continue <v-icon>mdi-arrow-right-bold-circle</v-icon></v-btn>
         </v-col>
       </v-row>
 
@@ -29,8 +29,12 @@
       />
       <v-row center>
         <v-col>
-          <v-btn @click="categoriesSelected=false">Back</v-btn>
-          <v-btn color="success" @click="beginAssessment">Begin</v-btn>
+          <v-btn @click="categoriesSelected=false">
+            <v-icon left >mdi-arrow-left-bold-circle</v-icon>Back 
+          </v-btn>
+          <v-btn color="success" @click="beginAssessment">Begin
+            <v-icon right>mdi-arrow-right-bold-circle</v-icon>
+          </v-btn>
         </v-col>
       </v-row>
     </v-container>
