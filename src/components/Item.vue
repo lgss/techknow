@@ -8,7 +8,7 @@
         <v-item-group multiple model="sel">
             <v-row dense>
                 <v-col v-for="(item, i) in items" :key="i" cols="12">
-                    <choice :value="item" :index="i" :label="item[itemKey]"/>
+                    <choice :value="item" :index="i" :label="item[itemLabelKey]" :imgSrc="item[itemImgSrcKey]"/>
                 </v-col>
             </v-row>
         </v-item-group>
@@ -24,6 +24,6 @@ export default {
     components: {
         "choice": Choice,
     },
-    props: ["title","subtitle", "items","itemKey"]
+    props: ["title","subtitle", "items","itemLabelKey", "itemImgSrcKey"]
 };
 </script>
