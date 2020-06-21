@@ -18,5 +18,6 @@ export default {
     .banner {
         background-color:#1D5F7A;
         margin-top:56px;
+        min-height: 150px;
     }
 </style>
