@@ -1,5 +1,5 @@
 <template>
-    <v-item v-slot:default="{ active, toggle }" :value="index">
+    <v-item v-slot:default="{ active, toggle }" :value="value">
         <v-card :color="active ? 'primary' : 'white lighten-3'" @click="toggle(); value.selected = !active">
             <div class="d-flex flex-no-wrap align-center">
                 <v-avatar class="ma-3" size="125" tile>
@@ -8,7 +8,6 @@
                 </v-avatar>
                 <div>
                     <v-card-title  class="headline" v-text="label"></v-card-title>
-                    
                 </div>
             </div>
         </v-card>
@@ -18,6 +17,6 @@
 <script>
   export default {
     name: 'Choice',
-    props: ['value', 'index', 'label', 'imgSrc']
+    props: ['value', 'label', 'imgSrc']
   }
 </script>
