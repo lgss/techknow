@@ -16,7 +16,6 @@
             class="assessment-page"
             :class="isCurrentPage(idx)">
             <v-form ref="page" lazy-validation>
-              <h2>{{page.title}}</h2>
               <v-row v-for="(field, index) in page.items" :key="index" class="assessment-item">
                 <v-col>
                   <component @responded='(selection)=>responded(selection,field.name)' :is="field.fieldType" v-bind="field"/>
@@ -235,6 +234,10 @@ export default {
 
 <style scoped>
 .theme--light.v-sheet {
+  background-color: transparent;
+  box-shadow: none;
+}
+.theme--light.v-stepper {
   background-color: transparent;
 }
 </style>
