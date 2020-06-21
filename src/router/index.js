@@ -19,20 +19,20 @@ export default new Router({
             },
         },
         {
-            path: "/assess",
-            name: "Assessment",
-            props: true,
-            component: Assess,
-            meta: {
-                title: "Assess",
-            },
-        },
-        {
             path: "/select",
             name: "Select",
             component: Select,
             meta: {
                 title: "Choose your journey",
+            },
+        },
+        {
+            path: "/assess",
+            name: "Assessment",
+            props: true,
+            component: Assess,
+            meta: {
+                title: "Questions",
             },
         },
         {

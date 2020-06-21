@@ -3,16 +3,17 @@
     <v-progress-circular indeterminate size="100" width="10" color="#dddddd"/>
   </div>
   <v-app v-else>
-    <toolbar :title="title" :header="pageHeader" :primary="primary" />
-
+    <toolbar :title="title" :primary="primary" />
     <v-content>
-      <router-view/>
+      <banner  :header="pageHeader" />
+      <router-view id="router-view"/>
     </v-content>
   </v-app>
 </template>
 
 <script>
 import Toolbar from '@/components/Toolbar';
+import Banner from '@/components/Banner';
 import landing from '@/js/landing.js';
 
 export default {
@@ -31,7 +32,8 @@ export default {
   },
 
   components: {
-    Toolbar
+    Toolbar, 
+    Banner
   },
 
   data: () => ({
@@ -51,6 +53,11 @@ export default {
 
 <style scoped>
   main {
+    padding-top:0px !important;
+    background-color: #f7f7f7;
+  }
+
+  #router-view {
     text-align: center;
     margin-top: 40px;
     margin-left: 20px;
