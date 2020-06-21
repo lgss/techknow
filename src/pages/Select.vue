@@ -101,3 +101,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.theme--light.v-sheet {
+  background-color: transparent;
+}
+</style>
