@@ -1,12 +1,13 @@
 import Vue from "vue";
 import Router from "vue-router";
 
-import Home from "@/pages/Home";
-import Assess from "@/pages/Assess";
-import Result from "@/pages/Result";
-import Select from "@/pages/Select";
+import Home from '@/pages/Home'
+import Assess from '@/pages/Assess'
+import Result from '@/pages/Result'
+import Select from '@/pages/Select'
+import Terms from '@/pages/Terms'
 
-Vue.use(Router);
+Vue.use(Router)
 
 export default new Router({
     routes: [
@@ -44,5 +45,13 @@ export default new Router({
                 title: "Resources for you",
             },
         },
+        {
+            path: '/terms',
+            name: 'terms',
+            component: Terms,
+            meta: {
+                title: "Terms & Conditions"
+            }
+        }
     ],
 });

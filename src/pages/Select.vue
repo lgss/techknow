@@ -103,7 +103,11 @@ export default {
 </script>
 
 <style scoped>
-.theme--light.v-sheet {
-  background-color: transparent;
-}
+  .theme--light.v-sheet {
+    background-color: transparent;
+  }
+  #router-view {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
 </style>
