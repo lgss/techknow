@@ -1,37 +1,25 @@
 <template>
-    <v-card class="mx-auto resource">
-        <v-card-text>
-            <p class="display-1 text--primary">{{ $attrs.doc.name }}</p>
-            <div class="text--primary">
-                <span v-html="$attrs.doc.content"></span>
+    <v-card>
+        <div class="d-flex flex-no-wrap align-center">
+            <v-avatar class="ma-3" size="125" tile>
+                <v-skeleton-loader type="avatar"/>
+            </v-avatar>
+            <div class="text-left">
+                <v-card-title class="headline" v-text="$attrs.doc.name"/>
+                <v-card-subtitle  v-html="$attrs.doc.content"/>
             </div>
-            <div>
-                <v-chip
-                    v-for="iTag in $attrs.doc.includeTags"
-                    :key="iTag"
-                    class="ma-2"
-                    color="green"
-                    text-color="white"
-                >
-                    {{ iTag }}
-                </v-chip>
-                <v-chip
-                    v-for="eTag in $attrs.doc.excludeTags"
-                    :key="eTag"
-                    class="ma-2"
-                    color="red"
-                    text-color="white"
-                >
-                    {{ eTag }}
-                </v-chip>
-            </div>
-        </v-card-text>
+        </div>
+        <v-card-actions>
+            <v-btn class="success" text>
+                Continue to website<v-icon>mdi-open-in-new</v-icon>
+            </v-btn>  
+        </v-card-actions>
     </v-card>
 </template>
 
 <script>
 export default {
-    name: "Resource",
+    name: "Resource"
 };
 </script>
 

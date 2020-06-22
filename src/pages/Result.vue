@@ -3,36 +3,37 @@
         <div v-if="loading">
             <v-skeleton-loader type="card" v-for="n in 5" :key="n" />
         </div>
+        
         <div v-else>
+            
             <div v-if="filteredList.length === 0">
                 <h1>{{ noResults.title }}</h1>
                 <v-col v-html="noResults.content"></v-col>
-                <v-btn id="btn-restart-assessment" @click="startAgain"
-                    >Start again</v-btn
-                >
+                <v-btn id="btn-restart-assessment" @click="startAgain">Start again</v-btn>
             </div>
+
             <v-container v-else id="container-results">
-                <v-row
-                    v-for="category in categorisedList"
-                    :key="category.category"
-                >
-                    <v-container class="resource-category">
-                        <h1>{{ category.category }}</h1>
+                <v-row v-for="category in categorisedList" :key="category.category">
+
+                    <v-container>
+                        <v-row class="align-center" >
+                            <v-col class="text-left">
+                                <h1>{{ category.category }}</h1>
+                            </v-col>
+                        </v-row>
                     </v-container>
+
                     <v-container>
                         <v-row>
-                            <v-col
-                                cols="12"
-                                md="6"
-                                v-for="resource in category.resources"
-                                :key="resource.name"
-                            >
+                            <v-col cols="12" md="6" v-for="resource in category.resources" :key="resource.name">
                                 <resource v-bind="resource" />
                             </v-col>
                         </v-row>
                     </v-container>
+
                 </v-row>
             </v-container>
+
         </div>
     </div>
 </template>
@@ -118,9 +119,3 @@ export default {
     },
 };
 </script>
-
-<style>
-.resource-category {
-    text-align: left;
-}
-</style>
