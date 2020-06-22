@@ -64,8 +64,8 @@ export default {
   #router-view {
     text-align: center;
     margin-top: 40px;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   #loading {

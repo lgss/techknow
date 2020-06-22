@@ -232,3 +232,12 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+
+  #router-view {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+</style>
