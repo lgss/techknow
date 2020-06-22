@@ -5,14 +5,21 @@
                 Terms and Conditions
             </router-link>
         </v-card-text>
+        <v-divider/>
     </v-footer>
 </template>
-
-<style scoped>
-</style>
 
 <script>
 export default {
     
 }
 </script>
+
+<style scoped>
+    .theme--light.v-footer {
+        background-color:#54595F;
+    }
+    .v-application a {
+        color: #bcbcbc;
+    }
+</style>
