@@ -5,6 +5,7 @@ import Home from '@/pages/Home'
 import Assess from '@/pages/Assess'
 import Result from '@/pages/Result'
 import Select from '@/pages/Select'
+import Terms from '@/pages/Terms'
 
 Vue.use(Router)
 
@@ -32,6 +33,11 @@ export default new Router({
       name: 'Result',
       component: Result,
       props: true
+    },
+    {
+      path: '/terms',
+      name: 'terms',
+      component: Terms
     }
   ]
 })
