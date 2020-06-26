@@ -1,7 +1,7 @@
 <template>
         <v-row class="banner">    
             <v-col class="d-flex align-center justify-center">
-                <h1 :class="text-h1" class="white--text">
+                <h1 class="text-h1 white--text">
                     {{header}}
                 </h1>
             </v-col>
