@@ -9,8 +9,11 @@ class PlayerTests(SetupTest):
     def test_one(self):
         self.browser.get(self.env["root"])
 
-        heading = self.browser.find_element_by_tag_name('h1')
-        self.assertEqual(heading.text, 'Rekommend Management', 'Title check')
+        heading = self.browser.find_element_by_id("title")
+        self.assertEqual(heading.text, 'Welcome to techKNOW', 'Title Check')
+
+        assessmentbtn = self.browser.find_elements_by_id("btn-home-start-assessment")
+        self.assertEqual(len(assessmentbtn), 1)
 
     def test_two(self):
         self.browser.get(self.env["root"])
