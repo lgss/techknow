@@ -1,10 +1,10 @@
-from test_bootstrap import JerichoTest
+from test_bootstrap import SetupTest
 import unittest
 import time
 import random
 import json
 
-class PlayerTests(JerichoTest):
+class PlayerTests(SetupTest):
 
     def test_one(self):
         self.browser.get(self.env["root"])
