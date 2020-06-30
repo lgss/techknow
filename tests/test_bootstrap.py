@@ -14,7 +14,7 @@ def loadenv(json_str):
 def loadenvfile(path):
     return loadenv(open(path).read())
 
-class JerichoTest(unittest.TestCase):
+class SetupTest(unittest.TestCase):
     def __init__(self, methodName="runTest"):
         super().__init__(methodName)
         if environment == "local":
@@ -40,9 +40,6 @@ class JerichoTest(unittest.TestCase):
             chrome_options.add_argument('--headless')
             chrome_options.add_argument('--single-process')
 
-        if environment == "local":
-            self.browser = webdriver.Chrome(os.path.join(".", "tests", "chromedriver" + (".exe" if platform.system() == "Windows" else "")), options=chrome_options)
-        else:
-            self.browser = webdriver.Chrome(os.path.join(".", "chromedriver" + (".exe" if platform.system() == "Windows" else "")), options=chrome_options)
+        self.browser = webdriver.Chrome(os.path.join(self.env["chrome_driver_path"], "chromedriver" + (".exe" if platform.system() == "Windows" else "")), options=chrome_options)
             
         self.addCleanup(self.browser.quit)

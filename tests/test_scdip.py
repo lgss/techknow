@@ -1,7 +1,7 @@
 import unittest
 import time
 import random
-from test_bootstrap import JerichoTest
+from test_bootstrap import SetupTest
 import json
 import inspect
 
@@ -10,12 +10,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-
-class ScdipTests(JerichoTest):
-
+class ScdipTests(SetupTest):
     ## Definitions
     CURRENT_PAGE_SELECTOR = '.assessment-page.current form .assessment-item'
-
+    
     ## Utility functions
     def func_name(self):
         return inspect.stack()[1].function
