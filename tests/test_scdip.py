@@ -38,26 +38,28 @@ class ScdipTests(SetupTest):
         except:
             raise Exception('Failed')
     
-    def page_parents(self):
+    def page_select(self):
         parent_page = WebDriverWait(self.browser,10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, self.CURRENT_PAGE_SELECTOR))
+            EC.presence_of_element_located((By.CSS_SELECTOR, '#parent-selection'))
         )
-        journey_parents = parent_page.find_elements_by_css_selector('.v-input--checkbox')
-        self.assertGreater(len(journey_parents),0)
-        for parent in journey_parents:
-            parent.click()
-        next = self.browser.find_element_by_css_selector('.assessment-page.current').find_element_by_name('btn-next')
-        next.click()
+        time.sleep(5)
+        if parent_page.get_attribute("style") == "":
+            journey_parents = parent_page.find_elements(By.CSS_SELECTOR, '.choice')
+            self.assertGreater(len(journey_parents),0)
+            for parent in journey_parents:
+                parent.click()
+            next = self.browser.find_element(By.CSS_SELECTOR, '[name="btn-continue"]')
+            next.click()
 
-    def page_journeys(self):
         journey_page = WebDriverWait(self.browser,10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, self.CURRENT_PAGE_SELECTOR))
+            EC.presence_of_element_located((By.ID, 'journey-selection'))
         )
-        journeys = journey_page.find_elements_by_css_selector('.v-input--checkbox')
+        time.sleep(5)
+        journeys = journey_page.find_elements(By.CSS_SELECTOR, '.choice')
         self.assertGreater(len(journeys),0)
         for journey in journeys:
             journey.click()
-        next = self.browser.find_element_by_css_selector('.assessment-page.current').find_element_by_name('btn-next')
+        next = self.browser.find_element(By.CSS_SELECTOR, '[name="btn-begin"]')
         next.click()
 
     def get_single_choice_input(self, assessment_item=0):
@@ -141,6 +143,7 @@ class ScdipTests(SetupTest):
 
     def run_script(self, name):
         self.page_home()
+        self.page_select()
         #self.start_assessment()
         script = self.open_json(name)
         for step in script['steps']:
@@ -194,14 +197,9 @@ class ScdipTests(SetupTest):
     def test_home(self):
         self.page_home()
 
-    def test_parents_render(self):
-        self.test_home()
-        self.page_parents()
-
-    def test_journeys_render(self):
+    def test_select(self):
         self.page_home()
-        self.page_parents()
-        self.page_journeys()
+        self.page_select()
 
     def test_resources_render(self):
         self.run_script('tests/scripts/simple_positive_results.json')
