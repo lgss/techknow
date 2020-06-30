@@ -3,7 +3,7 @@
     
     <v-skeleton-loader v-show="loading" type="card"/>
 
-    <v-container v-show="!loading && !showJourneys">
+    <v-container v-show="!loading && !showJourneys" id="parent-selection">
       <item
         v-show="!loading && !showJourneys"
         title="Where do you need support?"
@@ -13,13 +13,12 @@
       />
       <v-row center>
         <v-col>
-          <v-btn color="success" @click="categoriesSelected=true">Continue <v-icon>mdi-arrow-right-bold-circle</v-icon></v-btn>
+          <v-btn name="btn-continue" color="success" @click="categoriesSelected=true">Continue <v-icon>mdi-arrow-right-bold-circle</v-icon></v-btn>
         </v-col>
       </v-row>
-
     </v-container>
     
-    <v-container v-show="!loading && showJourneys">
+    <v-container v-show="!loading && showJourneys" id="journey-selection">
       <item
           v-show="!loading && showJourneys"
           title="Where do you need support?"
@@ -29,16 +28,15 @@
       />
       <v-row center>
         <v-col>
-          <v-btn @click="categoriesSelected=false">
+          <v-btn name='btn-back' @click="categoriesSelected=false">
             <v-icon left >mdi-arrow-left-bold-circle</v-icon>Back 
           </v-btn>
-          <v-btn color="success" @click="beginAssessment">Begin
+          <v-btn name="btn-begin" color="success" @click="beginAssessment">Begin
             <v-icon right>mdi-arrow-right-bold-circle</v-icon>
           </v-btn>
         </v-col>
       </v-row>
     </v-container>
-
   </div>
 </template>
 
