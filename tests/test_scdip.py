@@ -144,7 +144,6 @@ class ScdipTests(SetupTest):
     def run_script(self, name):
         self.page_home()
         self.page_select()
-        #self.start_assessment()
         script = self.open_json(name)
         for step in script['steps']:
             numstep = step['step']
@@ -173,10 +172,6 @@ class ScdipTests(SetupTest):
             time.sleep(0.5)
         if "data" in script:
             return script["data"]
-
-
-    def start_assessment(self):
-        self.browser.find_element_by_id("btn-home-start-assessment").click()
 
     def click_next(self):
         WebDriverWait(self.browser,10).until(
