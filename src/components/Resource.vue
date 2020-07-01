@@ -11,7 +11,11 @@
             </div>
         </div>
         <v-card-actions>
-            <v-btn class="success" text>
+            <v-btn 
+              class="success"
+              :href="$attrs.doc.moreInfoUrl"
+              :disabled="$attrs.doc.moreInfoUrl === undefined"
+              target="_blank">
                 Continue to website<v-icon>mdi-open-in-new</v-icon>
             </v-btn>  
         </v-card-actions>
