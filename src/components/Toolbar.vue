@@ -1,5 +1,5 @@
 <template>
-    <v-app-bar app :color="primary" >
+    <v-app-bar app class="primary darken-1">
         <v-container fluid>
             <v-col class="d-flex justify-center">
                 <a href="/" style="text-decoration:none">
@@ -14,13 +14,6 @@
 
 <script>
 export default {
-    props: ["title", "primary"]
+    props: ["title"]
 };
 </script>
-
-<style scoped>
-    .banner {
-        background-color:#1D5F7A;
-        margin-top:56px;
-    }
-</style>

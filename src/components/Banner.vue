@@ -1,5 +1,5 @@
 <template>
-        <v-row class="banner">    
+        <v-row class="banner primary">    
             <v-col class="d-flex align-center justify-center">
                 <h1 class="text-h1 white--text">
                     {{header}}
@@ -16,7 +16,6 @@ export default {
 
 <style scoped>
     .banner {
-        background-color:#1D5F7A;
         margin-top:56px;
         min-height: 150px;
     }

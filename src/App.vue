@@ -3,12 +3,11 @@
     <v-progress-circular indeterminate size="100" width="10" color="#dddddd"/>
   </div>
   <v-app v-else>
-    <toolbar :title="title" :primary="primary" />
-    <v-content>
-      <banner  :header="pageHeader" />
+    <toolbar :title="title"/>
+    <v-content class="secondary">
+      <banner :header="pageHeader" />
       <router-view id="router-view"/>
     </v-content>
-
     <Footer/>
   </v-app>
 </template>
@@ -28,8 +27,7 @@ export default {
         document.title = x.title
         this.title = x.title
         landing.set(x.landing)
-        this.primary = x.primary
-        this.$vuetify.theme.primary = x.primary
+        this.$vuetify.theme.themes.light.primary.darken1 = x.primary
         this.loading = false
       })
   },
@@ -43,7 +41,6 @@ export default {
   data: () => ({
     loading: true,
     title: "loading...",
-    primary: 'white',
     endpoint: process.env.VUE_APP_API_ENDPOINT,
     pageHeader: "Hello and Welcome"
   }),
@@ -58,7 +55,6 @@ export default {
 <style scoped>
   main {
     padding-top:0px !important;
-    background-color: #f7f7f7;
   }
 
   #router-view {

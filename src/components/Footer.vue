@@ -1,25 +1,10 @@
 <template>
-    <v-footer>
+    <v-footer class="secondary darken-1">
         <v-card-text class="text-center">
-            <router-link to='/Terms'>
+            <router-link class="text" to='/Terms'>
                 Terms and Conditions
             </router-link>
         </v-card-text>
         <v-divider/>
     </v-footer>
 </template>
-
-<script>
-export default {
-    
-}
-</script>
-
-<style scoped>
-    .theme--light.v-footer {
-        background-color:#54595F;
-    }
-    .v-application a {
-        color: #bcbcbc;
-    }
-</style>
