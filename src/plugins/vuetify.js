@@ -1,18 +1,17 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify/lib';
+import light from './theme';
 
 Vue.use(Vuetify);
 
-import 'vuetify/dist/vuetify.min.css';
-import colors from 'vuetify/lib/util/colors';
 import Dialog from '@/components/dialog.js';
 
 Vue.use(Dialog, vuetify)
 
 let vuetify = new Vuetify({
     theme: {
-        base: colors.cyan.base
-    }
+        themes: { light }
+    },
 });
 
 export default vuetify
