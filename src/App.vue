@@ -9,7 +9,6 @@
         <router-view id="router-view"/>
       </v-container>
     </v-content>
-
     <Footer/>
   </v-app>
 </template>
@@ -28,8 +27,7 @@ export default {
         document.title = x.title
         this.title = x.title
         landing.set(x.landing)
-        this.primary = x.primary
-        this.$vuetify.theme.primary = x.primary
+        this.$vuetify.theme.themes.light.primary.darken1 = x.primary
         this.loading = false
       })
   },

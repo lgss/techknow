@@ -8,9 +8,3 @@
         <v-divider/>
     </v-footer>
 </template>
-
-<script>
-export default {
-    
-}
-</script>
