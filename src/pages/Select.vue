@@ -1,8 +1,8 @@
 <template>
     <div>
-        <v-skeleton-loader v-show="loading" type="card" />
+        <v-skeleton-loader v-if="loading" type="card" />
 
-        <v-container v-show="!loading && !showJourneys">
+        <v-container v-else-if="!loading && !showJourneys">
             <item
                 v-show="!loading && !showJourneys"
                 title="Where do you need support?"
@@ -20,7 +20,7 @@
             </v-row>
         </v-container>
 
-        <v-container v-show="!loading && showJourneys">
+        <v-container v-else-if="!loading && showJourneys">
             <item
                 v-show="!loading && showJourneys"
                 title="Where do you need support?"
