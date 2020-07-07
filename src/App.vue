@@ -3,10 +3,11 @@
     <v-progress-circular indeterminate size="100" width="10" color="#dddddd"/>
   </div>
   <v-app v-else>
-    <toolbar :title="title" :primary="primary" />
+    <toolbar :title="title" :header="pageTitle" />
     <v-content>
-      <banner  :header="pageHeader" />
-      <router-view id="router-view"/>
+      <v-container fluid>
+        <router-view id="router-view"/>
+      </v-container>
     </v-content>
 
     <Footer/>
@@ -15,7 +16,6 @@
 
 <script>
 import Toolbar from '@/components/Toolbar';
-import Banner from '@/components/Banner';
 import Footer from '@/components/Footer';
 import landing from '@/js/landing.js';
 
@@ -36,28 +36,22 @@ export default {
 
   components: {
     Toolbar, 
-    Banner,
     Footer
   },
 
   data: () => ({
     loading: true,
     title: "loading...",
-    primary: 'white',
-    endpoint: process.env.VUE_APP_API_ENDPOINT,
-    pageHeader: "Hello and Welcome"
+    endpoint: process.env.VUE_APP_API_ENDPOINT
   }),
-  watch: {
-    '$route'(to) {
-      this.pageHeader = to.meta? to.meta.title : null;
-    }
+  computed: {
+    pageTitle() {return this.$route.meta ? this.$route.meta.title : ''}
   }
 };
 </script>
 
 <style scoped>
   main {
-    padding-top:0px !important;
     background-color: #f7f7f7;
   }
 

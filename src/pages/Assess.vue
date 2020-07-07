@@ -1,13 +1,10 @@
 <template>
-  <div>
-    <v-card>
-      <v-stepper v-model="pageIdx" style="box-shadow: none">
-        <v-progress-linear tile="true" color="primary" :value='percentDone' :indeterminate="loading" />
-        <div v-if="loading">
-          <br/>
+  <div class="px-8">
+      <v-stepper v-model="pageIdx" class="elevation-0">
+        <v-progress-linear tile="true" :color="this.$vuetify.theme.primary" :value='percentDone' :indeterminate="loading" />
+        <v-sheet v-if="loading" class="pt-8">
           <h2>Loading...</h2>
-          <br/>
-        </div>
+        </v-sheet>
         <v-stepper-items>
           <v-stepper-content 
             v-for="(page, idx) in displayPages"
@@ -32,7 +29,6 @@
           </v-stepper-content>
         </v-stepper-items>
       </v-stepper>
-    </v-card>    
     <v-dialog v-model="showDialog" :fullscreen="dialog.fullscreen">
       <v-card>
         <v-container>
@@ -233,15 +229,10 @@ export default {
 </script>
 
 <style scoped>
-  .theme--light.v-sheet {
-    background-color: transparent;
-    box-shadow: none;
+  .theme--light.v-sheet, .v-stepper__content {
+    background: #f7f7f7;
   }
-  .theme--light.v-stepper {
-    background-color: transparent;
-  }
-  #router-view {
-    margin-left: 20px;
-    margin-right: 20px;
+  .v-stepper {
+    border-radius: 0;
   }
 </style>

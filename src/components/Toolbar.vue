@@ -1,26 +1,30 @@
 <template>
-    <v-app-bar app :color="primary" >
-        <v-container fluid>
-            <v-col class="d-flex justify-center">
-                <a href="/" style="text-decoration:none">
-                    <v-toolbar-title class="white--text">
-                        <b>{{ title }}</b>
-                    </v-toolbar-title>
-                </a>
-            </v-col>
-        </v-container>
+    <v-app-bar app shrink-on-scroll prominent :color="this.$vuetify.theme.primary">
+        <div class="d-flex flex-column align-center">
+            <a href="/" style="text-decoration:none">
+                <v-toolbar-title class="white--text">
+                    <b>{{ title }}</b>
+                </v-toolbar-title>
+            </a>
+            <h3 class="white--text subheader">
+                {{header}}
+            </h3>
+        </div>
     </v-app-bar>
 </template>
 
 <script>
 export default {
-    props: ["title", "primary"]
+    props: ["title", "header"]
 };
 </script>
 
 <style scoped>
-    .banner {
-        background-color:#1D5F7A;
-        margin-top:56px;
+    div {
+        width: 100%
+    }
+    
+    .v-app-bar--is-scrolled .subheader {
+        display: none;
     }
 </style>

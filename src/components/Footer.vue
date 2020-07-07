@@ -1,7 +1,7 @@
 <template>
-    <v-footer>
+    <v-footer :color="this.$vuetify.theme.primary">
         <v-card-text class="text-center">
-            <router-link to='/Terms'>
+            <router-link class="white--text" to='/Terms'>
                 Terms and Conditions
             </router-link>
         </v-card-text>
@@ -14,12 +14,3 @@ export default {
     
 }
 </script>
-
-<style scoped>
-    .theme--light.v-footer {
-        background-color:#54595F;
-    }
-    .v-application a {
-        color: #bcbcbc;
-    }
-</style>
