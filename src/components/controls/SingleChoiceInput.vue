@@ -7,13 +7,14 @@
         </div>
         <v-spacer></v-spacer>
         <v-avatar class="ma-3" size="125" tile>
-            <v-icon size="80" v-if="true">mdi-comment-question-outline</v-icon>
-            <v-img v-else src="" :alt="imgAlt"></v-img> 
+            <v-icon size="80" v-if="img === undefined">mdi-comment-question-outline</v-icon>
+            <v-img v-else :src="display(img.src)" :alt="img.alt"></v-img> 
         </v-avatar>
     </div>
     <v-item-group v-model="sel" @change="onChange" :rules="rules" :class="name">
       <v-row dense>
           <v-col v-for="choice in choices" :key="choice.value" :value="choice" cols="12">
+              <!-- <choice :value="choice" :index="choice" :label="choice.value" :imgSrc="imgFromChoice(choice)"/> -->
               <choice :value="choice" :index="choice" :label="choice.value" :imgSrc="imgFromChoice(choice)"/>
           </v-col>
       </v-row>
@@ -23,17 +24,18 @@
 
 <script>
   import Choice from '@/components/controls/Choice.vue'
-  
+  import image from '@/js/image.js'
   export default {
     name: 'SingleChoiceInput',
-    props: ['label', 'name', 'choices', 'isMandatory'],
+    props: ['label', 'name', 'img', 'choices', 'isMandatory'],
     components: {
       Choice,
     },
     data() {
         return {
             sel: {},
-            rules: this.isMandatory ? [choice => choice.value !== undefined || 'Please select a response'] : []
+            rules: this.isMandatory ? [choice => choice.value !== undefined || 'Please select a response'] : [],
+            endpoint: process.env.VUE_APP_API_ENDPOINT
         }
     },
     methods: {
@@ -43,6 +45,9 @@
       },
       imgFromChoice(c) {
         return c.img === undefined ? undefined : c.img.src;
+      },
+      display(filename) {
+          return image(this.endpoint,filename)
       }
     }
   }

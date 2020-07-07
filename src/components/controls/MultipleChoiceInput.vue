@@ -7,8 +7,8 @@
         </div>
         <v-spacer></v-spacer>
         <v-avatar class="ma-3" size="125" tile>
-            <v-icon size="80" v-if="true">mdi-comment-question-outline</v-icon>
-            <v-img v-else src="" :alt="imgAlt"></v-img> 
+            <v-icon size="80" v-if="img === undefined">mdi-comment-question-outline</v-icon>
+            <v-img v-else :src="display(img.src)" :alt="img.alt"></v-img> 
         </v-avatar>
     </div>
     <v-item-group multiple v-model="sel" @change="onChange" :rules="rules" :class="name">
@@ -24,16 +24,18 @@
 
 <script>
   import Choice from '@/components/controls/Choice.vue'
+  import image from '@/js/image.js'
   export default {
     name: 'MultipleChoiceInput',
-    props: ['label', 'name', 'choices', 'isMandatory'],
+    props: ['label', 'name', 'img', 'choices', 'isMandatory'],
     components: {
       Choice,
     },
     data() {
         return {
             sel: [],
-            rules: this.isMandatory ? [value => value.length > 0 || 'Please select at least one response'] : []
+            rules: this.isMandatory ? [value => value.length > 0 || 'Please select at least one response'] : [],
+            endpoint: process.env.VUE_APP_API_ENDPOINT
         }
     },
     methods: {
@@ -43,6 +45,9 @@
       },
       imgFromChoice(c) {
         return c.img === undefined ? undefined : c.img.src;
+      },
+      display(filename) {
+          return image(this.endpoint,filename)
       }
     }
   }
