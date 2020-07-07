@@ -1,9 +1,9 @@
 <template>
     <v-item v-slot:default="{ active, toggle }" :value="value">
         <v-card :color="active ? 'primary' : 'white lighten-3'" @click="toggle(); value.selected = !active">
-            <div class="d-flex flex-no-wrap align-center">
+            <div class="d-flex flex-wrap align-center">
                 <v-avatar class="ma-3" size="125" tile>
-                    <v-icon x-large v-if="imgSrc === undefined">mdi-selection-ellipse</v-icon>
+                    <v-icon size="80" v-if="imgSrc === undefined">mdi-selection-ellipse</v-icon>
                     <v-img v-else :src="display(imgSrc)" :alt="imgAlt"></v-img> 
                 </v-avatar>
                 <div>
