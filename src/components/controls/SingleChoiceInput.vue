@@ -1,8 +1,15 @@
 <template>
-  <v-container fluid>
-    <div class="text-left">
-      <h2>{{label}}</h2>
-      <h3>Please select one choice</h3>
+  <v-container max-width="1200" class="mx-auto">
+    <div class="d-flex flex-wrap align-center">
+        <div class="text-left">
+          <h2>{{label}}</h2>
+          <h3>Please select one choice</h3>
+        </div>
+        <v-spacer></v-spacer>
+        <v-avatar class="ma-3" size="125" tile>
+            <v-icon size="80" v-if="true">mdi-comment-question-outline</v-icon>
+            <v-img v-else src="" :alt="imgAlt"></v-img> 
+        </v-avatar>
     </div>
     <v-item-group v-model="sel" @change="onChange" :rules="rules" :class="name">
       <v-row dense>
