@@ -7,7 +7,7 @@
     <v-item-group v-model="sel" @change="onChange" :rules="rules" :class="name">
       <v-row dense>
           <v-col v-for="choice in choices" :key="choice.value" :value="choice" cols="12">
-              <choice :value="choice" :index="choice" :label="choice.value"/>
+              <choice :value="choice" :index="choice" :label="choice.value" :imgSrc="imgFromChoice(choice)"/>
           </v-col>
       </v-row>
     </v-item-group>
@@ -33,6 +33,9 @@
       onChange: function() {
         console.log(this.sel)
         this.$emit('responded', [this.sel])
+      },
+      imgFromChoice(c) {
+        return c.img === undefined ? undefined : c.img.src;
       }
     }
   }
