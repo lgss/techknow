@@ -1,10 +1,10 @@
 import unittest
 import time
 import random
-from test_bootstrap import JerichoTest
+from test_bootstrap import SetupTest
 import json
 
-class ScdipTests(JerichoTest):
+class ScdipTests(SetupTest):
     CURRENT_PAGE_SELECTOR = '.assessment-page.current form .assessment-item'
 
     def test_home(self):

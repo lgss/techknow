@@ -1,3 +1,4 @@
 {
-  "root": "localhost:8080"
+  "root": "http://localhost:8080/",
+  "chrome_driver_path": "./tests"
 }
