@@ -4,11 +4,11 @@
   </div>
   <v-app v-else>
     <toolbar :title="title" :header="pageTitle" />
-    <v-content>
+    <v-main>
       <v-container fluid>
         <router-view id="router-view"/>
       </v-container>
-    </v-content>
+    </v-main>
     <Footer/>
   </v-app>
 </template>
