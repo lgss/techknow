@@ -14,7 +14,7 @@
             <v-row center>
                 <v-col>
                     <v-btn color="success" @click="selectCategories"
-                        >Continue
+                        >Next
                         <v-icon>mdi-arrow-right-bold-circle</v-icon></v-btn
                     >
                 </v-col>
@@ -36,7 +36,7 @@
                         <v-icon left>mdi-arrow-left-bold-circle</v-icon>Back
                     </v-btn>
                     <v-btn color="success" @click="beginAssessment"
-                        >Begin
+                        >Next
                         <v-icon right>mdi-arrow-right-bold-circle</v-icon>
                     </v-btn>
                 </v-col>
