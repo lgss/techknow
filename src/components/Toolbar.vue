@@ -1,5 +1,5 @@
 <template>
-    <v-app-bar app shrink-on-scroll prominent :color="this.$vuetify.theme.primary">
+    <v-app-bar color="primary" app shrink-on-scroll prominent>
         <div class="d-flex flex-column align-center">
             <a href="/" style="text-decoration:none">
                 <v-toolbar-title class="white--text">

@@ -1,7 +1,7 @@
 <template>
   <div class="px-8">
       <v-stepper v-model="pageIdx" class="elevation-0">
-        <v-progress-linear tile="true" :color="this.$vuetify.theme.primary" :value='percentDone' :indeterminate="loading" />
+        <v-progress-linear tile="true" color="primary" :value='percentDone' :indeterminate="loading" />
         <v-sheet v-if="loading" class="pt-8">
           <h2>Loading...</h2>
         </v-sheet>

@@ -1,5 +1,5 @@
 <template>
-    <v-footer :color="this.$vuetify.theme.primary">
+    <v-footer color="primary">
         <v-card-text class="text-center">
             <router-link class="white--text" to='/Terms'>
                 Terms and Conditions

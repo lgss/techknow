@@ -27,7 +27,7 @@ export default {
         document.title = x.title
         this.title = x.title
         landing.set(x.landing)
-        this.$vuetify.theme.primary = x.primary
+        this.$vuetify.theme.themes.light.primary = x.primary
         this.loading = false
       })
   },
