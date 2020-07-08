@@ -1,10 +1,15 @@
 <template>
     <v-sheet max-width="1200" class="mx-auto">   
-        <div class="text-left">
-            <h1>{{title}}</h1>
-            <h2>{{subtitle}}</h2>
+        <div class="d-flex flex-wrap align-center">
+            <div class="text-left">
+                <h2>{{title}}</h2>
+                <h3>{{subtitle}}</h3>
+            </div>
+            <v-spacer></v-spacer>
+            <v-avatar class="ma-3" size="125" tile>
+                <v-icon size="80">mdi-comment-question-outline</v-icon>
+            </v-avatar>
         </div>
-        
         <v-item-group multiple model="sel">
             <v-row dense>
                 <v-col v-for="(item, i) in items" :key="i" cols="12">
