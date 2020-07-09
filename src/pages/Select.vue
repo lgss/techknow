@@ -1,47 +1,61 @@
 <template>
     <div>
-        <v-skeleton-loader v-show="loading" type="card" />
+        <v-sheet max-width="1200" class="mx-auto">
+            <v-container class="v-stepper__items">
+                <v-container class="v-stepper__content">
+                    <v-skeleton-loader v-show="loading" type="card" />
 
-        <v-form ref="categories" v-show="!loading && !showJourneys">
-            <item
-                v-show="!loading && !showJourneys"
-                title="Where do you need support?"
-                subtitle="Please select one or more"
-                :items="categories"
-                itemLabelKey="name"
-                type="category"
-            />
-            <v-row center>
-                <v-col>
-                    <v-btn color="success" @click="selectCategories"
-                        >Next
-                        <v-icon>mdi-arrow-right-bold-circle</v-icon></v-btn
-                    >
-                </v-col>
-            </v-row>
-        </v-form>
+                    <v-form ref="categories" v-show="!loading && !showJourneys">
+                        <v-row>
+                            <v-col>
+                                <item
+                                    v-show="!loading && !showJourneys"
+                                    title="Where do you need support?"
+                                    subtitle="Please select one or more"
+                                    :items="categories"
+                                    itemLabelKey="name"
+                                    type="category"
+                                />
+                            </v-col>
+                        </v-row>
+                        <v-row center>
+                            <v-col>
+                                <v-btn color="success" @click="selectCategories"
+                                    >Next
+                                    <v-icon>mdi-arrow-right-bold-circle</v-icon></v-btn
+                                >
+                            </v-col>
+                        </v-row>
+                    </v-form>
 
-        <v-form ref="journeys" v-show="!loading && showJourneys">
-            <item
-                v-show="!loading && showJourneys"
-                title="Where do you need support?"
-                subtitle="Please select one or more"
-                :items="possibleJourneys"
-                itemLabelKey="label"
-                type="journey"
-            />
-            <v-row center>
-                <v-col>
-                    <v-btn @click="selectCategories(false)">
-                        <v-icon left>mdi-arrow-left-bold-circle</v-icon>Back
-                    </v-btn>
-                    <v-btn color="success" @click="beginAssessment"
-                        >Next
-                        <v-icon right>mdi-arrow-right-bold-circle</v-icon>
-                    </v-btn>
-                </v-col>
-            </v-row>
-        </v-form>
+                    <v-form ref="journeys" v-show="!loading && showJourneys">
+                        <v-row>
+                            <v-col>
+                                <item
+                                    v-show="!loading && showJourneys"
+                                    title="Where do you need support?"
+                                    subtitle="Please select one or more"
+                                    :items="possibleJourneys"
+                                    itemLabelKey="label"
+                                    type="journey"
+                                />
+                            </v-col>
+                        </v-row>
+                        <v-row center>
+                            <v-col>
+                                <v-btn @click="selectCategories(false)">
+                                    <v-icon left>mdi-arrow-left-bold-circle</v-icon>Back
+                                </v-btn>
+                                <v-btn color="success" @click="beginAssessment"
+                                    >Next
+                                    <v-icon right>mdi-arrow-right-bold-circle</v-icon>
+                                </v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-form>
+                </v-container>
+            </v-container>
+        </v-sheet>
     </div>
 </template>
 
@@ -130,10 +144,6 @@ export default {
 
 <style scoped>
 .theme--light.v-sheet {
-    background-color: transparent;
-}
-#router-view {
-    margin-left: 20px;
-    margin-right: 20px;
+    background-color: transparent !important;
 }
 </style>

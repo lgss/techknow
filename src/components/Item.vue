@@ -1,6 +1,6 @@
 <template>
     <v-input v-model="sel" :rules="rules">
-        <v-sheet max-width="1200" class="mx-auto">
+        <v-container max-width="1200" class="mx-auto">
             <div class="d-flex flex-wrap align-center">
                 <div class="text-left">
                     <h2>{{ title }}</h2>
@@ -24,7 +24,7 @@
                     </v-col>
                 </v-row>
             </v-item-group>
-        </v-sheet>
+        </v-container>
     </v-input>
 </template>
 
