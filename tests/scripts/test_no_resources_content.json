@@ -2,13 +2,32 @@
     "version": "0.1",
     "steps": [
         {
-            "step": "next"
+            "step": "respond",
+            "type": "category-input",
+            "value_text": ["Sample-Journey-Parent"]
         },
         {
-            "step": "next"
+            "step": "confirm_categories"
+        },
+        {
+            "step": "respond",
+            "type": "journey-input",
+            "value_text": ["Show-Resources"]
+        },
+        {
+            "step": "confirm_journies"
+        },
+        {
+            "step": "respond",
+            "type": "single-choice-input",
+            "value_text": "No"
         },
         {
             "step": "finish"
         }
-    ]
+    ],
+    "data": {
+        "title": "Positive outcome (title)",
+        "content": "Positive outcome (content)"
+    }
 }
