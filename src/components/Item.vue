@@ -1,29 +1,59 @@
 <template>
-    <v-sheet max-width="1200" class="mx-auto">   
-        <div class="text-left">
-            <h1>{{title}}</h1>
-            <h2>{{subtitle}}</h2>
-        </div>
-        
-        <v-item-group multiple model="sel">
-            <v-row dense>
-                <v-col v-for="(item, i) in items" :key="i" cols="12">
-                    <choice :value="item" :index="i" :label="item[itemLabelKey]" :imgSrc="item[itemImgSrcKey]" :imgAlt="item[itemImgAltKey]"/>
-                </v-col>
-            </v-row>
-        </v-item-group>
-    </v-sheet>
+    <v-input v-model="sel" :rules="rules">
+        <v-sheet max-width="1200" class="mx-auto">
+            <div class="d-flex flex-wrap align-center">
+                <div class="text-left">
+                    <h2>{{ title }}</h2>
+                    <h3>{{ subtitle }}</h3>
+                </div>
+                <v-spacer></v-spacer>
+                <v-avatar class="ma-3" size="125" tile>
+                    <v-icon size="80">mdi-comment-question-outline</v-icon>
+                </v-avatar>
+            </div>
+            <v-item-group multiple v-model="sel">
+                <v-row dense>
+                    <v-col v-for="(item, i) in items" :key="i" cols="12">
+                        <choice
+                            :value="item"
+                            :index="i"
+                            :label="item[itemLabelKey]"
+                            :imgSrc="item[itemImgSrcKey]"
+                            :imgAlt="item[itemImgAltKey]"
+                        />
+                    </v-col>
+                </v-row>
+            </v-item-group>
+        </v-sheet>
+    </v-input>
 </template>
 
 <script>
-
-import Choice from "./controls/Choice"
+import Choice from "./controls/Choice";
 
 export default {
     name: "item",
     components: {
-        "choice": Choice,
+        choice: Choice,
     },
-    props: ["title","subtitle","items","itemLabelKey","itemImgSrcKey","itemImgAltKey"]
+    props: [
+        "title",
+        "subtitle",
+        "items",
+        "itemLabelKey",
+        "itemImgSrcKey",
+        "itemImgAltKey",
+        "type",
+    ],
+    data() {
+        return {
+            sel: [],
+            rules: [
+                (val) =>
+                    !!val.length ||
+                    `Please select at least one ${this.type || "option"}.`,
+            ],
+        };
+    },
 };
 </script>

@@ -1,27 +1,30 @@
 <template>
     <div>
         <v-skeleton-loader v-show="loading" type="card" />
-        <v-container v-if="!loading && !showJourneys" id="parent-selection">
+        <v-form v-if="!loading && !showJourneys" id="parent-selection">
             <item
                 v-show="!loading && !showJourneys"
                 title="Where do you need support?"
                 subtitle="Please select one or more"
                 :items="categories"
                 itemLabelKey="name"
+                type="category"
             />
             <v-row center>
                 <v-col>
-                    <v-btn
+                    <v-btn 
                         name="btn-continue"
                         color="success"
-                        @click="categoriesSelected = true"
-                        >Continue
-                        <v-icon>mdi-arrow-right-bold-circle</v-icon></v-btn
+                        @click="selectCategories"
                     >
+                        Next
+                        <v-icon>mdi-arrow-right-bold-circle</v-icon>
+                    </v-btn>
                 </v-col>
             </v-row>
-        </v-container>
-        <v-container
+        </v-form>
+        <v-form
+            ref="journeys"
             v-else-if="!loading && showJourneys"
             id="journey-selection"
         >
@@ -34,19 +37,24 @@
             />
             <v-row center>
                 <v-col>
-                    <v-btn name="btn-back" @click="categoriesSelected = false">
-                        <v-icon left>mdi-arrow-left-bold-circle</v-icon>Back
+                    <v-btn 
+                        name="btn-back"
+                        @click="selectCategories(false)"
+                    >
+                        <v-icon left>mdi-arrow-left-bold-circle</v-icon>
+                        Back
                     </v-btn>
                     <v-btn
                         name="btn-begin"
                         color="success"
                         @click="beginAssessment"
-                        >Begin
+                    >
+                        Begin
                         <v-icon right>mdi-arrow-right-bold-circle</v-icon>
                     </v-btn>
                 </v-col>
             </v-row>
-        </v-container>
+        </v-form>
     </div>
 </template>
 
@@ -102,10 +110,19 @@ export default {
     },
     methods: {
         beginAssessment() {
+            if (!this.$refs.journeys.validate()) {
+                return false;
+            }
             this.$router.push({
                 name: "Assessment",
                 params: { journeys: this.selectedJourneys },
             });
+        },
+        selectCategories(selected = true) {
+            if (selected && !this.$refs.categories.validate()) {
+                return false;
+            }
+            this.categoriesSelected = selected;
         },
     },
     data() {
