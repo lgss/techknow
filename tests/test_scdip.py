@@ -295,7 +295,7 @@ class ScdipTests(SetupTest):
         self.page_select()
 
     def test_resources_render(self):
-        self.run_script('tests/scripts/simple_positive_results.json')
+        self.run_script(f'tests/scripts/{self.func_name()}.json')
         resource_rows = self.browser.find_elements_by_css_selector("#container-results .row")
         self.assertIsNotNone(resource_rows,"No results were found")
 
