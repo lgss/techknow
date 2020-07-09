@@ -86,6 +86,14 @@ class ScdipTests(SetupTest):
     def item_stimulus(self, index=0):
         return self.browser.find_elements_by_css_selector(f"{self.CURRENT_PAGE_SELECTOR} .item-stimulus")[index].text
 
+    def validate_assertion_data(self, data, fields):
+        missing = []
+        for field in fields:
+            if not field in data:
+                missing.append(field)
+        if len(missing):
+            raise TypeError(f"Missing assertion data: {', '.join(missing)}")
+
     ## Fill responses
 
     def fill_single_choice_input(self, value=None, assessment_item=0):
@@ -298,8 +306,7 @@ class ScdipTests(SetupTest):
     #Test that a conditional question is rendered when expected
     def test_conditional_question(self, script=None):
         data = self.run_script(f'tests/scripts/{self.func_name()}.json')
-        if data is None or not 'page_title' in data or not 'item_label' in data:
-            raise ValueError("Insufficient assertion data has been provided")
+        self.validate_assertion_data(data, ["page_title","item_label"])
         title = self.browser.find_element_by_css_selector(f'.assessment-page.current form h2')
         self.assertEqual(title.text, data['page_title'])
         item = self.browser.find_element_by_css_selector(f'{self.CURRENT_PAGE_SELECTOR} label')
@@ -308,8 +315,7 @@ class ScdipTests(SetupTest):
     #Test that a conditional question is not rendered when expected
     def test_conditional_question_neg(self, script=None):
         data = self.run_script(f'tests/scripts/{self.func_name()}.json')
-        if data is None or not 'page_title' in data or not 'item_label' in data:
-            raise ValueError("Insufficient assertion data has been provided")
+        self.validate_assertion_data(data, ["page_title","item_label"])
         title = self.browser.find_element_by_css_selector(f'.assessment-page.current form h2')
         self.assertNotEqual(title.text, data['page_title'])
         item = self.browser.find_element_by_css_selector(f'{self.CURRENT_PAGE_SELECTOR} label')
@@ -318,8 +324,7 @@ class ScdipTests(SetupTest):
     #Test that a conditional question that was not rendered is rendered once the selected choice is changed
     def test_conditional_question_back(self):
         data = self.run_script(f'tests/scripts/{self.func_name()}.json')
-        if data is None or not 'page_title' in data or not 'item_label' in data:
-            raise ValueError("Insufficient assertion data has been provided")
+        self.validate_assertion_data(data, ["page_title","item_label"])
         title = self.browser.find_element_by_css_selector(f'.assessment-page.current form h2')
         self.assertEqual(title.text, data['page_title'])
         item = self.browser.find_element_by_css_selector(f'{self.CURRENT_PAGE_SELECTOR} label')
@@ -343,8 +348,7 @@ class ScdipTests(SetupTest):
     #Test the content when no resources were found         
     def test_no_resources_content(self):
         data = self.run_script(f'tests/scripts/{self.func_name()}.json')
-        if data is None or not 'title' in data or not 'content' in data:
-            raise ValueError("Insufficient assertion data has been provided")
+        self.validate_assertion_data(data, ["title","content"])
         null_result_container = WebDriverWait(self.browser,10).until(
             EC.presence_of_element_located((By.ID, 'no_results')),
             "Failed to result no_results container"
