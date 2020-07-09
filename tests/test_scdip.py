@@ -37,12 +37,13 @@ class ScdipTests(SetupTest):
             assessmentbtn[0].click()
         except:
             raise Exception('Failed')
-    
-    def page_select(self):
+
+    def page_select(self, data=None):
+
         parent_page = WebDriverWait(self.browser,10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, '#parent-selection'))
         )
-        time.sleep(5)
+
         if parent_page.get_attribute("style") == "":
             journey_parents = parent_page.find_elements(By.CSS_SELECTOR, '.choice')
             self.assertGreater(len(journey_parents),0)
@@ -54,7 +55,7 @@ class ScdipTests(SetupTest):
         journey_page = WebDriverWait(self.browser,10).until(
             EC.presence_of_element_located((By.ID, 'journey-selection'))
         )
-        time.sleep(5)
+
         journeys = journey_page.find_elements(By.CSS_SELECTOR, '.choice')
         self.assertGreater(len(journeys),0)
         for journey in journeys:
@@ -79,6 +80,8 @@ class ScdipTests(SetupTest):
 
     def item_stimulus(self, index=0):
         return self.browser.find_elements_by_css_selector(f"{self.CURRENT_PAGE_SELECTOR} .item-stimulus")[index].text
+
+    ## Fill responses
 
     def fill_single_choice_input(self, value=None, assessment_item=0):
         group = self.get_single_choice_input(assessment_item)
@@ -137,18 +140,75 @@ class ScdipTests(SetupTest):
             btn[0].click()
             time.sleep(1)
 
+    def fill_category_input(self, value=None):
+        parent_page = WebDriverWait(self.browser,10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, '#parent-selection')),
+            "Failed to locate category container"
+        )
+        choices = parent_page.find_elements_by_css_selector('.choice')
+        self.assertIsNotNone(choices, "Failed to locate categories")
+        
+        if value is None:
+            check = random.choice(choices)
+        elif isinstance(value, list):
+            for v in value:
+                v_found = False
+                for choice in choices:
+                    text = choice.find_element_by_css_selector('.headline').text
+                    if text == v:
+                        v_found = True
+                        choice.click()
+                        classes = choice.get_attribute('class')
+                        selected = "v-item--active" in choice.get_attribute('class')
+                        self.assertTrue(selected)
+                self.assertTrue(v_found, f"Failed to locate value {v} in available categories")
+        else:
+            raise TypeError(f"Expected value argument of type list or NoneType, not {type(value)}")
+        return
+    
+    def fill_journey_input(self, value=None):
+        parent_page = WebDriverWait(self.browser,10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, '#journey-selection')),
+            "Failed to locate journey container"
+        )
+        choices = parent_page.find_elements_by_css_selector('.choice')
+        self.assertIsNotNone(choices, "Failed to locate categories")
+        
+        if value is None:
+            check = random.choice(choices)
+        elif isinstance(value, list):
+            for v in value:
+                v_found = False
+                for choice in choices:
+                    text = choice.find_element_by_css_selector('.headline').text
+                    if text == v:
+                        v_found = True
+                        choice.click()
+                        selected = "v-item--active" in choice.get_attribute('class')
+                        self.assertTrue(selected)
+                self.assertTrue(v_found, f"Failed to locate value {v} in available journies")
+        else:
+            raise TypeError(f"Expected value argument of type list or NoneType, not {type(value)}")
+        return
+
+
+    ## Common
+
     def open_json(self, path):
         with open(path) as f:
             return json.load(f)
 
     def run_script(self, name):
         self.page_home()
-        self.page_select()
+        #self.page_select()
         script = self.open_json(name)
         for step in script['steps']:
             numstep = step['step']
-
-            if   numstep == "next":
+            if   numstep == "confirm_categories":
+                self.confirm_categories()
+            elif numstep == "confirm_journies":
+                self.confirm_journies()
+            elif numstep == "next":
                 self.click_next()
             elif numstep == "finish":
                 self.click_finish()
@@ -159,13 +219,17 @@ class ScdipTests(SetupTest):
                     typestep = step['type']
                 else:
                     raise ValueError('Needs a type')
+
+                value_text = step["value_text"] if "value_text" in step else None
+
                 if typestep == 'single-choice-input':
-                    if "value_text" in step:
-                        self.fill_single_choice_input(step["value_text"])
-                    else:
-                        self.fill_single_choice_input()
+                    self.fill_single_choice_input(value_text)
                 elif typestep == 'multiple-choice-input':
-                    self.fill_multi_choice_input(step["value_text"])
+                    self.fill_multi_choice_input(value_text)
+                elif typestep == 'category-input':
+                    self.fill_category_input(value_text)
+                elif typestep == 'journey-input':
+                    self.fill_journey_input(value_text)
             #elif numstep == 'assert':
             else:
                 raise ValueError(f'Unrecognised step type: {numstep}')
@@ -175,17 +239,32 @@ class ScdipTests(SetupTest):
 
     def click_next(self):
         WebDriverWait(self.browser,10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR,".v-stepper__content.assessment-page.current [name=btn-next]"))
+            EC.presence_of_element_located((By.CSS_SELECTOR, ".v-stepper__content.assessment-page.current [name=btn-next]")),
+            'Failed to locate next button'
+        ).click()
+
+    def confirm_categories(self):
+        WebDriverWait(self.browser,10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "[name=btn-continue]")),
+            'Failed to locate continue button'
+        ).click()
+
+    def confirm_journies(self):
+        WebDriverWait(self.browser,10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "[name=btn-begin]")),
+            'Failed to locate begin button'
         ).click()
 
     def click_finish(self):
         WebDriverWait(self.browser,10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR,".v-stepper__content.assessment-page.current [name=btn-finish]"))
+            EC.presence_of_element_located((By.CSS_SELECTOR, ".v-stepper__content.assessment-page.current [name=btn-finish]")),
+            'Failed to locate finish button'
         ).click()
     
     def click_back(self):
         WebDriverWait(self.browser,10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR,".v-stepper__content.assessment-page.current [name=btn-back]"))
+            EC.presence_of_element_located((By.CSS_SELECTOR, ".v-stepper__content.assessment-page.current [name=btn-back]")),
+            'Failed to locate back button'
         ).click()
         
     ## Tests   
