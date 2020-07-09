@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-sheet max-width="1200" class="mx-auto">
+        <v-sheet max-width="1200" class="mx-auto" elevation=4>
             <v-stepper v-model="pageIdx" style="box-shadow: none">
                 <v-progress-linear
                     tile="true"
@@ -286,15 +286,3 @@ export default {
     },
 };
 </script>
-
-<style scoped>
-    .theme--light.v-sheet {
-        background-color: transparent;
-    }
-    .theme--light.v-stepper {
-        background-color: transparent;
-    }
-    .v-stepper {
-        border-radius: 0;
-    }
-</style>

@@ -1,6 +1,7 @@
 <template>
     <div>
-        <v-sheet max-width="1200" class="mx-auto">
+        <v-sheet max-width="1200" class="mx-auto" elevation=4>
+            <v-progress-linear value="0"></v-progress-linear>
             <v-container class="v-stepper__items">
                 <v-container class="v-stepper__content">
                     <v-skeleton-loader v-show="loading" type="card" />
@@ -141,9 +142,3 @@ export default {
     },
 };
 </script>
-
-<style scoped>
-.theme--light.v-sheet {
-    background-color: transparent !important;
-}
-</style>
