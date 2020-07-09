@@ -1,7 +1,11 @@
 <template>
     <div>
         <v-skeleton-loader v-show="loading" type="card" />
-        <v-form v-if="!loading && !showJourneys" id="parent-selection">
+        <v-form
+            ref="categories"
+            v-if="!loading && !showJourneys"
+            id="parent-selection"
+        >
             <item
                 v-show="!loading && !showJourneys"
                 title="Where do you need support?"
