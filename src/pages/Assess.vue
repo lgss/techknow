@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-card>
+        <v-sheet max-width="1200" class="mx-auto">
             <v-stepper v-model="pageIdx" style="box-shadow: none">
                 <v-progress-linear
                     tile="true"
@@ -67,7 +67,7 @@
                     </v-stepper-content>
                 </v-stepper-items>
             </v-stepper>
-        </v-card>
+        </v-sheet>
         <v-dialog v-model="showDialog" :fullscreen="dialog.fullscreen">
             <v-card>
                 <v-container>
@@ -290,13 +290,9 @@ export default {
 <style scoped>
     .theme--light.v-sheet {
         background-color: transparent;
-        box-shadow: none;
     }
     .theme--light.v-stepper {
         background-color: transparent;
-    }
-    .theme--light.v-sheet, .v-stepper__content {
-        background: #f7f7f7;
     }
     .v-stepper {
         border-radius: 0;
