@@ -76,7 +76,8 @@ class ScdipTests(SetupTest):
     def get_multi_choice_input(self, assessment_item=0):
         if isinstance(assessment_item, int):
             return WebDriverWait(self.browser, 10).until(
-                EC.presence_of_all_elements_located((By.CSS_SELECTOR, self.CURRENT_PAGE_SELECTOR))
+                EC.presence_of_all_elements_located((By.CSS_SELECTOR, self.CURRENT_PAGE_SELECTOR)),
+                "Failed to locate a multiple choice input"
             )[assessment_item]
             #return self.browser.find_elements_by_css_selector(self.CURRENT_PAGE_SELECTOR)[assessment_item]
         else:
@@ -89,13 +90,14 @@ class ScdipTests(SetupTest):
 
     def fill_single_choice_input(self, value=None, assessment_item=0):
         group = self.get_single_choice_input(assessment_item)
-
         choices = group.find_elements_by_css_selector('.choice')
         self.assertIsNotNone(choices)
 
         if value is None:
             choice = random.choice(choices)
             choice.click()
+            selected = 'v-item--active' in choice.get_attributes('class')
+            self.assertTrue(selected)
         elif isinstance(value,str):    
             v_found = False
             for choice in choices:
@@ -110,19 +112,22 @@ class ScdipTests(SetupTest):
             raise TypeError(f"Expected value arugment of type str or NoneType, not {type(value)}")
     def fill_multi_choice_input(self, value=None, assessment_item=0):
         group = self.get_multi_choice_input(assessment_item)
-        checkboxes = group.find_elements_by_css_selector('.v-input--checkbox')
-        self.assertIsNotNone(checkboxes)
+        choices = group.find_elements_by_css_selector('.choice')
+        self.assertIsNotNone(choices)
 
         if value is None:
-            check = random.choice(checkboxes)
+            choice = random.choice(choices)
+            choice.check()
+            selected = 'v-item--active' in choice.get_attributes('class')
+            self.assertTrue(selected)
         elif isinstance(value, list):
             for v in value:
                 v_found = False
-                for check in checkboxes:
-                    if check.text == v:
+                for choice in choices:
+                    if choice.text == v:
                         v_found = True
-                        check.find_element_by_class_name('v-input--selection-controls__ripple').click()
-                        selected = 'v-input--is-label-active' in check.get_attribute('class')
+                        choice.click()
+                        selected = 'v-input--is-label-active' in choice.get_attribute('class')
                         self.assertTrue(selected)
                 self.assertTrue(v_found,f"Failed to find value {v} in available choices.")
         else:
