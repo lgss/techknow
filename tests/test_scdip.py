@@ -65,7 +65,11 @@ class ScdipTests(SetupTest):
 
     def get_single_choice_input(self, assessment_item=0):
         if isinstance(assessment_item, int):
-            return self.browser.find_elements_by_css_selector(f'{self.CURRENT_PAGE_SELECTOR} .v-input--radio-group')[assessment_item]
+            return WebDriverWait(self.browser, 10).until(
+                EC.presence_of_all_elements_located((By.CSS_SELECTOR, self.CURRENT_PAGE_SELECTOR)),
+                "Failed to locate a single choice input"
+            )[assessment_item]
+            #return self.browser.find_elements_by_css_selector(f'{self.CURRENT_PAGE_SELECTOR}')[assessment_item]
         else:
             return assessment_item
 
@@ -86,24 +90,24 @@ class ScdipTests(SetupTest):
     def fill_single_choice_input(self, value=None, assessment_item=0):
         group = self.get_single_choice_input(assessment_item)
 
-        radios = group.find_elements_by_css_selector('.v-radio')
-        self.assertIsNotNone(radios)
+        choices = group.find_elements_by_css_selector('.choice')
+        self.assertIsNotNone(choices)
 
         if value is None:
-            radio = random.choice(radios)
-            radio.click()
-        else:    
-            radio_found = False
-            for radio in radios:
-                if radio.text == value:
-                    radio_found = True
-                    radio.click()
+            choice = random.choice(choices)
+            choice.click()
+        elif isinstance(value,str):    
+            v_found = False
+            for choice in choices:
+                if choice.text == value:
+                    v_found = True
+                    choice.click()
+                    selected = 'v-item--active' in choice.get_attribute('class')
+                    self.assertTrue(selected)
                     break
-            self.assertTrue(radio_found, f"Failed to find value {value} in available choices.")
-                
-        selected = "v-item--active" in radio.get_attribute('class')
-        self.assertTrue(selected)
-    
+            self.assertTrue(v_found, f"Failed to find value {value} in available choices.")
+        else:
+            raise TypeError(f"Expected value arugment of type str or NoneType, not {type(value)}")
     def fill_multi_choice_input(self, value=None, assessment_item=0):
         group = self.get_multi_choice_input(assessment_item)
         checkboxes = group.find_elements_by_css_selector('.v-input--checkbox')
@@ -149,7 +153,9 @@ class ScdipTests(SetupTest):
         self.assertIsNotNone(choices, "Failed to locate categories")
         
         if value is None:
-            check = random.choice(choices)
+            choice = random.choice(choices)
+            choice.click()
+
         elif isinstance(value, list):
             for v in value:
                 v_found = False
@@ -158,7 +164,6 @@ class ScdipTests(SetupTest):
                     if text == v:
                         v_found = True
                         choice.click()
-                        classes = choice.get_attribute('class')
                         selected = "v-item--active" in choice.get_attribute('class')
                         self.assertTrue(selected)
                 self.assertTrue(v_found, f"Failed to locate value {v} in available categories")
@@ -175,7 +180,8 @@ class ScdipTests(SetupTest):
         self.assertIsNotNone(choices, "Failed to locate categories")
         
         if value is None:
-            check = random.choice(choices)
+            choice = random.choice(choices)
+            choice.click()
         elif isinstance(value, list):
             for v in value:
                 v_found = False
@@ -331,14 +337,17 @@ class ScdipTests(SetupTest):
 
     #Test the content when no resources were found         
     def test_no_resources_content(self):
-        self.run_script(f'tests/scripts/{self.func_name()}.json')
+        data = self.run_script(f'tests/scripts/{self.func_name()}.json')
+        if data is None or not 'title' in data or not 'content' in data:
+            raise ValueError("Insufficient assertion data has been provided")
         null_result_container = WebDriverWait(self.browser,10).until(
-            EC.presence_of_element_located((By.NAME, 'no_results'))
+            EC.presence_of_element_located((By.ID, 'no_results')),
+            "Failed to result no_results container"
         )
         title = null_result_container.find_element_by_css_selector('h1')
-        self.assertEqual(title.text,self.env['null_result']['title'])
+        self.assertEqual(title.text,data['title'])
         content = null_result_container.find_element_by_css_selector('.col')
-        self.assertEqual(content.text, self.env['null_result']['content'])
+        self.assertEqual(content.text, data['content'])
 
     #Test that a mandatory item may not be skipped
     def test_try_skip_mandatory_item(self):
