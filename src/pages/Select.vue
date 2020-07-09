@@ -1,113 +1,129 @@
 <template>
-  <div>
-    
-    <v-skeleton-loader v-show="loading" type="card"/>
+    <div>
+        <v-skeleton-loader v-if="loading" type="card" />
 
-    <v-container v-show="!loading && !showJourneys">
-      <item
-        v-show="!loading && !showJourneys"
-        title="Where do you need support?"
-        subtitle="Please select one or more"
-        :items="categories"
-        itemLabelKey="name"
-      />
-      <v-row center>
-        <v-col>
-          <v-btn color="success" @click="categoriesSelected=true">Continue <v-icon>mdi-arrow-right-bold-circle</v-icon></v-btn>
-        </v-col>
-      </v-row>
+        <v-container v-else-if="!loading && !showJourneys">
+            <item
+                v-show="!loading && !showJourneys"
+                title="Where do you need support?"
+                subtitle="Please select one or more"
+                :items="categories"
+                itemLabelKey="name"
+            />
+            <v-row center>
+                <v-col>
+                    <v-btn color="success" @click="categoriesSelected = true"
+                        >Continue
+                        <v-icon>mdi-arrow-right-bold-circle</v-icon></v-btn
+                    >
+                </v-col>
+            </v-row>
+        </v-container>
 
-    </v-container>
-    
-    <v-container v-show="!loading && showJourneys">
-      <item
-          v-show="!loading && showJourneys"
-          title="Where do you need support?"
-          subtitle="Please select one or more"
-          :items="possibleJourneys"
-          itemLabelKey="label"
-      />
-      <v-row center>
-        <v-col>
-          <v-btn @click="categoriesSelected=false">
-            <v-icon left >mdi-arrow-left-bold-circle</v-icon>Back 
-          </v-btn>
-          <v-btn color="success" @click="beginAssessment">Begin
-            <v-icon right>mdi-arrow-right-bold-circle</v-icon>
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-container>
-
-  </div>
+        <v-container v-else-if="!loading && showJourneys">
+            <item
+                v-show="!loading && showJourneys"
+                title="Where do you need support?"
+                subtitle="Please select one or more"
+                :items="possibleJourneys"
+                itemLabelKey="label"
+            />
+            <v-row center>
+                <v-col>
+                    <v-btn @click="categoriesSelected = false">
+                        <v-icon left>mdi-arrow-left-bold-circle</v-icon>Back
+                    </v-btn>
+                    <v-btn color="success" @click="beginAssessment"
+                        >Begin
+                        <v-icon right>mdi-arrow-right-bold-circle</v-icon>
+                    </v-btn>
+                </v-col>
+            </v-row>
+        </v-container>
+    </div>
 </template>
 
 <script>
-import landing from '@/js/landing.js'
-import Item from '@/components/Item.vue'
+import landing from "@/js/landing.js";
+import Item from "@/components/Item.vue";
 
 export default {
-  components: {
-    Item
-  },
-  name: "Selection",
-  created() {
-    fetch(this.endpoint + '/journeys')
-      .then(x => x.json())
-      .then(x => {
-        this.journeys = x
-        let uniqueParents = Array.from(new Set(x.map(journey => {return journey.parent})))
-        this.categories = uniqueParents.map( parent => {return{"name":parent,"selected":false}})
-        this.loading = false
-      })
-  },
-  computed: {
-    showJourneys() {
-      return this.categoriesSelected || this.categories.length <= 1
+    components: {
+        Item,
     },
-    selectedCats() {
-      return this.categories.filter(x => x.selected).map(x => x.name)
+    name: "Selection",
+    created() {
+        fetch(this.endpoint + "/journeys")
+            .then((x) => x.json())
+            .then((x) => {
+                this.journeys = x.map((j) => ({ ...j, selected: false }));
+                let uniqueParents = Array.from(
+                    new Set(
+                        x.map((journey) => {
+                            return journey.parent;
+                        })
+                    )
+                );
+                this.categories = uniqueParents.map((parent) => {
+                    return { name: parent, selected: false };
+                });
+                this.loading = false;
+            });
     },
-    possibleJourneys() {
-      if (this.categories.length <= 1 || this.selectedCats.length === 0)
-        return this.journeys
+    computed: {
+        showJourneys() {
+            return this.categoriesSelected || this.categories.length <= 1;
+        },
+        selectedCats() {
+            return this.categories.filter((x) => x.selected).map((x) => x.name);
+        },
+        possibleJourneys() {
+            if (this.categories.length <= 1 || this.selectedCats.length === 0)
+                return this.journeys;
 
-      return this.journeys.filter(x => this.selectedCats.indexOf(x.parent) >= 0)
-    },
-    selectedJourneys() {
-      if (this.possibleJourneys.length <= 1)
-        return this.possibleJourneys
+            return this.journeys.filter((x) =>
+                this.selectedCats.includes(x.parent)
+            );
+        },
+        selectedJourneys() {
+            //   if (this.possibleJourneys.length <= 1)
+            //     return this.possibleJourneys
 
-      return this.possibleJourneys.filter(x => x.selected).map(x => x.id)
-    }
-  },
-  methods: {
-    beginAssessment() {
-      this.$router.push({"name": "Assessment", params: {journeys: this.selectedJourneys}})
-    }
-  },
-  data() {
-    return {
-      selc: [],
-      selj: [],
-      primaryColour: landing.get(),
-      loading: true,
-      categoriesSelected: false,
-      endpoint: process.env.VUE_APP_API_ENDPOINT,
-      categories: [],
-      categories2: [],
-      journeys: []
-    }
-  }
-}
+            return this.possibleJourneys
+                .filter((x) => x.selected)
+                .map((x) => x.id);
+        },
+    },
+    methods: {
+        beginAssessment() {
+            this.$router.push({
+                name: "Assessment",
+                params: { journeys: this.selectedJourneys },
+            });
+        },
+    },
+    data() {
+        return {
+            selc: [],
+            selj: [],
+            primaryColour: landing.get(),
+            loading: true,
+            categoriesSelected: false,
+            endpoint: process.env.VUE_APP_API_ENDPOINT,
+            categories: [],
+            categories2: [],
+            journeys: [],
+        };
+    },
+};
 </script>
 
 <style scoped>
-  .theme--light.v-sheet {
+.theme--light.v-sheet {
     background-color: transparent;
-  }
-  #router-view {
+}
+#router-view {
     margin-left: 20px;
     margin-right: 20px;
-  }
+}
 </style>
