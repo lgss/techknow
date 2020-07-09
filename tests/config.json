@@ -6,7 +6,7 @@
   "halt_dialog": "Emergency",
   "title": "techKnow (Dev)",
   "null_result" :{
-    "title": "We couldn't find anything but...",
-    "content": "Place some text about how we can help"
+    "title": "Positive outcome (title)",
+    "content": "Positive outcome (content)"
   }
 }
