@@ -39,33 +39,33 @@
                                     />
                                 </v-col>
                             </v-row>
-                            <v-row>
-                                <v-col>
-                                    <v-btn
-                                        :disabled="pageIdx <= 1"
-                                        name="btn-back"
-                                        @click.native="prior"
-                                        >Back</v-btn
-                                    >
-                                    <v-btn
-                                        v-if="finished"
-                                        color="success"
-                                        name="btn-finish"
-                                        @click="finish"
-                                        >Finish</v-btn
-                                    >
-                                    <v-btn
-                                        v-else
-                                        color="success"
-                                        name="btn-next"
-                                        @click.native="next"
-                                        >Next</v-btn
-                                    >
-                                </v-col>
-                            </v-row>
                         </v-form>
                     </v-stepper-content>
                 </v-stepper-items>
+                <v-row>
+                    <v-col>
+                        <v-btn
+                            :disabled="pageIdx <= 1"
+                            name="btn-back"
+                            @click.native="prior"
+                            >Back</v-btn
+                        >
+                        <v-btn
+                            v-if="finished"
+                            color="success"
+                            name="btn-finish"
+                            @click="finish"
+                            >Finish</v-btn
+                        >
+                        <v-btn
+                            v-else
+                            color="success"
+                            name="btn-next"
+                            @click.native="next"
+                            >Next</v-btn
+                        >
+                    </v-col>
+                </v-row>
             </v-stepper>
         </v-sheet>
         <v-dialog v-model="showDialog" :fullscreen="dialog.fullscreen">
