@@ -1,6 +1,6 @@
 {
-  "root": "localhost:8080",
-  "chrome_driver_path": "./tests",
+  "root": "localhost:8081",
+  "chrome_driver_path": "C://temp",
   "conditional_question": "Do you feel unsafe right now?",
   "validation_message": "Select items that you need help with",
   "halt_dialog": "Emergency",

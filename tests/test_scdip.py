@@ -38,30 +38,11 @@ class ScdipTests(SetupTest):
         except:
             raise Exception('Failed')
 
-    def page_select(self, data=None):
-
-        parent_page = WebDriverWait(self.browser,10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, '#parent-selection'))
-        )
-
-        if parent_page.get_attribute("style") == "":
-            journey_parents = parent_page.find_elements(By.CSS_SELECTOR, '.choice')
-            self.assertGreater(len(journey_parents),0)
-            for parent in journey_parents:
-                parent.click()
-            next = self.browser.find_element(By.CSS_SELECTOR, '[name="btn-continue"]')
-            next.click()
-
-        journey_page = WebDriverWait(self.browser,10).until(
-            EC.presence_of_element_located((By.ID, 'journey-selection'))
-        )
-
-        journeys = journey_page.find_elements(By.CSS_SELECTOR, '.choice')
-        self.assertGreater(len(journeys),0)
-        for journey in journeys:
-            journey.click()
-        next = self.browser.find_element(By.CSS_SELECTOR, '[name="btn-begin"]')
-        next.click()
+    def page_select(self):
+        self.fill_category_input()
+        self.confirm_categories()
+        self.fill_journey_input()
+        self.confirm_journies()
 
     def get_single_choice_input(self, assessment_item=0):
         if isinstance(assessment_item, int):
@@ -83,8 +64,8 @@ class ScdipTests(SetupTest):
         else:
             return assessment_item
 
-    def item_stimulus(self, index=0):
-        return self.browser.find_elements_by_css_selector(f"{self.CURRENT_PAGE_SELECTOR} .item-stimulus")[index].text
+    # def item_stimulus(self, index=0):
+    #     return self.browser.find_elements_by_css_selector(f"{self.CURRENT_PAGE_SELECTOR} .item-stimulus")[index].text
 
     def validate_assertion_data(self, data, fields):
         missing = []
@@ -286,22 +267,26 @@ class ScdipTests(SetupTest):
             'Failed to locate back button'
         ).click()
         
-    ## Tests   
+    ## Tests
+
+    #Test the home page loads
     def test_home(self):
         self.page_home()
 
+    #Test selecting a random category and journey
     def test_select(self):
         self.page_home()
         self.page_select()
 
+    #Test that resources are rendered
     def test_resources_render(self):
         self.run_script(f'tests/scripts/{self.func_name()}.json')
         resource_rows = self.browser.find_elements_by_css_selector("#container-results .row")
         self.assertIsNotNone(resource_rows,"No results were found")
 
-    def test_choice_validation(self):
-        self.run_script('tests/scripts/validation_test.json')
-        self.assertEquals(self.env['validation_message'],  self.item_stimulus(0))
+    # def test_choice_validation(self):
+    #     self.run_script('tests/scripts/validation_test.json')
+    #     self.assertEquals(self.env['validation_message'],  self.item_stimulus(0))
 
     #Test that a conditional question is rendered when expected
     def test_conditional_question(self, script=None):
