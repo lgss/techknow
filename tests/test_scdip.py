@@ -18,12 +18,22 @@ class ScdipTests(SetupTest):
     def func_name(self):
         return inspect.stack()[1].function
 
-    def assertDialog(self):
+    def assertDialog(self, title=None, content=None):
         dialog = WebDriverWait(self.browser,10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR,'.v-dialog--fullscreen'))
+            EC.presence_of_element_located((By.CSS_SELECTOR, '.v-dialog--fullscreen')),
+            "Failed to locate dialog"
         )
-        self.assertIsNotNone(dialog.find_element_by_id('dialog-title').text)
-        self.assertIsNotNone(dialog.find_element_by_id('dialog-content').text)
+        _title = dialog.find_element_by_id('dialog-title').text
+        if title == None:
+            self.assertIsNotNone(_title)
+        else:
+            self.assertEqual(_title, title)
+            
+        _content = dialog.find_element_by_id('dialog-content').text
+        if content == None:
+            self.assertIsNotNone(_content)
+        else:
+            self.assertEqual(_content, content)
 
     def page_home(self):
         self.browser.get(self.env["root"])
@@ -291,29 +301,35 @@ class ScdipTests(SetupTest):
     #Test that a conditional question is rendered when expected
     def test_conditional_question(self, script=None):
         data = self.run_script(f'tests/scripts/{self.func_name()}.json')
-        self.validate_assertion_data(data, ["page_title","item_label"])
-        title = self.browser.find_element_by_css_selector(f'.assessment-page.current form h2')
-        self.assertEqual(title.text, data['page_title'])
-        item = self.browser.find_element_by_css_selector(f'{self.CURRENT_PAGE_SELECTOR} label')
-        self.assertEqual(item.text, data['item_label'])
+        self.validate_assertion_data(data, ["question_text"])
+        item = WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR,f"{self.CURRENT_PAGE_SELECTOR}")),
+            "Failed to locate item"
+        )
+        title = item.find_element_by_css_selector('h2')
+        self.assertEqual(title.text, data['question_text'])
     
     #Test that a conditional question is not rendered when expected
     def test_conditional_question_neg(self, script=None):
         data = self.run_script(f'tests/scripts/{self.func_name()}.json')
-        self.validate_assertion_data(data, ["page_title","item_label"])
-        title = self.browser.find_element_by_css_selector(f'.assessment-page.current form h2')
-        self.assertNotEqual(title.text, data['page_title'])
-        item = self.browser.find_element_by_css_selector(f'{self.CURRENT_PAGE_SELECTOR} label')
-        self.assertNotEqual(item.text, data['item_label'])
+        self.validate_assertion_data(data, ["question_text"])
+        item = WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR,f"{self.CURRENT_PAGE_SELECTOR}")),
+            "Failed to locate item"
+        )
+        title = item.find_element_by_css_selector('h2')
+        self.assertNotEqual(title.text, data['question_text'])
     
     #Test that a conditional question that was not rendered is rendered once the selected choice is changed
     def test_conditional_question_back(self):
         data = self.run_script(f'tests/scripts/{self.func_name()}.json')
-        self.validate_assertion_data(data, ["page_title","item_label"])
-        title = self.browser.find_element_by_css_selector(f'.assessment-page.current form h2')
-        self.assertEqual(title.text, data['page_title'])
-        item = self.browser.find_element_by_css_selector(f'{self.CURRENT_PAGE_SELECTOR} label')
-        self.assertEqual(item.text, data['item_label'])
+        self.validate_assertion_data(data, ["question_text"])
+        item = WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR,f"{self.CURRENT_PAGE_SELECTOR}")),
+            "Failed to locate item"
+        )
+        title = item.find_element_by_css_selector('h2')
+        self.assertNotEqual(title.text, data['question_text'])
 
     #Test an assessment is halted when finishing with a form ending choice
     def test_halt_dialog_finish(self):

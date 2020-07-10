@@ -28,7 +28,6 @@
         }
     ],
     "data" : {
-        "page_title" :"conditional-input",
-        "item_label": "conditional-input-a"
+        "question_text" :"conditional-input-a"
     }
 }
