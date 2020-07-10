@@ -28,7 +28,7 @@ class ScdipTests(SetupTest):
             self.assertIsNotNone(_title)
         else:
             self.assertEqual(_title, title)
-            
+
         _content = dialog.find_element_by_id('dialog-content').text
         if content == None:
             self.assertIsNotNone(_content)
@@ -333,18 +333,21 @@ class ScdipTests(SetupTest):
 
     #Test an assessment is halted when finishing with a form ending choice
     def test_halt_dialog_finish(self):
-        self.run_script(f'tests/scripts/{self.func_name()}.json')
-        self.assertDialog()
+        data = self.run_script(f'tests/scripts/{self.func_name()}.json')
+        self.validate_assertion_data(data, ["title", "content"])
+        self.assertDialog(data["title"], data["content"])
     
     #Test an assessment is halted when nexting with a form ending choice
     def test_halt_dialog_next(self):
-        self.run_script(f'tests/scripts/{self.func_name()}.json')
-        self.assertDialog()
+        data = self.run_script(f'tests/scripts/{self.func_name()}.json')
+        self.validate_assertion_data(data, ["title", "content"])
+        self.assertDialog(data["title"], data["content"])
     
     #Test an assessment is halted when backing with a form ending choice
     def test_halt_dialog_back(self):
-        self.run_script(f'tests/scripts/{self.func_name()}.json')
-        self.assertDialog()
+        data = self.run_script(f'tests/scripts/{self.func_name()}.json')
+        self.validate_assertion_data(data, ["title", "content"])
+        self.assertDialog(data["title"], data["content"])
 
     #Test the content when no resources were found         
     def test_no_resources_content(self):

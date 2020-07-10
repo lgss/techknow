@@ -3,19 +3,19 @@
     "steps": [
         {
             "step": "respond",
-            "type": "multiple-choice-input",
+            "type": "category-input",
             "value_text": ["Sample-Journey-Parent"]
         },
         {
-            "step" : "next"
+            "step" : "confirm-categories"
         },
         {
             "step": "respond",
-            "type": "multiple-choice-input",
+            "type": "journey-input",
             "value_text": ["Halting-Journey"]
         },
         {
-            "step": "next"
+            "step": "confirm-journies"
         },
         {
             "step": "respond",
@@ -25,5 +25,9 @@
         {
             "step": "next"
         }
-    ]
+    ],
+    "data":{
+       "title":"Halting title",
+       "content":"Halting content" 
+    }
 }
