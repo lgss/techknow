@@ -224,6 +224,8 @@ class ScdipTests(SetupTest):
                 self.click_finish()
             elif numstep == "back":
                 self.click_back()
+            elif numstep == "restart":
+                self.click_restart()
             elif numstep == "respond":
                 if "type" in step:
                     typestep = step['type']
@@ -275,6 +277,12 @@ class ScdipTests(SetupTest):
         WebDriverWait(self.browser,10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, ".v-stepper__content.assessment-page.current [name=btn-back]")),
             'Failed to locate back button'
+        ).click()
+    
+    def click_restart(self):
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "button#btn-restart-assessment")),
+            'Failed to locate restart button'
         ).click()
         
     ## Tests
@@ -348,6 +356,37 @@ class ScdipTests(SetupTest):
         data = self.run_script(f'tests/scripts/{self.func_name()}.json')
         self.validate_assertion_data(data, ["title", "content"])
         self.assertDialog(data["title"], data["content"])
+
+
+    #Test the restart dialog displays
+    def test_restart(self):
+        self.test_no_resources_content()
+        restart = WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR,'button#btn-restart-assessment')),
+            'Failed to locate restart button'
+        )
+        restart.click()
+        restart_dialog = WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR,'[role=document] .v-dialog--active')),
+            'Failed to locate restart dialog'
+        )
+        return restart_dialog
+
+    #Test the restart dialog can be cancelled
+    def test_restart_cancel(self):
+        dialog = self.test_restart()
+        dialog.find_elements_by_css_selector('button')[1].click()
+        active = '.v-dialog--active' in dialog.get_attribute('class')
+        self.assertTrue(not active)
+
+    #Test the restart dialog can be confirmed
+    def test_restart_ok(self):
+        dialog = self.test_restart()
+        dialog.find_elements_by_css_selector('button')[0].click()
+        WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR,'#parent-selection')),
+            'Failed to locate category selection element'
+        )
 
     #Test the content when no resources were found         
     def test_no_resources_content(self):
