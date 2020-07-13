@@ -3,20 +3,20 @@
     "steps": [
         {
             "step": "respond",
-            "type": "multiple-choice-input",
+            "type": "category-input",
             "value_text": ["Conditional-Journey-Test"]
             
         },
         {
-            "step": "next"
+            "step": "confirm-categories"
         },
         {
             "step": "respond",
-            "type": "multiple-choice-input",
+            "type": "journey-input",
             "value_text": ["Conditional-Journey-Test"]
         },
         {
-            "step": "next"
+            "step": "confirm-journies"
         },
         {
             "step": "respond",
@@ -28,7 +28,6 @@
         }
     ],
     "data" : {
-        "page_title" :"conditional-input-a",
-        "item_label": "conditional-input-a"
+        "question_text": "conditional-input-a"
     }
 }
