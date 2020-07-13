@@ -366,22 +366,31 @@ class ScdipTests(SetupTest):
             'Failed to locate restart button'
         )
         restart.click()
-        restart_dialog = WebDriverWait(self.browser, 10).until(
+        WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR,'[role=document] .v-dialog--active')),
             'Failed to locate restart dialog'
         )
-        return restart_dialog
 
     #Test the restart dialog can be cancelled
     def test_restart_cancel(self):
-        dialog = self.test_restart()
+        self.test_restart()
+        dialog = WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR,'[role=document] .v-dialog--active')),
+            'Failed to locate restart dialog'
+        )
         dialog.find_elements_by_css_selector('button')[1].click()
-        active = '.v-dialog--active' in dialog.get_attribute('class')
-        self.assertTrue(not active)
+        WebDriverWait(self.browser, 10).until_not(
+            EC.presence_of_element_located((By.CSS_SELECTOR,'[role=document] .v-dialog--active')),
+            'Dialog still active'
+        )
 
     #Test the restart dialog can be confirmed
     def test_restart_ok(self):
-        dialog = self.test_restart()
+        self.test_restart()
+        dialog = WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR,'[role=document] .v-dialog--active')),
+            'Failed to locate restart dialog'
+        )
         dialog.find_elements_by_css_selector('button')[0].click()
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR,'#parent-selection')),
