@@ -6,7 +6,7 @@
                 <v-container class="v-stepper__content">
                     <v-skeleton-loader v-show="loading" type="card" />
 
-                    <v-form ref="categories" v-show="!loading && !showJourneys">
+                    <v-form role="form" aria-label="Your journey" ref="categories" v-show="!loading && !showJourneys">
                         <v-row>
                             <v-col>
                                 <item
@@ -21,7 +21,7 @@
                         </v-row>
                         <v-row center>
                             <v-col>
-                                <v-btn color="success" @click="selectCategories"
+                                <v-btn role="button" aria-label="next" color="success" @click="selectCategories"
                                     >Next
                                     <v-icon>mdi-arrow-right-bold-circle</v-icon></v-btn
                                 >
@@ -29,7 +29,7 @@
                         </v-row>
                     </v-form>
 
-                    <v-form ref="journeys" v-show="!loading && showJourneys">
+                    <v-form role="form" aria-label="Your journey" ref="journeys" v-show="!loading && showJourneys">
                         <v-row>
                             <v-col>
                                 <item
@@ -44,10 +44,10 @@
                         </v-row>
                         <v-row center>
                             <v-col>
-                                <v-btn @click="selectCategories(false)">
+                                <v-btn role="button" aria-label="back" @click="selectCategories(false)">
                                     <v-icon left>mdi-arrow-left-bold-circle</v-icon>Back
                                 </v-btn>
-                                <v-btn color="success" @click="beginAssessment"
+                                <v-btn role="button" aria-label="next" color="success" @click="beginAssessment"
                                     >Next
                                     <v-icon right>mdi-arrow-right-bold-circle</v-icon>
                                 </v-btn>

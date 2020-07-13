@@ -7,6 +7,7 @@
                     color="primary"
                     :value="percentDone"
                     :indeterminate="loading"
+                    id="progressBar"
                 />
                 <div v-if="loading">
                     <br />
@@ -21,7 +22,7 @@
                         class="assessment-page"
                         :class="isCurrentPage(idx)"
                     >
-                        <v-form ref="page" lazy-validation>
+                        <v-form role="form" aria-label="questions" ref="page" lazy-validation>
                             <v-row
                                 v-for="(field, index) in page.items"
                                 :key="index"
@@ -29,6 +30,7 @@
                             >
                                 <v-col>
                                     <component
+                                        :id="`page${idx}_item${index}`"
                                         @responded="
                                             (selection) =>
                                                 responded(selection, field.name)
@@ -39,31 +41,61 @@
                                     />
                                 </v-col>
                             </v-row>
+                            <!-- <v-row>
+                                <v-col>
+                                    <v-btn
+                                        role="button" 
+                                        aria-label="back"
+                                        :disabled="pageIdx <= 1"
+                                        name="btn-back"
+                                        @click.native="prior"
+                                    >Back</v-btn>
+                                    <v-btn
+                                        v-if="finished"
+                                        role="button" 
+                                        aria-label="finish"
+                                        color="success"
+                                        name="btn-finish"
+                                        @click="finish"
+                                    >Finish</v-btn>
+                                    <v-btn
+                                        v-else
+                                        role="button" 
+                                        aria-label="next"
+                                        color="success"
+                                        name="btn-next"
+                                        @click.native="next"
+                                    >Next</v-btn>
+                                </v-col>
+                            </v-row> -->
                         </v-form>
                     </v-stepper-content>
                 </v-stepper-items>
                 <v-row>
                     <v-col>
                         <v-btn
+                            role="button" 
+                            aria-label="back"
                             :disabled="pageIdx <= 1"
                             name="btn-back"
                             @click.native="prior"
-                            >Back</v-btn
-                        >
+                        >Back</v-btn>
                         <v-btn
                             v-if="finished"
+                            role="button" 
+                            aria-label="finish"
                             color="success"
                             name="btn-finish"
                             @click="finish"
-                            >Finish</v-btn
-                        >
+                        >Finish</v-btn>
                         <v-btn
                             v-else
+                            role="button" 
+                            aria-label="next"
                             color="success"
                             name="btn-next"
                             @click.native="next"
-                            >Next</v-btn
-                        >
+                        >Next</v-btn>
                     </v-col>
                 </v-row>
             </v-stepper>
@@ -73,7 +105,7 @@
                 <v-container>
                     <v-row>
                         <v-col>
-                            <h1 id="dialog-title" v-html="dialog.title"></h1>
+                            <div id="dialog-title" role="heading" aria-level="3" class="text-h3 mb-2" v-text="dialog.title" tabindex="0"></div>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -82,7 +114,7 @@
                         </v-col>
                     </v-row>
                     <v-row justify="center">
-                        <v-btn @click="showDialog = false">Back</v-btn>
+                        <v-btn role="button" @click="showDialog = false">Back</v-btn>
                     </v-row>
                 </v-container>
             </v-card>

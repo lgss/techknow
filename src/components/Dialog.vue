@@ -5,7 +5,7 @@
           <v-card-text>{{message}}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn v-for="(btn, index) in buttons" :key="index" text @click="choose(index)">{{btn}}</v-btn>
+            <v-btn role="button" v-for="(btn, index) in buttons" :key="index" text @click="choose(index)">{{btn}}</v-btn>
           </v-card-actions>
       </v-card>
     </v-dialog>

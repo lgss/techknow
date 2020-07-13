@@ -3,8 +3,8 @@
         <v-container max-width="1200" class="mx-auto">
             <div class="d-flex flex-wrap align-center">
                 <div class="text-left">
-                    <label class="text-h3 mb-2" v-text="label"></label>
-                    <div class="font-weight-bold mb-0">Please select one or more</div>
+                    <label role="heading" aria-level="3" class="text-h3 mb-2" v-text="label" tabindex="0"></label>
+                    <div class="font-weight-bold mb-0" tabindex="0">Please select one or more</div>
                 </div>
                 <v-spacer></v-spacer>
                 <v-avatar class="ma-3" size="125" tile>

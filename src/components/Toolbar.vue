@@ -1,15 +1,18 @@
 <template>
     <v-app-bar color="primary" app shrink-on-scroll prominent>
-        <div class="d-flex flex-column align-center">
-            <a href="/" style="text-decoration:none">
+        <v-container class="d-flex flex-column align-center">
+            <router-link to='/'>
                 <v-toolbar-title class="white--text">
-                    <b>{{ title }}</b>
+                    <div role="heading" aria-level="1" tabindex="0" class="font-weight-black">{{ title }}</div>
                 </v-toolbar-title>
-            </a>
-            <h3 class="white--text subheader">
-                {{header}}
-            </h3>
-        </div>
+            </router-link>
+            <v-container class="d-flex flex-column align-center">
+                <h2 role="heading" aria-level="2" tabindex="0" class="white--text subheader">
+                    {{header}}
+                </h2>
+            </v-container>
+        </v-container>
+
     </v-app-bar>
 </template>
 
@@ -19,11 +22,7 @@ export default {
 };
 </script>
 
-<style scoped>
-    div {
-        width: 100%
-    }
-    
+<style scoped>    
     .v-app-bar--is-scrolled .subheader {
         display: none;
     }

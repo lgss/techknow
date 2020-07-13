@@ -6,7 +6,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-btn id="btn-home-start-assessment" to="/select">Go to assessment</v-btn>
+        <v-btn role="button" id="btn-home-start-assessment" to="/select">Go to assessment</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -25,10 +25,6 @@
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-  h1, h2 {
-    font-weight: normal;
-  }
-
   ul {
     list-style-type: none;
     padding: 0;
