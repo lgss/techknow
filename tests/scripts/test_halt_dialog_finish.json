@@ -7,7 +7,7 @@
             "value_text": ["Sample-Journey-Parent"]
         },
         {
-            "step" : "confirm-categories"
+            "step" : "confirm_categories"
         },
         {
             "step": "respond",
@@ -15,7 +15,7 @@
             "value_text": ["Halting-Journey"]
         },
         {
-            "step": "confirm-journies"
+            "step": "confirm_journies"
         },
         {
             "step": "respond",
@@ -36,6 +36,6 @@
     ],
     "data":{
         "title":"Final halt title",
-        "content": "Final halt contnet"
+        "content": "Final halt content"
     }
 }

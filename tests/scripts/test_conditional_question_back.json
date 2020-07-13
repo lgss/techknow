@@ -8,7 +8,7 @@
             
         },
         {
-            "step": "confirm-categories"
+            "step": "confirm_categories"
         },
         {
             "step": "respond",
@@ -16,7 +16,7 @@
             "value_text": ["Conditional-Journey-Test"]
         },
         {
-            "step": "confirm-journies"
+            "step": "confirm_journies"
         },
         {
             "step": "respond",
