@@ -1,9 +1,9 @@
 <template>
     <div>
-        <v-skeleton-loader v-show="loading" type="card" />
+        <v-skeleton-loader v-if="loading" type="card" />
         <v-form
             ref="categories"
-            v-if="!loading && !showJourneys"
+            v-else-if="!loading && !showJourneys"
             id="parent-selection"
         >
             <item
@@ -75,7 +75,7 @@ export default {
         fetch(this.endpoint + "/journeys")
             .then((x) => x.json())
             .then((x) => {
-                this.journeys = x;
+                this.journeys = x.map((j) => ({ ...j, selected: false }));
                 let uniqueParents = Array.from(
                     new Set(
                         x.map((journey) => {
@@ -100,12 +100,13 @@ export default {
             if (this.categories.length <= 1 || this.selectedCats.length === 0)
                 return this.journeys;
 
-            return this.journeys.filter(
-                (x) => this.selectedCats.indexOf(x.parent) >= 0
+            return this.journeys.filter((x) =>
+                this.selectedCats.includes(x.parent)
             );
         },
         selectedJourneys() {
-            if (this.possibleJourneys.length <= 1) return this.possibleJourneys;
+            //   if (this.possibleJourneys.length <= 1)
+            //     return this.possibleJourneys
 
             return this.possibleJourneys
                 .filter((x) => x.selected)
