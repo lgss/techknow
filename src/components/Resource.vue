@@ -2,16 +2,20 @@
     <v-card>
         <div class="d-flex flex-no-wrap align-center">
             <v-avatar class="ma-3" size="125" tile>
-                <v-skeleton-loader v-if="$attrs.doc.img.src === undefined" type="avatar"/>
-                <v-img v-else :src="display($attrs.doc.img.src)" :alt="$attrs.doc.img.alt"></v-img>
+                <v-skeleton-loader v-if="img === undefined" type="avatar"/>
+                <v-img v-else :src="display(img.src)" :alt="img.alt"></v-img>
             </v-avatar>
             <div class="text-left">
-                <v-card-title class="headline" v-text="$attrs.doc.name"/>
-                <v-card-subtitle  v-html="$attrs.doc.content"/>
+                <v-card-title class="headline" v-text="doc.name"/>
+                <v-card-subtitle  v-html="doc.content"/>
             </div>
         </div>
         <v-card-actions>
-            <v-btn class="success" text>
+            <v-btn 
+              class="success"
+              :href="doc.moreInfoUrl"
+              :disabled="doc.moreInfoUrl === undefined"
+              target="_blank">
                 Continue to website<v-icon>mdi-open-in-new</v-icon>
             </v-btn>  
         </v-card-actions>
@@ -22,6 +26,7 @@
 import image from '@/js/image.js'
 export default {
     name: "Resource",
+    props: ['img', 'doc'],
     data () {
       return {
         endpoint: process.env.VUE_APP_API_ENDPOINT

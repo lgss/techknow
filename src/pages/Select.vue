@@ -1,45 +1,45 @@
 <template>
     <div>
         <v-skeleton-loader v-if="loading" type="card" />
-
-        <v-container v-else-if="!loading && !showJourneys">
+        <v-form ref="categories" v-else-if="!loading && !showJourneys">
             <item
                 v-show="!loading && !showJourneys"
                 title="Where do you need support?"
                 subtitle="Please select one or more"
                 :items="categories"
                 itemLabelKey="name"
+                type="category"
             />
             <v-row center>
                 <v-col>
-                    <v-btn color="success" @click="categoriesSelected = true"
-                        >Continue
+                    <v-btn color="success" @click="selectCategories"
+                        >Next
                         <v-icon>mdi-arrow-right-bold-circle</v-icon></v-btn
                     >
                 </v-col>
             </v-row>
-        </v-container>
-
-        <v-container v-else-if="!loading && showJourneys">
+        </v-form>
+        <v-form ref="journeys" v-else-if="!loading && showJourneys">
             <item
                 v-show="!loading && showJourneys"
                 title="Where do you need support?"
                 subtitle="Please select one or more"
                 :items="possibleJourneys"
                 itemLabelKey="label"
+                type="journey"
             />
             <v-row center>
                 <v-col>
-                    <v-btn @click="categoriesSelected = false">
+                    <v-btn @click="selectCategories(false)">
                         <v-icon left>mdi-arrow-left-bold-circle</v-icon>Back
                     </v-btn>
                     <v-btn color="success" @click="beginAssessment"
-                        >Begin
+                        >Next
                         <v-icon right>mdi-arrow-right-bold-circle</v-icon>
                     </v-btn>
                 </v-col>
             </v-row>
-        </v-container>
+        </v-form>
     </div>
 </template>
 
@@ -80,7 +80,6 @@ export default {
         possibleJourneys() {
             if (this.categories.length <= 1 || this.selectedCats.length === 0)
                 return this.journeys;
-
             return this.journeys.filter((x) =>
                 this.selectedCats.includes(x.parent)
             );
@@ -88,7 +87,6 @@ export default {
         selectedJourneys() {
             //   if (this.possibleJourneys.length <= 1)
             //     return this.possibleJourneys
-
             return this.possibleJourneys
                 .filter((x) => x.selected)
                 .map((x) => x.id);
@@ -96,10 +94,19 @@ export default {
     },
     methods: {
         beginAssessment() {
+            if (!this.$refs.journeys.validate()) {
+                return false;
+            }
             this.$router.push({
                 name: "Assessment",
                 params: { journeys: this.selectedJourneys },
             });
+        },
+        selectCategories(selected = true) {
+            if (selected && !this.$refs.categories.validate()) {
+                return false;
+            }
+            this.categoriesSelected = selected;
         },
     },
     data() {
