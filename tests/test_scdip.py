@@ -314,7 +314,7 @@ class ScdipTests(SetupTest):
             EC.presence_of_element_located((By.CSS_SELECTOR,f"{self.CURRENT_PAGE_SELECTOR}")),
             "Failed to locate item"
         )
-        title = item.find_element_by_css_selector('h2')
+        title = item.find_element_by_css_selector('.text-h3')
         self.assertEqual(title.text, data['question_text'])
     
     #Test that a conditional question is not rendered when expected
@@ -405,7 +405,7 @@ class ScdipTests(SetupTest):
             EC.presence_of_element_located((By.ID, 'no_results')),
             "Failed to result no_results container"
         )
-        title = null_result_container.find_element_by_css_selector('h1')
+        title = null_result_container.find_element_by_css_selector('.text-h3')
         self.assertEqual(title.text,data['title'])
         content = null_result_container.find_element_by_css_selector('.col')
         self.assertEqual(content.text, data['content'])
