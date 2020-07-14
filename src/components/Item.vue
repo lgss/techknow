@@ -3,7 +3,7 @@
         <v-container max-width="1200" class="mx-auto">
             <div class="d-flex flex-wrap align-center">
                 <div class="text-left">
-                    <label role="heading" aria-level="3" class="text-h3 mb-2" v-text="title" tabindex="0"></label>
+                    <label ref="label" role="heading" aria-level="3" class="text-h3 mb-2" v-text="title" tabindex="0"></label>
                     <div class="font-weight-bold mb-0" v-text="subtitle" tabindex="0"></div>
                 </div>
                 <v-spacer></v-spacer>
@@ -55,5 +55,11 @@ export default {
             ],
         };
     },
+    methods: {
+        focus() {
+            console.log("attempting to focus on item")
+            this.$refs.label.focus();
+        }
+    }
 };
 </script>

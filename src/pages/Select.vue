@@ -10,6 +10,7 @@
                         <v-row>
                             <v-col>
                                 <item
+                                    ref="categories_item0"
                                     v-show="!loading && !showJourneys"
                                     title="Where do you need support?"
                                     subtitle="Please select one or more"
@@ -33,6 +34,7 @@
                         <v-row>
                             <v-col>
                                 <item
+                                    ref="journeys_item0"
                                     v-show="!loading && showJourneys"
                                     title="Where do you need support?"
                                     subtitle="Please select one or more"
@@ -89,6 +91,7 @@ export default {
     },
     computed: {
         showJourneys() {
+            this.doFocus();
             return this.categoriesSelected || this.categories.length <= 1;
         },
         selectedCats() {
@@ -126,6 +129,15 @@ export default {
             }
             this.categoriesSelected = selected;
         },
+        doFocus(){
+            this.$nextTick(()=> {
+                if(this.showJourneys) {
+                    this.$refs[`journeys_item0`].focus()
+                } else {
+                    this.$refs[`categories_item0`].focus()
+                }
+            })
+        },
     },
     data() {
         return {
@@ -136,7 +148,6 @@ export default {
             categoriesSelected: false,
             endpoint: process.env.VUE_APP_API_ENDPOINT,
             categories: [],
-            categories2: [],
             journeys: [],
         };
     },
