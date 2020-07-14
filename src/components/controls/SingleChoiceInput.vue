@@ -3,7 +3,7 @@
         <v-container max-width="1200" class="mx-auto">
             <div class="d-flex flex-wrap align-center">
                 <div class="text-left">
-                    <label role="heading" aria-level="3" class="text-h3 mb-2" v-text="label" tabindex="0"></label>
+                    <label ref="label" role="heading" aria-level="3" class="text-h3 mb-2" v-text="label" tabindex="0"></label>
                     <div class="font-weight-bold mb-0" tabindex="0">Please select one choice</div>
                 </div>
                 <v-spacer></v-spacer>
@@ -70,6 +70,9 @@ export default {
         },
         display(filename) {
             return image(this.endpoint, filename);
+        },
+        focus() {
+            this.$refs.label.focus()
         },
     },
 };

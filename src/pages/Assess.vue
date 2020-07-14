@@ -21,6 +21,7 @@
                         :step="idx + 1"
                         class="assessment-page"
                         :class="isCurrentPage(idx)"
+                        @change="dofocus"
                     >
                         <v-form role="form" aria-label="questions" ref="page" lazy-validation>
                             <v-row
@@ -30,6 +31,7 @@
                             >
                                 <v-col>
                                     <component
+                                        :ref="`page${idx}_item${index}`"
                                         :id="`page${idx}_item${index}`"
                                         @responded="
                                             (selection) =>
@@ -216,6 +218,12 @@ export default {
             else this.pageIdx--;
 
             if (this.pageEmpty()) this.movePage(forwards);
+            this.dofocus()
+        },
+        dofocus(){
+            this.$nextTick(()=> {
+                this.$refs[`page${this.pageIdx-1}_item0`][0].focus()
+            })
         },
         responded(selection, name) {
             console.log("Invoked responded()", selection, name);
