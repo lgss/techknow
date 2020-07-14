@@ -251,7 +251,7 @@ class ScdipTests(SetupTest):
 
     def click_next(self):
         WebDriverWait(self.browser,10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, ".v-stepper__content.assessment-page.current [name=btn-next]")),
+            EC.presence_of_element_located((By.CSS_SELECTOR, "[name=btn-next]")),
             'Failed to locate next button'
         ).click()
 
@@ -269,13 +269,13 @@ class ScdipTests(SetupTest):
 
     def click_finish(self):
         WebDriverWait(self.browser,10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, ".v-stepper__content.assessment-page.current [name=btn-finish]")),
+            EC.presence_of_element_located((By.CSS_SELECTOR, "[name=btn-finish]")),
             'Failed to locate finish button'
         ).click()
     
     def click_back(self):
         WebDriverWait(self.browser,10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, ".v-stepper__content.assessment-page.current [name=btn-back]")),
+            EC.presence_of_element_located((By.CSS_SELECTOR, "[name=btn-back]")),
             'Failed to locate back button'
         ).click()
     
