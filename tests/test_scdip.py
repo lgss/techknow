@@ -325,7 +325,7 @@ class ScdipTests(SetupTest):
             EC.presence_of_element_located((By.CSS_SELECTOR,f"{self.CURRENT_PAGE_SELECTOR}")),
             "Failed to locate item"
         )
-        title = item.find_element_by_css_selector('h2')
+        title = item.find_element_by_css_selector('.text-h3')
         self.assertNotEqual(title.text, data['question_text'])
     
     #Test that a conditional question that was not rendered is rendered once the selected choice is changed
@@ -336,7 +336,7 @@ class ScdipTests(SetupTest):
             EC.presence_of_element_located((By.CSS_SELECTOR,f"{self.CURRENT_PAGE_SELECTOR}")),
             "Failed to locate item"
         )
-        title = item.find_element_by_css_selector('h2')
+        title = item.find_element_by_css_selector('.text-h3')
         self.assertNotEqual(title.text, data['question_text'])
 
     #Test an assessment is halted when finishing with a form ending choice
