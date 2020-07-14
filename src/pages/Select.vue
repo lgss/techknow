@@ -137,7 +137,7 @@ export default {
                     this.$refs[`categories_item0`].focus()
                 }
             })
-        },
+        }
     },
     data() {
         return {
