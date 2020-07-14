@@ -1,0 +1,41 @@
+{
+    "version": "0.1",
+    "steps": [
+        {
+            "step": "respond",
+            "type": "category-input",
+            "value_text": ["Sample-Journey-Parent"]
+        },
+        {
+            "step" : "confirm_categories"
+        },
+        {
+            "step": "respond",
+            "type": "journey-input",
+            "value_text": ["Halting-Journey"]
+        },
+        {
+            "step": "confirm_journies"
+        },
+        {
+            "step": "respond",
+            "type":"single-choice-input",
+            "value_text": "Continue"
+        },
+        {
+            "step": "next"
+        },
+        {
+            "step": "respond",
+            "type": "single-choice-input",
+            "value_text": "Yes"
+        },
+        {
+            "step": "back"
+        }
+    ],
+    "data":{
+        "title":"Final halt title",
+        "content": "Final halt content"
+    }
+}

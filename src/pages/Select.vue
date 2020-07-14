@@ -4,9 +4,15 @@
             <v-progress-linear value="0"></v-progress-linear>
             <v-container class="v-stepper__items">
                 <v-container class="v-stepper__content">
-                    <v-skeleton-loader v-show="loading" type="card" />
+                    <v-skeleton-loader v-if="loading" type="card" />
 
-                    <v-form role="form" aria-label="Your journey" ref="categories" v-show="!loading && !showJourneys">
+                    <v-form 
+                        role="form" 
+                        aria-label="Your journey" 
+                        ref="categories"
+                        v-else-if="!loading && !showJourneys"
+                        id="parent-selection"
+                    >
                         <v-row>
                             <v-col>
                                 <item
@@ -22,15 +28,27 @@
                         </v-row>
                         <v-row center>
                             <v-col>
-                                <v-btn role="button" aria-label="next" color="success" @click="selectCategories"
-                                    >Next
-                                    <v-icon>mdi-arrow-right-bold-circle</v-icon></v-btn
+                                <v-btn 
+                                    role="button" 
+                                    aria-label="next" 
+                                    color="success" 
+                                    @click="selectCategories"
+                                    name="btn-continue"
                                 >
+                                    Next
+                                    <v-icon>mdi-arrow-right-bold-circle</v-icon>
+                                </v-btn>
                             </v-col>
                         </v-row>
                     </v-form>
 
-                    <v-form role="form" aria-label="Your journey" ref="journeys" v-show="!loading && showJourneys">
+                    <v-form 
+                        role="form" 
+                        aria-label="Your journey" 
+                        ref="journeys"
+                        v-else-if="!loading && showJourneys"
+                        id="journey-selection"
+                    >
                         <v-row>
                             <v-col>
                                 <item
@@ -46,11 +64,23 @@
                         </v-row>
                         <v-row center>
                             <v-col>
-                                <v-btn role="button" aria-label="back" @click="selectCategories(false)">
-                                    <v-icon left>mdi-arrow-left-bold-circle</v-icon>Back
+                                <v-btn 
+                                    role="button" 
+                                    aria-label="back"
+                                    name="btn-back"
+                                    @click="selectCategories(false)"
+                                >
+                                    <v-icon left>mdi-arrow-left-bold-circle</v-icon>
+                                    Back
                                 </v-btn>
-                                <v-btn role="button" aria-label="next" color="success" @click="beginAssessment"
-                                    >Next
+                                <v-btn 
+                                    name="btn-begin"
+                                    role="button" 
+                                    aria-label="next" 
+                                    color="success" 
+                                    @click="beginAssessment"
+                                >
+                                    Next
                                     <v-icon right>mdi-arrow-right-bold-circle</v-icon>
                                 </v-btn>
                             </v-col>
@@ -71,11 +101,23 @@ export default {
         Item,
     },
     name: "Selection",
+    data() {
+        return {
+            selc: [],
+            selj: [],
+            primaryColour: landing.get(),
+            loading: true,
+            categoriesSelected: false,
+            endpoint: process.env.VUE_APP_API_ENDPOINT,
+            categories: [],
+            journeys: [],
+        };
+    },
     created() {
         fetch(this.endpoint + "/journeys")
             .then((x) => x.json())
             .then((x) => {
-                this.journeys = x;
+                this.journeys = x.map((j) => ({ ...j, selected: false }));
                 let uniqueParents = Array.from(
                     new Set(
                         x.map((journey) => {
@@ -101,12 +143,13 @@ export default {
             if (this.categories.length <= 1 || this.selectedCats.length === 0)
                 return this.journeys;
 
-            return this.journeys.filter(
-                (x) => this.selectedCats.indexOf(x.parent) >= 0
+            return this.journeys.filter((x) =>
+                this.selectedCats.includes(x.parent)
             );
         },
         selectedJourneys() {
-            if (this.possibleJourneys.length <= 1) return this.possibleJourneys;
+            //   if (this.possibleJourneys.length <= 1)
+            //     return this.possibleJourneys
 
             return this.possibleJourneys
                 .filter((x) => x.selected)
@@ -139,18 +182,6 @@ export default {
                 }
             })
         }
-    },
-    data() {
-        return {
-            selc: [],
-            selj: [],
-            primaryColour: landing.get(),
-            loading: true,
-            categoriesSelected: false,
-            endpoint: process.env.VUE_APP_API_ENDPOINT,
-            categories: [],
-            journeys: [],
-        };
-    },
+    }
 };
 </script>

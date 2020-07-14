@@ -1,0 +1,33 @@
+{
+    "version": "0.1",
+    "steps": [
+        {
+            "step": "respond",
+            "type": "category-input",
+            "value_text": ["Sample-Journey-Parent"]
+        },
+        {
+            "step" : "confirm_categories"
+        },
+        {
+            "step": "respond",
+            "type": "journey-input",
+            "value_text": ["Halting-Journey"]
+        },
+        {
+            "step": "confirm_journies"
+        },
+        {
+            "step": "respond",
+            "type":"single-choice-input",
+            "value_text": "Halt"
+        },
+        {
+            "step": "next"
+        }
+    ],
+    "data":{
+       "title":"Halting title",
+       "content":"Halting content" 
+    }
+}

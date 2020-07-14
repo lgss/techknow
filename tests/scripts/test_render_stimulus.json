@@ -1,0 +1,22 @@
+{
+    "version": "0.1",
+    "steps": [
+        {
+            "step": "respond",
+            "type": "category-input",
+            "value_text": ["Sample-Journey-Parent"]
+            
+        },
+        {
+            "step": "confirm_categories"
+        },
+        {
+            "step": "respond",
+            "type": "journey-input",
+            "value_text": ["Demonstrate-Item-Types"]
+        },
+        {
+            "step": "confirm_journies"
+        }
+    ]
+}

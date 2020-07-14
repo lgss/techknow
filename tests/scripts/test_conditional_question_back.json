@@ -1,0 +1,44 @@
+{
+    "version": "0.1",
+    "steps": [
+        {
+            "step": "respond",
+            "type": "category-input",
+            "value_text": ["Conditional-Journey-Test"]
+            
+        },
+        {
+            "step": "confirm_categories"
+        },
+        {
+            "step": "respond",
+            "type": "journey-input",
+            "value_text": ["Conditional-Journey-Test"]
+        },
+        {
+            "step": "confirm_journies"
+        },
+        {
+            "step": "respond",
+            "type": "single-choice-input",
+            "value_text": "conditional-input-a"
+        },
+        {
+            "step" :"next"
+        },
+        {
+            "step": "back"
+        },
+        {
+            "step": "respond",
+            "type": "single-choice-input",
+            "value_text": "conditional-input-b"
+        },
+        {
+            "step": "next"
+        }
+    ],
+    "data" : {
+        "question_text" :"conditional-input-a"
+    }
+}
