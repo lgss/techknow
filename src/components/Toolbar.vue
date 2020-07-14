@@ -3,7 +3,7 @@
         <v-container class="d-flex flex-column align-center">
             <router-link to='/'>
                 <v-toolbar-title class="white--text">
-                    <div role="heading" aria-level="1" tabindex="0" class="font-weight-black">{{ title }}</div>
+                    <div role="heading" aria-level="1" class="font-weight-black">{{ title }}</div>
                 </v-toolbar-title>
             </router-link>
             <v-container class="d-flex flex-column align-center">
