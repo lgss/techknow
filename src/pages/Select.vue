@@ -1,7 +1,11 @@
 <template>
     <div>
         <v-skeleton-loader v-if="loading" type="card" />
-        <v-form ref="categories" v-else-if="!loading && !showJourneys">
+        <v-form
+            ref="categories"
+            v-else-if="!loading && !showJourneys"
+            id="parent-selection"
+        >
             <item
                 v-show="!loading && !showJourneys"
                 title="Where do you need support?"
@@ -12,29 +16,44 @@
             />
             <v-row center>
                 <v-col>
-                    <v-btn color="success" @click="selectCategories"
-                        >Next
-                        <v-icon>mdi-arrow-right-bold-circle</v-icon></v-btn
+                    <v-btn 
+                        name="btn-continue"
+                        color="success"
+                        @click="selectCategories"
                     >
+                        Next
+                        <v-icon>mdi-arrow-right-bold-circle</v-icon>
+                    </v-btn>
                 </v-col>
             </v-row>
         </v-form>
-        <v-form ref="journeys" v-else-if="!loading && showJourneys">
+        <v-form
+            ref="journeys"
+            v-else-if="!loading && showJourneys"
+            id="journey-selection"
+        >
             <item
                 v-show="!loading && showJourneys"
                 title="Where do you need support?"
                 subtitle="Please select one or more"
                 :items="possibleJourneys"
                 itemLabelKey="label"
-                type="journey"
             />
             <v-row center>
                 <v-col>
-                    <v-btn @click="selectCategories(false)">
-                        <v-icon left>mdi-arrow-left-bold-circle</v-icon>Back
+                    <v-btn 
+                        name="btn-back"
+                        @click="selectCategories(false)"
+                    >
+                        <v-icon left>mdi-arrow-left-bold-circle</v-icon>
+                        Back
                     </v-btn>
-                    <v-btn color="success" @click="beginAssessment"
-                        >Next
+                    <v-btn
+                        name="btn-begin"
+                        color="success"
+                        @click="beginAssessment"
+                    >
+                        Next
                         <v-icon right>mdi-arrow-right-bold-circle</v-icon>
                     </v-btn>
                 </v-col>

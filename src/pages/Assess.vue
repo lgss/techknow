@@ -78,7 +78,7 @@
                     </v-row>
                     <v-row>
                         <v-col>
-                            <span v-html="dialog.content"></span>
+                            <span id="dialog-content" v-html="dialog.content"></span>
                         </v-col>
                     </v-row>
                     <v-row justify="center">

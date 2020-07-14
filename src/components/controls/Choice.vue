@@ -1,5 +1,10 @@
 <template>
-    <v-item ref="item" v-slot:default="{ active }" :value="value">
+    <v-item 
+        class="choice"
+        ref="item"
+        v-slot:default="{ active }"
+        :value="value"
+    >
         <v-card
             ref="card"
             :color="active ? 'primary' : 'white lighten-3'"

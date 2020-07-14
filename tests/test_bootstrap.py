@@ -6,7 +6,7 @@ import os
 import platform
 
 environment = None
-    
+
 def loadenv(json_str):
     environment = json.loads(json_str)
     return environment
