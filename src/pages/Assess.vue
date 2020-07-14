@@ -42,7 +42,6 @@
                             <v-row>
                                 <v-col>
                                     <v-btn
-                                        :disabled="pageIdx <= 1"
                                         name="btn-back"
                                         @click.native="prior"
                                         >Back</v-btn
@@ -171,8 +170,14 @@ export default {
             // navigates to the next page
             this.movePage(true);
         },
-        prior() {
-            this.movePage(false);
+        prior() {                            
+            if (this.pageIdx > 1) {
+                this.movePage(false);
+            } else {
+                this.$router.push({
+                    name: "Select"
+                })
+            }
         },
         pageEmpty() {
             return this.displayPages[this.pageIdx - 1].items.length < 1;
