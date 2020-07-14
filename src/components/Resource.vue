@@ -11,7 +11,8 @@
             </div>
         </div>
         <v-card-actions>
-            <v-btn 
+            <v-btn
+              role="button"
               class="success"
               :href="doc.moreInfoUrl"
               :disabled="doc.moreInfoUrl === undefined"
