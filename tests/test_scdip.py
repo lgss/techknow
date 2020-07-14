@@ -39,7 +39,7 @@ class ScdipTests(SetupTest):
         self.browser.get(self.env["root"])
         try: 
             heading = WebDriverWait(self.browser, 10).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR,'.v-toolbar__title b'))
+                EC.presence_of_element_located((By.CSS_SELECTOR,'.v-toolbar__title div'))
             )
             self.assertEqual(heading.text, self.env['title'], 'Title Check')
             assessmentbtn = self.browser.find_elements_by_id("btn-home-start-assessment")
