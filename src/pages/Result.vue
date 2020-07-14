@@ -57,6 +57,7 @@ export default {
                 .then((x) => x.json())
                 .then((x) => (this.noResults = x)),
         ]).then(() => {
+            window.scrollTo(0,0);
             this.loading = false;
         });
     },

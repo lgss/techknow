@@ -195,6 +195,7 @@ export default {
             this.doFocus();
         },
         doFocus(){
+            window.scrollTo(0,0);
             this.$nextTick(()=> {
                 this.$refs[`page${this.pageIdx-1}_item0`][0].focus()
             })

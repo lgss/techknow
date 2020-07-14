@@ -130,6 +130,7 @@ export default {
             this.categoriesSelected = selected;
         },
         doFocus(){
+            window.scrollTo(0,0);
             this.$nextTick(()=> {
                 if(this.showJourneys) {
                     this.$refs[`journeys_item0`].focus()
