@@ -161,6 +161,7 @@ export default {
                 // Create page structures that will calculate the required journeys for an assessment
                 this.loading = false;
                 this.pageIdx = 1;
+                this.dofocus()
             });
     },
     computed: {
