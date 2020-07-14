@@ -21,7 +21,7 @@
                         :step="idx + 1"
                         class="assessment-page"
                         :class="isCurrentPage(idx)"
-                        @change="dofocus"
+                        @change="doFocus"
                     >
                         <v-form role="form" aria-label="questions" ref="page" lazy-validation>
                             <v-row
@@ -43,33 +43,6 @@
                                     />
                                 </v-col>
                             </v-row>
-                            <!-- <v-row>
-                                <v-col>
-                                    <v-btn
-                                        role="button" 
-                                        aria-label="back"
-                                        :disabled="pageIdx <= 1"
-                                        name="btn-back"
-                                        @click.native="prior"
-                                    >Back</v-btn>
-                                    <v-btn
-                                        v-if="finished"
-                                        role="button" 
-                                        aria-label="finish"
-                                        color="success"
-                                        name="btn-finish"
-                                        @click="finish"
-                                    >Finish</v-btn>
-                                    <v-btn
-                                        v-else
-                                        role="button" 
-                                        aria-label="next"
-                                        color="success"
-                                        name="btn-next"
-                                        @click.native="next"
-                                    >Next</v-btn>
-                                </v-col>
-                            </v-row> -->
                         </v-form>
                     </v-stepper-content>
                 </v-stepper-items>
@@ -161,7 +134,7 @@ export default {
                 // Create page structures that will calculate the required journeys for an assessment
                 this.loading = false;
                 this.pageIdx = 1;
-                this.dofocus()
+                this.doFocus();
             });
     },
     computed: {
@@ -219,9 +192,9 @@ export default {
             else this.pageIdx--;
 
             if (this.pageEmpty()) this.movePage(forwards);
-            this.dofocus()
+            this.doFocus();
         },
-        dofocus(){
+        doFocus(){
             this.$nextTick(()=> {
                 this.$refs[`page${this.pageIdx-1}_item0`][0].focus()
             })
