@@ -10,7 +10,12 @@
             >
               {{title}}
             </v-card-title>
-            <v-card-text id="dialog-content">{{message}}</v-card-text>
+            <v-card-text 
+              id="dialog-content"
+              tabindex="0"
+            >
+              {{message}}
+            </v-card-text>
             <v-row justify="center">
               <v-card-actions>
                 <v-btn 
