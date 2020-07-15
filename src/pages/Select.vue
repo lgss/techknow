@@ -1,64 +1,94 @@
 <template>
     <div>
-        <v-skeleton-loader v-if="loading" type="card" />
-        <v-form
-            ref="categories"
-            v-else-if="!loading && !showJourneys"
-            id="parent-selection"
-        >
-            <item
-                v-show="!loading && !showJourneys"
-                title="Where do you need support?"
-                subtitle="Please select one or more"
-                :items="categories"
-                itemLabelKey="name"
-                type="category"
-            />
-            <v-row center>
-                <v-col>
-                    <v-btn 
-                        name="btn-continue"
-                        color="success"
-                        @click="selectCategories"
+        <v-sheet max-width="1200" class="mx-auto" elevation=4>
+            <v-progress-linear value="0"></v-progress-linear>
+            <v-container class="v-stepper__items">
+                <v-container class="v-stepper__content">
+                    <v-skeleton-loader v-if="loading" type="card" />
+
+                    <v-form 
+                        role="form" 
+                        aria-label="Your journey" 
+                        ref="categories"
+                        v-else-if="!loading && !showJourneys"
+                        id="parent-selection"
                     >
-                        Next
-                        <v-icon>mdi-arrow-right-bold-circle</v-icon>
-                    </v-btn>
-                </v-col>
-            </v-row>
-        </v-form>
-        <v-form
-            ref="journeys"
-            v-else-if="!loading && showJourneys"
-            id="journey-selection"
-        >
-            <item
-                v-show="!loading && showJourneys"
-                title="Where do you need support?"
-                subtitle="Please select one or more"
-                :items="possibleJourneys"
-                itemLabelKey="label"
-            />
-            <v-row center>
-                <v-col>
-                    <v-btn 
-                        name="btn-back"
-                        @click="selectCategories(false)"
+                        <v-row>
+                            <v-col>
+                                <item
+                                    ref="categories_item0"
+                                    v-show="!loading && !showJourneys"
+                                    title="Where do you need support?"
+                                    subtitle="Please select one or more"
+                                    :items="categories"
+                                    itemLabelKey="name"
+                                    type="category"
+                                />
+                            </v-col>
+                        </v-row>
+                        <v-row center>
+                            <v-col>
+                                <v-btn 
+                                    role="button" 
+                                    aria-label="next" 
+                                    color="success" 
+                                    @click="selectCategories"
+                                    name="btn-continue"
+                                >
+                                    Next
+                                    <v-icon>mdi-arrow-right-bold-circle</v-icon>
+                                </v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-form>
+
+                    <v-form 
+                        role="form" 
+                        aria-label="Your journey" 
+                        ref="journeys"
+                        v-else-if="!loading && showJourneys"
+                        id="journey-selection"
                     >
-                        <v-icon left>mdi-arrow-left-bold-circle</v-icon>
-                        Back
-                    </v-btn>
-                    <v-btn
-                        name="btn-begin"
-                        color="success"
-                        @click="beginAssessment"
-                    >
-                        Next
-                        <v-icon right>mdi-arrow-right-bold-circle</v-icon>
-                    </v-btn>
-                </v-col>
-            </v-row>
-        </v-form>
+                        <v-row>
+                            <v-col>
+                                <item
+                                    ref="journeys_item0"
+                                    v-show="!loading && showJourneys"
+                                    title="Where do you need support?"
+                                    subtitle="Please select one or more"
+                                    :items="possibleJourneys"
+                                    itemLabelKey="label"
+                                    type="journey"
+                                />
+                            </v-col>
+                        </v-row>
+                        <v-row center>
+                            <v-col>
+                                <v-btn 
+                                    role="button" 
+                                    aria-label="back"
+                                    name="btn-back"
+                                    @click="selectCategories(false)"
+                                >
+                                    <v-icon left>mdi-arrow-left-bold-circle</v-icon>
+                                    Back
+                                </v-btn>
+                                <v-btn 
+                                    name="btn-begin"
+                                    role="button" 
+                                    aria-label="next" 
+                                    color="success" 
+                                    @click="beginAssessment"
+                                >
+                                    Next
+                                    <v-icon right>mdi-arrow-right-bold-circle</v-icon>
+                                </v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-form>
+                </v-container>
+            </v-container>
+        </v-sheet>
     </div>
 </template>
 
@@ -71,6 +101,18 @@ export default {
         Item,
     },
     name: "Selection",
+    data() {
+        return {
+            selc: [],
+            selj: [],
+            primaryColour: landing.get(),
+            loading: true,
+            categoriesSelected: false,
+            endpoint: process.env.VUE_APP_API_ENDPOINT,
+            categories: [],
+            journeys: [],
+        };
+    },
     created() {
         fetch(this.endpoint + "/journeys")
             .then((x) => x.json())
@@ -91,6 +133,7 @@ export default {
     },
     computed: {
         showJourneys() {
+            this.doFocus();
             return this.categoriesSelected || this.categories.length <= 1;
         },
         selectedCats() {
@@ -127,29 +170,16 @@ export default {
             }
             this.categoriesSelected = selected;
         },
-    },
-    data() {
-        return {
-            selc: [],
-            selj: [],
-            primaryColour: landing.get(),
-            loading: true,
-            categoriesSelected: false,
-            endpoint: process.env.VUE_APP_API_ENDPOINT,
-            categories: [],
-            categories2: [],
-            journeys: [],
-        };
-    },
+        doFocus(){
+            window.scrollTo(0,0);
+            this.$nextTick(()=> {
+                if(this.showJourneys) {
+                    this.$refs[`journeys_item0`].focus()
+                } else {
+                    this.$refs[`categories_item0`].focus()
+                }
+            })
+        }
+    }
 };
 </script>
-
-<style scoped>
-.theme--light.v-sheet {
-    background-color: transparent;
-}
-#router-view {
-    margin-left: 20px;
-    margin-right: 20px;
-}
-</style>
