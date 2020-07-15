@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import newTab from '@/js/newTab.js'
 export default {
     name: "terms",
     data() {
@@ -29,7 +30,7 @@ export default {
         fetch(this.endpoint + '/config/disclaimer')
         .then(x=>x.json())
         .then(x=>{
-            this.terms = x;
+            this.terms = {...x, content: newTab(x.content)};
         })
         .catch()
         .finally(()=>this.loading = false)

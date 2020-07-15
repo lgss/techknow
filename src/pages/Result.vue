@@ -40,6 +40,7 @@
 <script>
 import utils from "@/js/assess-utils.js";
 import resource from "@/components/Resource.vue";
+import newTab from "@/js/newTab.js";
 
 export default {
     name: "Result",
@@ -54,7 +55,7 @@ export default {
                 }),
             fetch(this.endpoint + "/config/positive-outcome")
                 .then((x) => x.json())
-                .then((x) => (this.noResults = x)),
+                .then((x) => (this.noResults = {...x, content: newTab(x.content)})),
         ]).then(() => {
             window.scrollTo(0,0);
             this.loading = false;
