@@ -51,10 +51,11 @@
                         <v-btn
                             role="button" 
                             aria-label="back"
-                            :disabled="pageIdx <= 1"
                             name="btn-back"
                             @click.native="prior"
-                        >Back</v-btn>
+                        >
+                            Back
+                        </v-btn>
                         <v-btn
                             v-if="finished"
                             role="button" 
@@ -62,7 +63,9 @@
                             color="success"
                             name="btn-finish"
                             @click="finish"
-                        >Finish</v-btn>
+                        >
+                            Finish
+                        </v-btn>
                         <v-btn
                             v-else
                             role="button" 
@@ -70,7 +73,9 @@
                             color="success"
                             name="btn-next"
                             @click.native="next"
-                        >Next</v-btn>
+                        >
+                            Next
+                        </v-btn>
                     </v-col>
                 </v-row>
             </v-stepper>
@@ -179,8 +184,14 @@ export default {
             // navigates to the next page
             this.movePage(true);
         },
-        prior() {
-            this.movePage(false);
+        prior() {                            
+            if (this.pageIdx > 1) {
+                this.movePage(false);
+            } else {
+                this.$router.push({
+                    name: "Select"
+                })
+            }
         },
         pageEmpty() {
             return this.displayPages[this.pageIdx - 1].items.length < 1;

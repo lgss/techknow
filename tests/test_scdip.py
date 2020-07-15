@@ -440,6 +440,12 @@ class ScdipTests(SetupTest):
             EC.presence_of_element_located((By.CSS_SELECTOR, f'{self.CURRENT_PAGE_SELECTOR} .multiple-choice-input'))
         )
 
+    #Test that the user can navigate back to the select stage from the assess stage
+    def test_back_to_select(self):
+        self.test_select()
+        self.click_back()
+        self.page_select()
+    
 
 
 
