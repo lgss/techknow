@@ -7,7 +7,7 @@
     >
         <v-card
             ref="card"
-            :color="active ? 'primary' : 'white lighten-3'"
+            :color="active ? 'primary' : 'white'"
             @click="click"
             @keypress="click"
         >
@@ -56,3 +56,9 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+    .choice:focus {
+        outline: -webkit-focus-ring-color auto 1px;
+    }
+</style>
