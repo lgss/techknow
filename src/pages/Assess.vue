@@ -1,12 +1,13 @@
 <template>
     <div>
-        <v-card>
+        <v-sheet max-width="1200" class="mx-auto" elevation=4>
             <v-stepper v-model="pageIdx" style="box-shadow: none">
                 <v-progress-linear
                     tile="true"
                     color="primary"
                     :value="percentDone"
                     :indeterminate="loading"
+                    id="progressBar"
                 />
                 <div v-if="loading">
                     <br />
@@ -20,8 +21,9 @@
                         :step="idx + 1"
                         class="assessment-page"
                         :class="isCurrentPage(idx)"
+                        @change="doFocus"
                     >
-                        <v-form ref="page" lazy-validation>
+                        <v-form role="form" aria-label="questions" ref="page" lazy-validation>
                             <v-row
                                 v-for="(field, index) in page.items"
                                 :key="index"
@@ -29,6 +31,8 @@
                             >
                                 <v-col>
                                     <component
+                                        :ref="`page${idx}_item${index}`"
+                                        :id="`page${idx}_item${index}`"
                                         @responded="
                                             (selection) =>
                                                 responded(selection, field.name)
@@ -39,40 +43,44 @@
                                     />
                                 </v-col>
                             </v-row>
-                            <v-row>
-                                <v-col>
-                                    <v-btn
-                                        name="btn-back"
-                                        @click.native="prior"
-                                        >Back</v-btn
-                                    >
-                                    <v-btn
-                                        v-if="finished"
-                                        color="success"
-                                        name="btn-finish"
-                                        @click="finish"
-                                        >Finish</v-btn
-                                    >
-                                    <v-btn
-                                        v-else
-                                        color="success"
-                                        name="btn-next"
-                                        @click.native="next"
-                                        >Next</v-btn
-                                    >
-                                </v-col>
-                            </v-row>
                         </v-form>
                     </v-stepper-content>
                 </v-stepper-items>
+                <v-row>
+                    <v-col>
+                        <v-btn
+                            role="button" 
+                            aria-label="back"
+                            :disabled="pageIdx <= 1"
+                            name="btn-back"
+                            @click.native="prior"
+                        >Back</v-btn>
+                        <v-btn
+                            v-if="finished"
+                            role="button" 
+                            aria-label="finish"
+                            color="success"
+                            name="btn-finish"
+                            @click="finish"
+                        >Finish</v-btn>
+                        <v-btn
+                            v-else
+                            role="button" 
+                            aria-label="next"
+                            color="success"
+                            name="btn-next"
+                            @click.native="next"
+                        >Next</v-btn>
+                    </v-col>
+                </v-row>
             </v-stepper>
-        </v-card>
+        </v-sheet>
         <v-dialog v-model="showDialog" :fullscreen="dialog.fullscreen">
             <v-card>
                 <v-container>
                     <v-row>
                         <v-col>
-                            <h1 id="dialog-title" v-html="dialog.title"></h1>
+                            <div id="dialog-title" role="heading" aria-level="3" class="text-h3 mb-2" v-text="dialog.title" tabindex="0"></div>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -81,7 +89,7 @@
                         </v-col>
                     </v-row>
                     <v-row justify="center">
-                        <v-btn @click="showDialog = false">Back</v-btn>
+                        <v-btn role="button" @click="showDialog = false">Back</v-btn>
                     </v-row>
                 </v-container>
             </v-card>
@@ -126,6 +134,7 @@ export default {
                 // Create page structures that will calculate the required journeys for an assessment
                 this.loading = false;
                 this.pageIdx = 1;
+                this.doFocus();
             });
     },
     computed: {
@@ -189,6 +198,13 @@ export default {
             else this.pageIdx--;
 
             if (this.pageEmpty()) this.movePage(forwards);
+            this.doFocus();
+        },
+        doFocus(){
+            window.scrollTo(0,0);
+            this.$nextTick(()=> {
+                this.$refs[`page${this.pageIdx-1}_item0`][0].focus()
+            })
         },
         responded(selection, name) {
             console.log("Invoked responded()", selection, name);
@@ -291,17 +307,3 @@ export default {
     },
 };
 </script>
-
-<style scoped>
-.theme--light.v-sheet {
-    background-color: transparent;
-    box-shadow: none;
-}
-.theme--light.v-stepper {
-    background-color: transparent;
-}
-#router-view {
-    margin-left: 20px;
-    margin-right: 20px;
-}
-</style>

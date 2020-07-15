@@ -39,7 +39,7 @@ class ScdipTests(SetupTest):
         self.browser.get(self.env["root"])
         try: 
             heading = WebDriverWait(self.browser, 10).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR,'.v-toolbar__title b'))
+                EC.presence_of_element_located((By.CSS_SELECTOR,'.v-toolbar__title div'))
             )
             self.assertEqual(heading.text, self.env['title'], 'Title Check')
             assessmentbtn = self.browser.find_elements_by_id("btn-home-start-assessment")
@@ -251,7 +251,7 @@ class ScdipTests(SetupTest):
 
     def click_next(self):
         WebDriverWait(self.browser,10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, ".v-stepper__content.assessment-page.current [name=btn-next]")),
+            EC.presence_of_element_located((By.CSS_SELECTOR, "[name=btn-next]")),
             'Failed to locate next button'
         ).click()
 
@@ -269,13 +269,13 @@ class ScdipTests(SetupTest):
 
     def click_finish(self):
         WebDriverWait(self.browser,10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, ".v-stepper__content.assessment-page.current [name=btn-finish]")),
+            EC.presence_of_element_located((By.CSS_SELECTOR, "[name=btn-finish]")),
             'Failed to locate finish button'
         ).click()
     
     def click_back(self):
         WebDriverWait(self.browser,10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, ".v-stepper__content.assessment-page.current [name=btn-back]")),
+            EC.presence_of_element_located((By.CSS_SELECTOR, "[name=btn-back]")),
             'Failed to locate back button'
         ).click()
     
@@ -314,7 +314,7 @@ class ScdipTests(SetupTest):
             EC.presence_of_element_located((By.CSS_SELECTOR,f"{self.CURRENT_PAGE_SELECTOR}")),
             "Failed to locate item"
         )
-        title = item.find_element_by_css_selector('h2')
+        title = item.find_element_by_css_selector('.text-h3')
         self.assertEqual(title.text, data['question_text'])
     
     #Test that a conditional question is not rendered when expected
@@ -325,7 +325,7 @@ class ScdipTests(SetupTest):
             EC.presence_of_element_located((By.CSS_SELECTOR,f"{self.CURRENT_PAGE_SELECTOR}")),
             "Failed to locate item"
         )
-        title = item.find_element_by_css_selector('h2')
+        title = item.find_element_by_css_selector('.text-h3')
         self.assertNotEqual(title.text, data['question_text'])
     
     #Test that a conditional question that was not rendered is rendered once the selected choice is changed
@@ -336,7 +336,7 @@ class ScdipTests(SetupTest):
             EC.presence_of_element_located((By.CSS_SELECTOR,f"{self.CURRENT_PAGE_SELECTOR}")),
             "Failed to locate item"
         )
-        title = item.find_element_by_css_selector('h2')
+        title = item.find_element_by_css_selector('.text-h3')
         self.assertNotEqual(title.text, data['question_text'])
 
     #Test an assessment is halted when finishing with a form ending choice
@@ -405,7 +405,7 @@ class ScdipTests(SetupTest):
             EC.presence_of_element_located((By.ID, 'no_results')),
             "Failed to result no_results container"
         )
-        title = null_result_container.find_element_by_css_selector('h1')
+        title = null_result_container.find_element_by_css_selector('.text-h3')
         self.assertEqual(title.text,data['title'])
         content = null_result_container.find_element_by_css_selector('.col')
         self.assertEqual(content.text, data['content'])
