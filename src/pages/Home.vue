@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <v-col v-html="landing">
+      <v-col v-html="content">
       </v-col>
     </v-row>
     <v-row>
@@ -13,14 +13,23 @@
 </template>
 
 <script>
-  import landing from '@/js/landing.js'
   export default {
     name: 'home',
     data () {
       return {
-        landing: landing.get()
+        content: "",
+        loading: true,
+        endpoint: process.env.VUE_APP_API_ENDPOINT
       }
-    }
+    },
+    created() {
+      fetch(this.endpoint + '/content/landing')
+        .then(x => x.json())
+        .then( x => {
+          this.content = x.content
+          this.loading = false
+        })
+  },
   }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -93,7 +93,6 @@
 </template>
 
 <script>
-import landing from "@/js/landing.js";
 import Item from "@/components/Item.vue";
 
 export default {
@@ -105,7 +104,6 @@ export default {
         return {
             selc: [],
             selj: [],
-            primaryColour: landing.get(),
             loading: true,
             categoriesSelected: false,
             endpoint: process.env.VUE_APP_API_ENDPOINT,

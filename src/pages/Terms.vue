@@ -26,7 +26,7 @@ export default {
         }
     },
     created() {
-        fetch(this.endpoint + '/config/disclaimer')
+        fetch(this.endpoint + '/content/disclaimer')
         .then(x=>x.json())
         .then(x=>{
             this.terms = x;

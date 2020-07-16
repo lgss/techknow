@@ -1,6 +1,6 @@
 <template>
-    <v-footer color="primary" class="justify-center">
-        <v-card flat tile color="primary">
+    <v-footer color="secondary" class="justify-center">
+        <v-card flat tile color="secondary">
             <v-card-text>
                 <router-link class="white--text" to='/Terms'>
                     Terms and Conditions

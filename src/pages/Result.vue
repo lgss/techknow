@@ -52,7 +52,7 @@ export default {
                 .then((x) => {
                     this.resources = x;
                 }),
-            fetch(this.endpoint + "/config/positive-outcome")
+            fetch(this.endpoint + "/content/positive")
                 .then((x) => x.json())
                 .then((x) => (this.noResults = x)),
         ]).then(() => {

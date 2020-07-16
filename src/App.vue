@@ -16,22 +16,20 @@
 <script>
 import Toolbar from '@/components/Toolbar';
 import Footer from '@/components/Footer';
-import landing from '@/js/landing.js';
 
 export default {
   name: 'App',
   created() {
-    fetch(this.endpoint + '/config/general')
+    fetch(this.endpoint + '/theme')
       .then(x => x.json())
       .then( x => {
         document.title = x.title
         this.title = x.title
-        landing.set(x.landing)
         this.$vuetify.theme.themes.light.primary = x.primary
+        this.$vuetify.theme.themes.light.secondary = x.secondary
         this.loading = false
       })
   },
-
   components: {
     Toolbar, 
     Footer
