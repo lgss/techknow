@@ -142,7 +142,6 @@ export default {
         possibleJourneys() {
             if (this.categories.length <= 1 || this.selectedCats.length === 0)
                 return this.journeys;
-
             return this.journeys.filter((x) =>
                 this.selectedCats.includes(x.parent)
             );
@@ -150,7 +149,6 @@ export default {
         selectedJourneys() {
             //   if (this.possibleJourneys.length <= 1)
             //     return this.possibleJourneys
-
             return this.possibleJourneys
                 .filter((x) => x.selected)
                 .map((x) => x.id);
