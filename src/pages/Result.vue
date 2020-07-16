@@ -64,9 +64,10 @@ export default {
     methods: {
         startAgain() {
             this.$dialog
-                .confirm(
+                .display(
                     "Start again",
-                    "The resources currently shown will be lost. You will need to complete the assessment again from the beginning. Are you sure you want to start again?"
+                    "The resources currently shown will be lost. You will need to complete the assessment again from the beginning. Are you sure you want to start again?",
+                    ["Yes","No"]
                 )
                 .then((result) => {
                     if (result === 0) this.$router.push({ name: "Select" });
