@@ -372,26 +372,30 @@ class ScdipTests(SetupTest):
         )
 
     #Test the restart dialog can be cancelled
-    def test_restart_cancel(self):
+    def test_restart_no(self):
         self.test_restart()
         dialog = WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR,'[role=document] .v-dialog--active')),
             'Failed to locate restart dialog'
         )
-        dialog.find_elements_by_css_selector('button')[1].click()
+        no_button = dialog.find_elements_by_css_selector('button')[1]
+        self.assertEqual(no_button.text, "NO")
+        no_button.click()
         WebDriverWait(self.browser, 10).until_not(
             EC.presence_of_element_located((By.CSS_SELECTOR,'[role=document] .v-dialog--active')),
             'Dialog still active'
         )
 
     #Test the restart dialog can be confirmed
-    def test_restart_ok(self):
+    def test_restart_yes(self):
         self.test_restart()
         dialog = WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR,'[role=document] .v-dialog--active')),
             'Failed to locate restart dialog'
         )
-        dialog.find_elements_by_css_selector('button')[0].click()
+        yes_button = dialog.find_elements_by_css_selector('button')[0]
+        self.assertEqual(yes_button.text, "YES")
+        yes_button.click()
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR,'#parent-selection')),
             'Failed to locate category selection element'
