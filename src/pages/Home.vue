@@ -14,12 +14,11 @@
 
 <script>
   import landing from '@/js/landing.js'
-  import newTab from '@/js/newTab.js'
   export default {
     name: 'home',
     data () {
       return {
-        landing: newTab(landing.get())
+        landing: landing.get()
       }
     }
   }
