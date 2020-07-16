@@ -6,7 +6,7 @@
         
         <div v-else>
             <div id="no_results" v-if="filteredList.length === 0">
-                <div role="heading" aria-level="3" class="text-h3 mb-2" v-text="noResults.title" tabindex="0"></div>
+                <div ref="heading" role="heading" aria-level="3" class="text-h3 mb-2" v-text="noResults.title" tabindex="0"></div>
                 <v-col v-html="noResults.content"></v-col>
                 <v-btn role="button" id="btn-restart-assessment" @click="startAgain">Start again</v-btn>
             </div>
@@ -17,7 +17,7 @@
                     <v-container>
                         <v-row class="align-center" >
                             <v-col class="text-left">
-                                <div role="heading" aria-level="3" class="text-h3 mb-2" v-text="category.category" tabindex="0"></div>
+                                <div ref="heading" role="heading" aria-level="3" class="text-h3 mb-2" v-text="category.category" tabindex="0"></div>
                             </v-col>
                         </v-row>
                     </v-container>
@@ -56,8 +56,8 @@ export default {
                 .then((x) => x.json())
                 .then((x) => (this.noResults = x)),
         ]).then(() => {
-            window.scrollTo(0,0);
             this.loading = false;
+            this.doFocus();
         });
     },
     props: ["responses"],
@@ -72,6 +72,16 @@ export default {
                     if (result === 0) this.$router.push({ name: "Select" });
                 });
         },
+        doFocus(){
+            window.scrollTo(0,0);
+            this.$nextTick(()=> {
+                if(this.filteredList.length === 0) {
+                    this.$refs[`heading`].focus()
+                } else {
+                    this.$refs[`heading`][0].focus()
+                }
+            })
+        }
     },
     computed: {
         filteredList() {

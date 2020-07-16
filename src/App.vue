@@ -64,6 +64,9 @@ export default {
     text-align: center;
     padding-top: 30vh;
   }
+  
+  .v-btn:focus{
+      outline: -webkit-focus-ring-color auto 1px;
 
   .v-card__title {
     word-break:normal !important;
