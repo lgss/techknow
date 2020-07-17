@@ -216,8 +216,9 @@ export default {
             return idx + 1 == this.pageIdx ? `current` : null;
         },
         finish() {
+            let valid = this.$refs.page[this.pageIdx - 1].validate()
             // Validate page
-            if (!this.$refs.page[this.pageIdx - 1].validate()) {
+            if (!valid) {
                 console.log("page invalid");
                 return;
             }
@@ -226,10 +227,23 @@ export default {
             if (this.proceedDialog()) {
                 return;
             }
-            this.$router.push({
-                name: "Result",
-                params: { responses: this.responses },
-            });
+
+            if (valid) {
+                fetch(this.endpoint + '/content/completed')
+                    .then(x => x.json())
+                    .then( x => {
+                        this.$dialog
+                            .display(
+                                x.title,
+                                x.content,
+                                ["View my results", "Cancel"]
+                            )
+                            .then((result) => {
+                                console.log(result)
+                                if (result === 0) this.$router.push({ name: "Result", params: { responses: this.responses } });
+                            })
+                    });
+            }
         },
         proceedDialog() {
             const choice = this.responses
