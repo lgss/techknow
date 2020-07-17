@@ -7,9 +7,9 @@
                 </v-toolbar-title>
             </router-link>
             <v-container class="d-flex flex-column align-center">
-                <h2 role="heading" aria-level="2" tabindex="0" class="white--text subheader">
+                <div role="heading" aria-level="2" tabindex="0" class="white--text subheader">
                     {{header}}
-                </h2>
+                </div>
             </v-container>
         </v-container>
 
