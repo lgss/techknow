@@ -360,7 +360,7 @@ class ScdipTests(SetupTest):
 
     #Test the restart dialog displays
     def test_restart(self):
-        self.test_no_resources_content()
+        self.test_resource_none_content()
         restart = WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR,'button#btn-restart-assessment')),
             'Failed to locate restart button'
@@ -372,33 +372,37 @@ class ScdipTests(SetupTest):
         )
 
     #Test the restart dialog can be cancelled
-    def test_restart_cancel(self):
+    def test_restart_no(self):
         self.test_restart()
         dialog = WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR,'[role=document] .v-dialog--active')),
             'Failed to locate restart dialog'
         )
-        dialog.find_elements_by_css_selector('button')[1].click()
+        no_button = dialog.find_elements_by_css_selector('button')[1]
+        self.assertEqual(no_button.text, "NO")
+        no_button.click()
         WebDriverWait(self.browser, 10).until_not(
             EC.presence_of_element_located((By.CSS_SELECTOR,'[role=document] .v-dialog--active')),
             'Dialog still active'
         )
 
     #Test the restart dialog can be confirmed
-    def test_restart_ok(self):
+    def test_restart_yes(self):
         self.test_restart()
         dialog = WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR,'[role=document] .v-dialog--active')),
             'Failed to locate restart dialog'
         )
-        dialog.find_elements_by_css_selector('button')[0].click()
+        yes_button = dialog.find_elements_by_css_selector('button')[0]
+        self.assertEqual(yes_button.text, "YES")
+        yes_button.click()
         WebDriverWait(self.browser, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR,'#parent-selection')),
             'Failed to locate category selection element'
         )
 
     #Test the content when no resources were found         
-    def test_no_resources_content(self):
+    def test_resource_none_content(self):
         data = self.run_script(f'tests/scripts/{self.func_name()}.json')
         self.validate_assertion_data(data, ["title","content"])
         null_result_container = WebDriverWait(self.browser,10).until(
@@ -410,11 +414,57 @@ class ScdipTests(SetupTest):
         content = null_result_container.find_element_by_css_selector('.col')
         self.assertEqual(content.text, data['content'])
 
+    #Test that a specific resource is found
+    def test_resource_present(self):
+        data = self.run_script(f'tests/scripts/{self.func_name()}.json')
+        self.validate_assertion_data(data, ["category","resource_name", "resource_content"])
+        results = WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "#container-results")),
+            "Failed to locate results container"
+        )
+        # look for category
+        cat_rows = results.find_elements_by_css_selector('.row')
+
+        category = next((row for row in cat_rows if row.find_element_by_css_selector('[role=heading]').text == data['category']), None)
+        self.assertIsNotNone(category)
+
+        # look for resource
+        resources = category.find_elements_by_css_selector('[type=resource]')
+        resource = next((res for res in resources if res.find_element_by_css_selector('.headline').text == data['resource_name']), None)
+        self.assertIsNotNone(resource)
+        
+        # check resource content
+        content = resource.find_element_by_css_selector('.v-card__subtitle').text
+        self.assertEqual(content, data['resource_content'])
+
+ 
+    #Test that a specific resource is absent
+    def test_resource_absent(self):
+        data = self.run_script(f'tests/scripts/{self.func_name()}.json')
+        self.validate_assertion_data(data, ["resource_name"])
+        results = WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "#container-results")),
+            "Failed to locate results container"
+        )
+        resources = results.find_elements_by_css_selector('[type=resource]')
+        resource = next((res for res in resources if res.find_element_by_css_selector('.headline').text == data['resource_name']), None)
+        self.assertIsNone(resource, "Located resource that should not exist")
+
+    # #Test a resource with an external link can be clicked
+    # def test_resource_external_link(self):
+    #     #data = self.run_script(f'tests/scripts/{self.func_name()}.json')
+    #     return
+
+    # #Test a resource without an external link cannot be clicked
+    # def test_resource_external_link_neg(self):
+    #     return
+        
     #Test that a mandatory item may not be skipped
     def test_try_skip_mandatory_item(self):
         self.run_script(f'tests/scripts/{self.func_name()}.json')
         error_elem = WebDriverWait(self.browser, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, f'{self.CURRENT_PAGE_SELECTOR} .error--text'))
+            EC.presence_of_element_located((By.CSS_SELECTOR, f'{self.CURRENT_PAGE_SELECTOR} .error--text')),
+            "Failed to locate error element"
         )
         error_text = error_elem.find_element_by_class_name('v-messages__message')
         self.assertEqual(error_text.text, "Please select a response")
@@ -423,21 +473,24 @@ class ScdipTests(SetupTest):
     def test_render_stimulus(self):
         self.run_script(f'tests/scripts/{self.func_name()}.json')
         WebDriverWait(self.browser, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, f'{self.CURRENT_PAGE_SELECTOR} .stimulus'))
+            EC.presence_of_element_located((By.CSS_SELECTOR, f'{self.CURRENT_PAGE_SELECTOR} .stimulus')),
+            "Failed to locate stimulus item"
         )
     
     #Test that a single-choice-input renders
     def test_render_single_choice_input(self):
         self.run_script(f'tests/scripts/{self.func_name()}.json')
         WebDriverWait(self.browser, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, f'{self.CURRENT_PAGE_SELECTOR} .single-choice-input'))
+            EC.presence_of_element_located((By.CSS_SELECTOR, f'{self.CURRENT_PAGE_SELECTOR} .single-choice-input')),
+            "Failed to locate single choice input item"
         )
     
     #Test that a multiple-choice-input renders
     def test_render_multiple_choice_input(self):
         self.run_script(f'tests/scripts/{self.func_name()}.json')
         WebDriverWait(self.browser, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, f'{self.CURRENT_PAGE_SELECTOR} .multiple-choice-input'))
+            EC.presence_of_element_located((By.CSS_SELECTOR, f'{self.CURRENT_PAGE_SELECTOR} .multiple-choice-input')),
+            "Failed to locate multiple choice input item"
         )
 
     #Test that the user can navigate back to the select stage from the assess stage

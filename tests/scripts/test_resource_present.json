@@ -1,0 +1,34 @@
+{
+    "version": "0.1",
+    "steps": [
+        {
+            "step": "respond",
+            "type": "category-input",
+            "value_text": ["Sample-Journey-Parent"]
+        },
+        {
+            "step": "confirm_categories"
+        },
+        {
+            "step": "respond",
+            "type": "journey-input",
+            "value_text": ["Show-Resources"]
+        },
+        {
+            "step": "confirm_journies"
+        },
+        {
+            "step": "respond",
+            "type": "single-choice-input",
+            "value_text": "Yes"
+        },
+        {
+            "step": "finish"
+        }
+    ],
+    "data" :{
+        "category": "cat-b",
+        "resource_name": "Sample-Resource update",
+        "resource_content": "Sample resource content for development environment"
+    }
+}
