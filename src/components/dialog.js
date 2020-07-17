@@ -26,6 +26,7 @@ function Install (Vue, vuetify) {
   
     Vue.prototype[property] = show  
     Vue.prototype[property].confirm = (title, message) => {return show(title, message, ['OK', 'Cancel'])}
+    Vue.prototype[property].display = (title, message, buttons) => {return show(title, message, buttons)}
     Vue.prototype[property].fullscreen = (message) => {return show('', message, ['Back']), {fullscreen: true}}
   }
 
