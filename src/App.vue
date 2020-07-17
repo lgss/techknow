@@ -46,7 +46,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
   main {
     background-color: #f7f7f7;
   }
@@ -61,5 +61,13 @@ export default {
   #loading {
     text-align: center;
     padding-top: 30vh;
+  }
+  
+  .v-btn:focus{
+      outline: -webkit-focus-ring-color auto 1px;
+  }
+  
+  .v-card__title {
+    word-break:normal !important;
   }
 </style>
