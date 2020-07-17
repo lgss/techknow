@@ -20,7 +20,7 @@
         {
             "step": "respond",
             "type": "single-choice-input",
-            "value_text": "No"
+            "value_text": "Yes"
         },
         {
             "step": "finish"
@@ -28,7 +28,7 @@
     ],
     "data" : {
         "category": "cat-b",
-        "resource_name": "Sample-Resource update",
+        "resource_name": "Concealed Resource",
         "resource_content": "Sample resource content for development environment"
     }
 }
