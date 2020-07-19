@@ -24,6 +24,11 @@
         },
         {
             "step": "finish"
+        },
+        {
+            "step": "respond",
+            "type": "dialog",
+            "value_text": "VIEW MY RESULTS"
         }
     ],
     "data" :{
