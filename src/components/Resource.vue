@@ -27,10 +27,20 @@
 import image from '@/js/image.js'
 export default {
     name: "Resource",
-    props: ['img', 'doc'],
+    props: ['doc'],
     data () {
       return {
         endpoint: process.env.VUE_APP_API_ENDPOINT
+      }
+    },
+    computed: {
+      img() {
+        if (this.doc.img)
+          return this.doc.img
+        return {
+          src: null,
+          alt: null
+        }
       }
     },
     methods: {
