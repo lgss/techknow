@@ -1,9 +1,8 @@
 <template>
     <v-card>
         <div class="d-flex flex-no-wrap align-center">
-            <v-avatar class="ma-3" size="125" tile>
-                <v-skeleton-loader v-if="img === undefined" type="avatar"/>
-                <v-img v-else :src="display(img.src)" :alt="img.alt"></v-img>
+            <v-avatar v-if="img.src" class="ma-3" size="125" tile>
+                <v-img :src="display(img.src)" :alt="img.alt"></v-img>
             </v-avatar>
             <div class="text-left">
                 <v-card-title class="headline" v-text="doc.name"/>
