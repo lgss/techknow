@@ -16,8 +16,8 @@
                         <v-row>
                             <v-col>
                                 <item
+                                    key="categories_item0"
                                     ref="categories_item0"
-                                    v-show="!loading && !showJourneys"
                                     title="Where do you need support?"
                                     subtitle="Please select one or more"
                                     :items="categories"
@@ -52,8 +52,8 @@
                         <v-row>
                             <v-col>
                                 <item
+                                    key="journeys_item0"
                                     ref="journeys_item0"
-                                    v-show="!loading && showJourneys"
                                     title="Where do you need support?"
                                     subtitle="Please select one or more"
                                     :items="possibleJourneys"
@@ -166,7 +166,7 @@ export default {
             if (selected && !this.$refs.categories.validate()) {
                 return false;
             }
-            this.categoriesSelected = selected;
+            this.categoriesSelected = !!selected;
         },
         doFocus(){
             window.scrollTo(0,0);

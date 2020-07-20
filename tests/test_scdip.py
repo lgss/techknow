@@ -309,6 +309,38 @@ class ScdipTests(SetupTest):
     def test_select(self):
         self.page_home()
         self.page_select()
+    
+    #Test that categories are mandatory
+    def test_select_mandatory_categories(self):
+        self.page_home()
+        self.confirm_categories()
+        parent_elem = WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "#parent-selection")),
+            'Failed to locate category selection'
+        )
+        v_input = parent_elem.find_element_by_css_selector('.v-input')
+        classes = v_input.get_attribute('class')
+        is_error = "error--text" in classes
+        self.assertTrue(is_error, "Failed to detect error style")
+        message = v_input.find_element_by_css_selector('.v-messages__message')
+        self.assertEqual(message.text, "Please select at least one category.")
+
+    #Test that journies are mandatory
+    def test_select_mandatory_journies(self):
+        self.page_home()
+        self.fill_category_input()
+        self.confirm_categories()
+        self.confirm_journies()
+        parent_elem =  WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, "#journey-selection")),
+            'Failed to locate category selection'
+        )
+        v_input = parent_elem.find_element_by_css_selector('.v-input')
+        classes = v_input.get_attribute('class')
+        is_error = "error--text" in classes
+        self.assertTrue(is_error, "Failed to detect error style")
+        message = v_input.find_element_by_css_selector('.v-messages__message')
+        self.assertEqual(message.text, "Please select at least one journey.")
 
     #Test that resources are rendered
     def test_resources_render(self):
