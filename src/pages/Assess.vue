@@ -164,11 +164,7 @@ export default {
             // navigates to the next page
             this.movePage(true);
         },
-        prior() {
-            // checks if a dialog needs to be displayed to the user
-            if (this.proceedDialog()) {
-                return;
-            }                            
+        prior() {                    
             if (this.pageIdx > 1) {
                 this.movePage(false);
             } else {
