@@ -157,18 +157,10 @@ export default {
             if (!page_valid) {
                 return;
             }
-            // check if a dialog needs to be displayed to the user
-            if (this.proceedDialog()) {
-                return;
-            }
             // navigates to the next page
             this.movePage(true);
         },
-        prior() {
-            // checks if a dialog needs to be displayed to the user
-            if (this.proceedDialog()) {
-                return;
-            }                            
+        prior() {                    
             if (this.pageIdx > 1) {
                 this.movePage(false);
             } else {
@@ -183,6 +175,11 @@ export default {
         movePage(forwards) {
             if (forwards) this.pageIdx++;
             else this.pageIdx--;
+
+            // check if a dialog needs to be displayed to the user
+            if (this.proceedDialog()) {
+                return;
+            }
 
             if (this.pageEmpty()) this.movePage(forwards);
             this.doFocus();
