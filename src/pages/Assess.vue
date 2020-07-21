@@ -80,25 +80,6 @@
                 </v-row>
             </v-stepper>
         </v-sheet>
-        <v-dialog v-model="showDialog" :fullscreen="dialog.fullscreen">
-            <v-card>
-                <v-container>
-                    <v-row>
-                        <v-col>
-                            <div id="dialog-title" role="heading" aria-level="3" class="text-h3 mb-2" v-text="dialog.title" tabindex="0"></div>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col>
-                            <span id="dialog-content" v-html="dialog.content"></span>
-                        </v-col>
-                    </v-row>
-                    <v-row justify="center">
-                        <v-btn role="button" @click="showDialog = false">Back</v-btn>
-                    </v-row>
-                </v-container>
-            </v-card>
-        </v-dialog>
     </div>
 </template>
 
@@ -176,15 +157,14 @@ export default {
             if (!page_valid) {
                 return;
             }
-            // checks if a dialog needs to be displayed to the user
+            // check if a dialog needs to be displayed to the user
             if (this.proceedDialog()) {
                 return;
             }
-
             // navigates to the next page
             this.movePage(true);
         },
-        prior() {                            
+        prior() {                    
             if (this.pageIdx > 1) {
                 this.movePage(false);
             } else {
@@ -197,8 +177,6 @@ export default {
             return this.displayPages[this.pageIdx - 1].items.length < 1;
         },
         movePage(forwards) {
-            if (this.proceedDialog()) return;
-
             if (forwards) this.pageIdx++;
             else this.pageIdx--;
 
@@ -234,19 +212,34 @@ export default {
             return idx + 1 == this.pageIdx ? `current` : null;
         },
         finish() {
+            let valid = this.$refs.page[this.pageIdx - 1].validate()
             // Validate page
-            if (!this.$refs.page[this.pageIdx - 1].validate()) {
+            if (!valid) {
                 console.log("page invalid");
                 return;
             }
             console.log("page valid");
+            // check if a dialog needs to be displayed to the user
             if (this.proceedDialog()) {
                 return;
             }
-            this.$router.push({
-                name: "Result",
-                params: { responses: this.responses },
-            });
+
+            if (valid) {
+                fetch(this.endpoint + '/content/completed')
+                    .then(x => x.json())
+                    .then( x => {
+                        this.$dialog
+                            .display(
+                                x.title,
+                                x.content,
+                                ["View my results", "Cancel"]
+                            )
+                            .then((result) => {
+                                console.log(result)
+                                if (result === 0) this.$router.push({ name: "Result", params: { responses: this.responses } });
+                            })
+                    });
+            }
         },
         proceedDialog() {
             const choice = this.responses
@@ -254,11 +247,13 @@ export default {
                 .find((choice) => "dialog" in choice);
 
             if (choice && "dialog" in choice) {
-                this.dialog = choice.dialog;
-                this.showDialog = true;
+                this.$dialog
+                    .fullscreen(
+                        choice.dialog.title,
+                        choice.dialog.content
+                    )
                 return true;
             }
-
             return false;
         },
         //kill
@@ -305,8 +300,6 @@ export default {
             responses: [],
             tags: [], // this is here to allow quick assessment mutations but I suspect that you
             // could achieve the same by watching `responses`
-            dialog: {},
-            showDialog: false,
             endpoint: process.env.VUE_APP_API_ENDPOINT,
         };
     },

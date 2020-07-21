@@ -201,6 +201,18 @@ class ScdipTests(SetupTest):
             raise TypeError(f"Expected value argument of type list or NoneType, not {type(value)}")
         return
 
+    def fill_dialog(self, value=None):
+        dialog = WebDriverWait(self.browser, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR,'[role=document] .v-dialog--active')),
+            'Failed to locate restart dialog'
+        )
+        action_button = dialog.find_elements_by_css_selector('button')[0]
+        self.assertEqual(action_button.text, value)
+        action_button.click()
+        WebDriverWait(self.browser, 10).until_not(
+            EC.presence_of_element_located((By.CSS_SELECTOR,'[role=document] .v-dialog--active')),
+            'Dialog still active'
+        )
 
     ## Common
 
@@ -242,6 +254,8 @@ class ScdipTests(SetupTest):
                     self.fill_category_input(value_text)
                 elif typestep == 'journey-input':
                     self.fill_journey_input(value_text)
+                elif typestep == 'dialog':
+                    self.fill_dialog(value_text)
             #elif numstep == 'assert':
             else:
                 raise ValueError(f'Unrecognised step type: {numstep}')
