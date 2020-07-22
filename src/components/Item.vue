@@ -47,7 +47,6 @@ export default {
     ],
     data() {
         return {
-            sel: [],
             rules: [
                 (val) =>
                     !!val.length ||
@@ -60,6 +59,16 @@ export default {
             console.log("attempting to focus on item")
             this.$refs.label.focus();
         }
+    },
+    computed: {
+        sel:{
+            get: function() {
+                return this.items.filter(item => item.selected);
+            },
+            set: function() {
+            }
+        },
+
     }
 };
 </script>
