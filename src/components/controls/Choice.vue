@@ -49,7 +49,7 @@ export default {
                 evt.code == "Enter" ||
                 evt.type == "click"
             ) {
-                this.value.selected = !this.active;
+                this.value.selected = !this.value.selected;
                 this.$refs.item.toggle();
             }
         },
