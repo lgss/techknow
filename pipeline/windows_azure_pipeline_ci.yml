@@ -1,0 +1,32 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- script: |
+    python3 -m pip install
+    pip3 install unittest-xml-reporting
+    pip3 install selenium
+    pip3 install Faker
+    pip3 install python-dateutil
+    pip3 install text-unidecode
+    VERSION="`wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE`"
+    wget "https://chromedriver.storage.googleapis.com/${VERSION}/chromedriver_linux64.zip"
+    unzip chromedriver_linux64.zip
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    sudo dpkg -i google-chrome-stable_current_amd64.deb
+  displayName: 'Install dependencies'
+  workingDirectory: '$(Build.SourcesDirectory)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: 'chromedriver'
+    TargetFolder: '$(Build.Repository.LocalPath)/pipeline'
+    OverWrite: true
+
+- template: azure_pipeline_test.yml
+  parameters:
+    param: ["test_scdip"]

@@ -1,0 +1,39 @@
+{
+    "version": "0.1",
+    "steps": [
+        {
+            "step": "respond",
+            "type": "category-input",
+            "value_text": ["Sample-Journey-Parent"]
+        },
+        {
+            "step": "confirm_categories"
+        },
+        {
+            "step": "respond",
+            "type": "journey-input",
+            "value_text": ["Show-Resources"]
+        },
+        {
+            "step": "confirm_journies"
+        },
+        {
+            "step": "respond",
+            "type": "single-choice-input",
+            "value_text": "Yes"
+        },
+        {
+            "step": "finish"
+        },
+        {
+            "step": "respond",
+            "type": "dialog",
+            "value_text": "VIEW MY RESULTS"
+        }
+    ],
+    "data" : {
+        "category": "cat-b",
+        "resource_name": "Concealed Resource",
+        "resource_content": "Sample resource content for development environment"
+    }
+}

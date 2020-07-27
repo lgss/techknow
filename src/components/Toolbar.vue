@@ -1,26 +1,29 @@
 <template>
-    <v-app-bar app :color="primary" >
-        <v-container fluid>
-            <v-col class="d-flex justify-center">
-                <a href="/" style="text-decoration:none">
-                    <v-toolbar-title class="white--text">
-                        <b>{{ title }}</b>
-                    </v-toolbar-title>
-                </a>
-            </v-col>
+    <v-app-bar color="primary" app shrink-on-scroll prominent>
+        <v-container class="d-flex flex-column align-center">
+            <router-link to='/'>
+                <v-toolbar-title class="white--text">
+                    <div role="heading" aria-level="1" class="font-weight-black">{{ title }}</div>
+                </v-toolbar-title>
+            </router-link>
+            <v-container class="d-flex flex-column align-center">
+                <div role="heading" aria-level="2" tabindex="0" class="white--text subheader">
+                    {{header}}
+                </div>
+            </v-container>
         </v-container>
+
     </v-app-bar>
 </template>
 
 <script>
 export default {
-    props: ["title", "primary"]
+    props: ["title", "header"]
 };
 </script>
 
-<style scoped>
-    .banner {
-        background-color:#1D5F7A;
-        margin-top:56px;
+<style scoped>    
+    .v-app-bar--is-scrolled .subheader {
+        display: none;
     }
 </style>

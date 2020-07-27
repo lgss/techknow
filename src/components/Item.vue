@@ -1,10 +1,10 @@
 <template>
     <v-input v-model="sel" :rules="rules">
-        <v-sheet max-width="1200" class="mx-auto">
+        <v-container max-width="1200" class="mx-auto">
             <div class="d-flex flex-wrap align-center">
                 <div class="text-left">
-                    <h2>{{ title }}</h2>
-                    <h3>{{ subtitle }}</h3>
+                    <label ref="label" role="heading" aria-level="3" class="text-h3 mb-2" v-text="title" tabindex="0"></label>
+                    <div class="font-weight-bold mb-0" v-text="subtitle" tabindex="0"></div>
                 </div>
                 <v-spacer></v-spacer>
                 <v-avatar class="ma-3" size="125" tile>
@@ -24,7 +24,7 @@
                     </v-col>
                 </v-row>
             </v-item-group>
-        </v-sheet>
+        </v-container>
     </v-input>
 </template>
 

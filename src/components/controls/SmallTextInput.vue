@@ -1,6 +1,8 @@
 <template>
   <v-container>
-    <v-text-field type="text"
+    <v-text-field
+			type="text"
+			ref="input"
           :label="label"
           :name="name"
           :placeholder="placeholder"
@@ -19,6 +21,11 @@
             value: '',
             rules: this.isMandatory ? [value => value.length > 0 || "Please provide a value" ] : []
         }
-    }
+    },
+	methods: {
+		focus() {
+			this.$refs.input.focus()
+		},
+	},
   }
 </script>

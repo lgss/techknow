@@ -4,7 +4,7 @@
             <v-progress-circular id="loading-terms" v-if="loading"></v-progress-circular>
             <div v-else-if="terms" class='text-left'>
                 <v-container>
-                <h1 id='terms-title'>{{terms.title}}</h1>
+                    <div role="heading" aria-level="3" class="text-h3 mb-2" v-text="terms.title" tabindex="0"></div>
                 </v-container>
                 <v-divider/>
                 <v-container id='terms-content' class='text-left' v-html="terms.content">
@@ -14,13 +14,6 @@
         </v-card>
     </v-container>
 </template>
-
-<style>
-.terms-content {
-
-}
-
-</style>
 
 <script>
 export default {
@@ -33,7 +26,7 @@ export default {
         }
     },
     created() {
-        fetch(this.endpoint + '/config/disclaimer')
+        fetch(this.endpoint + '/content/disclaimer')
         .then(x=>x.json())
         .then(x=>{
             this.terms = x;
