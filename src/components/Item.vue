@@ -13,13 +13,13 @@
             </div>
             <v-item-group multiple v-model="sel">
                 <v-row dense>
-                    <v-col v-for="(item, i) in items" :key="i" cols="12">
+                    <v-col v-for="(item, i) in display_items" :key="i" cols="12">
                         <choice
                             :value="item"
                             :index="i"
                             :label="item[itemLabelKey]"
-                            :imgSrc="item[itemImgSrcKey]"
-                            :imgAlt="item[itemImgAltKey]"
+                            :imgSrc="item.img.src"
+                            :imgAlt="item.img.alt"
                         />
                     </v-col>
                 </v-row>
@@ -40,10 +40,8 @@ export default {
         "title",
         "subtitle",
         "items",
-        "itemLabelKey",
-        "itemImgSrcKey",
-        "itemImgAltKey",
         "type",
+        "itemLabelKey"
     ],
     data() {
         return {
@@ -55,5 +53,16 @@ export default {
             ],
         };
     },
+    computed: {
+        display_items() {
+            return this.items.map(x => {x.img = x.img || {}; return x})
+        }
+    },
+    methods: {
+        focus() {
+            console.log("attempting to focus on item")
+            this.$refs.label.focus();
+        }
+    }
 };
 </script>
