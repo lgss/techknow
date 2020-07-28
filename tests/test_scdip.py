@@ -1,19 +1,42 @@
 import unittest
 import time
 import random
-from test_bootstrap import SetupTest
+import selenium
 import json
 import inspect
+import platform
+import os
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-class ScdipTests(SetupTest):
+class ScdipTests(unittest.TestCase):
     ## Definitions
     CURRENT_PAGE_SELECTOR = '.assessment-page.current form .assessment-item'
+    ROOT = os.getenv('ROOT')
+    TITLE = os.getenv('TITLE')
     
+    def setUp(self):
+        chrome_options = Options()
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_argument('--window-size=1600x1000')
+        chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--no-zygote')
+        chrome_options.add_argument('--hide-scrollbars')
+        chrome_options.add_argument('--enable-logging')
+        chrome_options.add_argument('--log-level=0')
+        chrome_options.add_argument('--v=99')
+        chrome_options.add_argument('--ignore-certificate-errors')
+        if platform.system() != "Windows":
+            chrome_options.add_argument('--headless')
+            chrome_options.add_argument('--single-process')
+        self.browser = webdriver.Chrome(options=chrome_options)
+        self.addCleanup(self.browser.quit)
+        
     ## Utility functions
     def func_name(self):
         return inspect.stack()[1].function
@@ -36,12 +59,12 @@ class ScdipTests(SetupTest):
             self.assertEqual(_content, content)
 
     def page_home(self):
-        self.browser.get(self.env["root"])
+        self.browser.get(self.ROOT)
         try: 
             heading = WebDriverWait(self.browser, 10).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR,'.v-toolbar__title div'))
             )
-            self.assertEqual(heading.text, self.env['title'], 'Title Check')
+            self.assertEqual(heading.text, self.TITLE, 'Title Check')
             assessmentbtn = self.browser.find_elements_by_id("btn-home-start-assessment")
             self.assertEqual(len(assessmentbtn), 1)
             assessmentbtn[0].click()
