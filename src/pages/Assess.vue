@@ -128,8 +128,7 @@ export default {
             return Math.round((this.pageIdx / this.displayPages.length) * 100);
         },
         finished() {
-            return !this.displayPages.slice(this.pageIdx)
-                .filter(page => page.items && page.items.length).length;
+            return !this.displayPages.slice(this.pageIdx).some(page => page.items && page.items.length);
         },
         displayPages() {
             // Arguably, this should filter the pages but it'd make progress tracking harder
