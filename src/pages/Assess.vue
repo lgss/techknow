@@ -64,7 +64,7 @@
                             name="btn-finish"
                             @click="finish"
                         >
-                            Finish
+                            Next
                         </v-btn>
                         <v-btn
                             v-else
@@ -128,7 +128,8 @@ export default {
             return Math.round((this.pageIdx / this.displayPages.length) * 100);
         },
         finished() {
-            return this.pageIdx >= this.displayPages.length;
+            return !this.displayPages.slice(this.pageIdx)
+                .filter(page => page.items && page.items.length).length;
         },
         displayPages() {
             // Arguably, this should filter the pages but it'd make progress tracking harder
