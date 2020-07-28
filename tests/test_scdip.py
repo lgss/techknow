@@ -132,6 +132,7 @@ class ScdipTests(unittest.TestCase):
             self.assertTrue(v_found, f"Failed to find value {value} in available choices.")
         else:
             raise TypeError(f"Expected value arugment of type str or NoneType, not {type(value)}")
+        
     def fill_multi_choice_input(self, value=None, assessment_item=0):
         group = self.get_multi_choice_input(assessment_item)
         choices = group.find_elements_by_css_selector('.choice')
@@ -229,13 +230,18 @@ class ScdipTests(unittest.TestCase):
             EC.presence_of_element_located((By.CSS_SELECTOR,'[role=document] .v-dialog--active')),
             'Failed to locate restart dialog'
         )
-        action_button = dialog.find_elements_by_css_selector('button')[0]
-        self.assertEqual(action_button.text, value)
-        action_button.click()
-        WebDriverWait(self.browser, 10).until_not(
-            EC.presence_of_element_located((By.CSS_SELECTOR,'[role=document] .v-dialog--active')),
-            'Dialog still active'
-        )
+        action_buttons = dialog.find_elements_by_css_selector('button')
+        v_found = False
+        for action_button in action_buttons:
+            if action_button.text == value:
+                v_found = True
+                action_button.click()
+                WebDriverWait(self.browser, 10).until_not(
+                    EC.presence_of_element_located((By.CSS_SELECTOR,'[role=document] .v-dialog--active')),
+                    'Dialog still active'
+                )
+                return
+        self.assertTrue(v_found, f"Failed to locate value {value} in available dialog buttons")
 
     ## Common
 
@@ -426,7 +432,6 @@ class ScdipTests(unittest.TestCase):
         self.validate_assertion_data(data, ["title", "content"])
         self.assertDialog(data["title"], data["content"])
 
-
     #Test the restart dialog displays
     def test_restart(self):
         self.test_resource_none_content()
@@ -443,32 +448,12 @@ class ScdipTests(unittest.TestCase):
     #Test the restart dialog can be cancelled
     def test_restart_no(self):
         self.test_restart()
-        dialog = WebDriverWait(self.browser, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR,'[role=document] .v-dialog--active')),
-            'Failed to locate restart dialog'
-        )
-        no_button = dialog.find_elements_by_css_selector('button')[1]
-        self.assertEqual(no_button.text, "NO")
-        no_button.click()
-        WebDriverWait(self.browser, 10).until_not(
-            EC.presence_of_element_located((By.CSS_SELECTOR,'[role=document] .v-dialog--active')),
-            'Dialog still active'
-        )
+        self.fill_dialog("NO")
 
     #Test the restart dialog can be confirmed
     def test_restart_yes(self):
         self.test_restart()
-        dialog = WebDriverWait(self.browser, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR,'[role=document] .v-dialog--active')),
-            'Failed to locate restart dialog'
-        )
-        yes_button = dialog.find_elements_by_css_selector('button')[0]
-        self.assertEqual(yes_button.text, "YES")
-        yes_button.click()
-        WebDriverWait(self.browser, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR,'#parent-selection')),
-            'Failed to locate category selection element'
-        )
+        self.fill_dialog("YES")
 
     #Test the content when no resources were found         
     def test_resource_none_content(self):
@@ -506,7 +491,6 @@ class ScdipTests(unittest.TestCase):
         content = resource.find_element_by_css_selector('.v-card__subtitle').text
         self.assertEqual(content, data['resource_content'])
 
- 
     #Test that a specific resource is absent
     def test_resource_absent(self):
         data = self.run_script(f'tests/scripts/{self.func_name()}.json')
@@ -568,6 +552,3 @@ class ScdipTests(unittest.TestCase):
         self.click_back()
         self.page_select()
     
-
-
-
