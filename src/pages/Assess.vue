@@ -237,7 +237,8 @@ export default {
                             )
                             .then((result) => {
                                 console.log(result)
-                                if (result === 0) this.$router.push({ name: "Result", params: { responses: this.responses } });
+                                if (result === 0) return this.$router.push({ name: "Result", params: { responses: this.responses } });
+                                if (result === 1) return this.doFocus();
                             })
                     });
             }
@@ -252,7 +253,7 @@ export default {
                     .fullscreen(
                         choice.dialog.title,
                         choice.dialog.content
-                    )
+                    ).then(()=> this.doFocus())
                 return true;
             }
             return false;
