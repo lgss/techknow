@@ -53,7 +53,7 @@ export default {
             rules: this.isMandatory
                 ? [
                       (value) =>
-                          !!value.length ||
+                          !!(value && value.length) ||
                           "Please select at least one response",
                   ]
                 : [],
