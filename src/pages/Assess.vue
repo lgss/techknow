@@ -157,10 +157,6 @@ export default {
             if (!page_valid) {
                 return;
             }
-            // check if a dialog needs to be displayed to the user
-            if (this.proceedDialog()) {
-                return;
-            }
             // navigates to the next page
             this.movePage(true);
         },
@@ -177,6 +173,11 @@ export default {
             return this.displayPages[this.pageIdx - 1].items.length < 1;
         },
         movePage(forwards) {
+            // check if a dialog needs to be displayed to the user
+            if (this.proceedDialog()) {
+                return;
+            }
+
             if (forwards) this.pageIdx++;
             else this.pageIdx--;
 
@@ -236,7 +237,8 @@ export default {
                             )
                             .then((result) => {
                                 console.log(result)
-                                if (result === 0) this.$router.push({ name: "Result", params: { responses: this.responses } });
+                                if (result === 0) return this.$router.push({ name: "Result", params: { responses: this.responses } });
+                                if (result === 1) return this.doFocus();
                             })
                     });
             }
@@ -251,7 +253,7 @@ export default {
                     .fullscreen(
                         choice.dialog.title,
                         choice.dialog.content
-                    )
+                    ).then(()=> this.doFocus())
                 return true;
             }
             return false;

@@ -52,7 +52,7 @@ export default {
             rules: this.isMandatory
                 ? [
                       (choice) =>
-                          choice.value !== undefined ||
+                          (choice && choice.value !== undefined) ||
                           "Please select a response",
                   ]
                 : [],
