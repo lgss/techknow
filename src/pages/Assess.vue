@@ -173,13 +173,13 @@ export default {
             return this.displayPages[this.pageIdx - 1].items.length < 1;
         },
         movePage(forwards) {
-            if (forwards) this.pageIdx++;
-            else this.pageIdx--;
-
             // check if a dialog needs to be displayed to the user
             if (this.proceedDialog()) {
                 return;
             }
+
+            if (forwards) this.pageIdx++;
+            else this.pageIdx--;
 
             if (this.pageEmpty()) this.movePage(forwards);
             this.doFocus();
