@@ -3,8 +3,19 @@
         <v-container max-width="1200" class="mx-auto">
             <div class="d-flex flex-wrap align-center">
                 <div class="text-left">
-                    <label ref="label" role="heading" aria-level="3" class="text-h3 mb-2" v-text="title" tabindex="0"></label>
-                    <div class="font-weight-bold mb-0" v-text="subtitle" tabindex="0"></div>
+                    <label
+                        ref="label"
+                        role="heading"
+                        aria-level="3"
+                        class="text-h3 mb-2"
+                        v-text="title"
+                        tabindex="0"
+                    ></label>
+                    <div
+                        class="font-weight-bold mb-0"
+                        v-text="subtitle"
+                        tabindex="0"
+                    ></div>
                 </div>
                 <v-spacer></v-spacer>
                 <v-avatar class="ma-3" size="125" tile>
@@ -13,7 +24,11 @@
             </div>
             <v-item-group multiple v-model="sel">
                 <v-row dense>
-                    <v-col v-for="(item, i) in display_items" :key="i" cols="12">
+                    <v-col
+                        v-for="(item, i) in display_items"
+                        :key="i"
+                        cols="12"
+                    >
                         <choice
                             :value="item"
                             :index="i"
@@ -36,13 +51,7 @@ export default {
     components: {
         choice: Choice,
     },
-    props: [
-        "title",
-        "subtitle",
-        "items",
-        "type",
-        "itemLabelKey"
-    ],
+    props: ["title", "subtitle", "items", "type", "itemLabelKey"],
     data() {
         return {
             rules: [
@@ -52,26 +61,25 @@ export default {
             ],
         };
     },
-    computed: {
-        display_items() {
-            return this.items.map(x => {x.img = x.img || {}; return x})
-        }
-    },
     methods: {
         focus() {
-            console.log("attempting to focus on item")
+            console.log("attempting to focus on item");
             this.$refs.label.focus();
-        }
+        },
     },
     computed: {
-        sel:{
-            get: function() {
-                return this.items.filter(item => item.selected);
-            },
-            set: function() {
-            }
+        display_items() {
+            return this.items.map((x) => {
+                x.img = x.img || {};
+                return x;
+            });
         },
-
-    }
+        sel: {
+            get: function() {
+                return this.items.filter((item) => item.selected);
+            },
+            set: function() {},
+        },
+    },
 };
 </script>
