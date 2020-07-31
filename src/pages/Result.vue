@@ -8,7 +8,6 @@
             <div id="no_results" v-if="filteredList.length === 0">
                 <div ref="heading" role="heading" aria-level="3" class="text-h3 mb-2" v-text="noResults.title" tabindex="0"></div>
                 <v-col v-html="noResults.content"></v-col>
-                <v-btn role="button" id="btn-restart-assessment" @click="startAgain">Start again</v-btn>
             </div>
 
             <v-container v-else id="container-results">
@@ -32,7 +31,9 @@
 
                 </v-row>
             </v-container>
-
+            <v-container>
+                <v-btn role="button" id="btn-restart-assessment" @click="startAgain">Start again</v-btn>
+            </v-container>
         </div>
     </div>
 </template>
