@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-sheet max-width="1200" class="mx-auto" elevation=4>
-            <v-progress-linear value="0"></v-progress-linear>
+            <v-progress-linear value="0" height=8></v-progress-linear>
             <v-container class="v-stepper__items">
                 <v-container class="v-stepper__content">
                     <v-skeleton-loader v-if="loading" type="card" />
@@ -14,7 +14,7 @@
                         id="parent-selection"
                     >
                         <v-row>
-                            <v-col>
+                            <v-col class="no-top-pad">
                                 <item
                                     key="categories_item0"
                                     ref="categories_item0"
@@ -50,7 +50,7 @@
                         id="journey-selection"
                     >
                         <v-row>
-                            <v-col>
+                            <v-col class="no-top-pad">
                                 <item
                                     key="journeys_item0"
                                     ref="journeys_item0"

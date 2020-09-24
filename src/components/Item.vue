@@ -1,6 +1,6 @@
 <template>
     <v-input v-model="sel" :rules="rules">
-        <v-container max-width="1200" class="mx-auto">
+        <v-container max-width="1200" class="mx-auto no-top-pad">
             <div class="d-flex flex-wrap align-center">
                 <div class="text-left">
                     <label
@@ -12,7 +12,7 @@
                         tabindex="0"
                     ></label>
                     <div
-                        class="font-weight-bold mb-0"
+                        class="text-h5 font-weight-bold mb-0"
                         v-text="subtitle"
                         tabindex="0"
                     ></div>

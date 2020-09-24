@@ -7,6 +7,7 @@
                     color="primary"
                     :value="percentDone"
                     :indeterminate="loading"
+                    height=8
                     id="progressBar"
                 />
                 <div v-if="loading">
@@ -29,7 +30,7 @@
                                 :key="index"
                                 class="assessment-item"
                             >
-                                <v-col>
+                                <v-col class="no-top-pad">
                                     <component
                                         :ref="`page${idx}_item${index}`"
                                         :id="`page${idx}_item${index}`"
@@ -54,6 +55,7 @@
                             name="btn-back"
                             @click.native="prior"
                         >
+                            <v-icon left>mdi-arrow-left-bold-circle</v-icon>
                             Back
                         </v-btn>
                         <v-btn
@@ -65,6 +67,7 @@
                             @click="finish"
                         >
                             Next
+                            <v-icon>mdi-arrow-right-bold-circle</v-icon>
                         </v-btn>
                         <v-btn
                             v-else
@@ -75,6 +78,7 @@
                             @click.native="next"
                         >
                             Next
+                            <v-icon>mdi-arrow-right-bold-circle</v-icon>
                         </v-btn>
                     </v-col>
                 </v-row>

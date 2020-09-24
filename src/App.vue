@@ -53,7 +53,6 @@ export default {
 
   #router-view {
     text-align: center;
-    margin-top: 40px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -69,5 +68,11 @@ export default {
   
   .v-card__title {
     word-break:normal !important;
+  }
+  .v-stepper__content {
+    padding: 0px 24px !important;
+  }
+  .no-top-pad{
+    padding-top: 0px !important;
   }
 </style>
