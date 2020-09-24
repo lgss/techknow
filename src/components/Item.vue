@@ -1,26 +1,31 @@
 <template>
     <v-input v-model="sel" :rules="rules">
         <v-container max-width="1200" class="mx-auto no-top-pad">
-            <div class="d-flex flex-wrap align-center">
-                <div class="text-left">
-                    <label
-                        ref="label"
-                        role="heading"
-                        aria-level="3"
-                        class="text-h3 mb-2"
-                        v-text="title"
-                        tabindex="0"
-                    ></label>
-                    <div
-                        class="text-h5 font-weight-bold mb-0"
-                        v-text="subtitle"
-                        tabindex="0"
-                    ></div>
-                </div>
-                <v-spacer></v-spacer>
-                <v-avatar class="ma-3" size="125" tile>
-                    <v-icon size="80">mdi-comment-question-outline</v-icon>
-                </v-avatar>
+            <div class="d-flex flex-wrap">
+                <v-row>
+                    <v-col cols=auto class="align-self-center">
+                    <v-avatar class="ma-3" size="125" tile>
+                        <v-icon size="80">mdi-comment-question-outline</v-icon>
+                    </v-avatar>
+                    </v-col>
+                    <v-col sm=9 md=9 lg=9>
+                    <div class="text-left">
+                        <label
+                            ref="label"
+                            role="heading"
+                            aria-level="3"
+                            class="text-h4 mb-2"
+                            v-text="title"
+                            tabindex="0"
+                        ></label>
+                        <div
+                            class="text-h5 font-weight-bold mb-0"
+                            v-text="subtitle"
+                            tabindex="0"
+                        ></div>
+                    </div>
+                    </v-col>
+                </v-row>
             </div>
             <v-item-group multiple v-model="sel">
                 <v-row dense>
