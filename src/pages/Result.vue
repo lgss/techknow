@@ -6,7 +6,7 @@
         
         <div v-else>
             <div id="no_results" v-if="filteredList.length === 0">
-                <div ref="heading" role="heading" aria-level="3" class="text-h3 mb-2" v-text="noResults.title" tabindex="0"></div>
+                <div ref="heading" role="heading" aria-level="3" class="text-h4 mb-2" v-text="noResults.title" tabindex="0"></div>
                 <v-col v-html="noResults.content"></v-col>
             </div>
 
@@ -16,7 +16,7 @@
                     <v-container>
                         <v-row class="align-center" >
                             <v-col class="text-left">
-                                <div ref="heading" role="heading" aria-level="3" class="text-h3 mb-2" v-text="category.category" tabindex="0"></div>
+                                <div ref="heading" role="heading" aria-level="3" class="text-h4 mb-2" v-text="category.category" tabindex="0"></div>
                             </v-col>
                         </v-row>
                     </v-container>

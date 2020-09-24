@@ -1,6 +1,6 @@
 <template>
   <div class="stimulus">
-    <v-label ref="label" role="heading" aria-level="3" class="text-h3 mb-2" v-if="label">{{label}}</v-label>
+    <v-label ref="label" role="heading" aria-level="3" class="text-h4 mb-2" v-if="label">{{label}}</v-label>
     <div v-html="content"></div>
   </div>
 </template>

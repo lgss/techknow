@@ -4,7 +4,7 @@
             <v-progress-circular id="loading-terms" v-if="loading"></v-progress-circular>
             <div v-else-if="terms" class='text-left'>
                 <v-container>
-                    <div role="heading" aria-level="3" class="text-h3 mb-2" v-text="terms.title" tabindex="0"></div>
+                    <div role="heading" aria-level="3" class="text-h4 mb-2" v-text="terms.title" tabindex="0"></div>
                 </v-container>
                 <v-divider/>
                 <v-container id='terms-content' class='text-left' v-html="terms.content">

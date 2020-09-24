@@ -6,7 +6,7 @@
               id="dialog-title" 
               role="heading" 
               aria-level="3" 
-              class="text-h3 mb-2"
+              class="text-h4 mb-2"
               tabindex="0"
               v-html="title"
             ></v-card-title>
