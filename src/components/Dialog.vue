@@ -17,10 +17,11 @@
             ></v-card-text>
             <v-card-actions>
               <v-btn 
-                role="button" 
+                role="button"
                 v-for="(btn, index) in buttons" 
                 :key="index" 
-                text @click="choose(index)">{{btn}}
+                :color=btn.color
+                @click="choose(index)">{{btn['text']}}
               </v-btn>
             </v-card-actions>
         </v-card>
@@ -65,6 +66,10 @@ export default {
 
 <style scoped>
   .v-dialog__content {
-    background-color: rgba(33, 33, 33, 0.7);
+    background-color: rgba(33, 33, 33, 0.9);
+  }
+
+  .v-card__subtitle, .v-card__text {
+    font-size: 1rem;
   }
 </style>
