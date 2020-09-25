@@ -69,6 +69,10 @@ export default {
   .v-card__title {
     word-break:normal !important;
   }
+
+  .v-card__subtitle, .v-card__text {
+    font-size: 1.2rem;
+  }
   .v-stepper__content {
     padding: 0px 24px !important;
   }
