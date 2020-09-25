@@ -233,7 +233,7 @@ export default {
                             .display(
                                 x.title,
                                 x.content,
-                                ["View my results", "Cancel"]
+                                [{text:'View my results', color:'success'}, {text:'Cancel',color:''}]
                             )
                             .then((result) => {
                                 console.log(result)
