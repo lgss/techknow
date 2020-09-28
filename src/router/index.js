@@ -6,6 +6,7 @@ import Assess from '@/pages/Assess'
 import Result from '@/pages/Result'
 import Select from '@/pages/Select'
 import Terms from '@/pages/Terms'
+import Accessibility from '@/pages/Accessibility'
 
 Vue.use(Router)
 
@@ -51,6 +52,14 @@ export default new Router({
             component: Terms,
             meta: {
                 title: "Terms & Conditions"
+            }
+        },
+        {
+            path: '/accessibility',
+            name: 'accessibility',
+            component: Accessibility,
+            meta: {
+                title: "Accessibility statement"
             }
         }
     ],
