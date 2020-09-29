@@ -17,6 +17,7 @@
                 <v-col sm=9 md=9 lg=9>
                     <div class="text-left">
                         <label ref="label" role="heading" aria-level="3" class="text-h4 mb-2" v-text="label" tabindex="0"></label>
+                        <div class="text-h6 mt-3" tabindex="0" v-if="example"><v-icon>mdi-information-outline</v-icon>{{example}}</div>
                         <div class="text-h5 font-weight-bold mb-0" tabindex="0">Please select one or more</div>
                     </div>
                 </v-col>
@@ -46,7 +47,7 @@ import Choice from "@/components/controls/Choice.vue";
 import image from "@/js/image.js";
 export default {
     name: "MultipleChoiceInput",
-    props: ["label", "name", "img", "choices", "isMandatory"],
+    props: ["label", "name", "example", "img", "choices", "isMandatory"],
     components: {
         Choice,
     },
