@@ -26,7 +26,7 @@
                                 />
                             </v-col>
                         </v-row>
-                        <v-row center>
+                        <v-row class="text-center">
                             <v-col>
                                 <v-btn 
                                     role="button" 
@@ -62,7 +62,7 @@
                                 />
                             </v-col>
                         </v-row>
-                        <v-row center>
+                        <v-row class="text-center">
                             <v-col>
                                 <v-btn 
                                     role="button" 

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <v-container>
         <div v-if="loading">
             <v-skeleton-loader type="card" v-for="n in 5" :key="n" />
         </div>
@@ -35,7 +35,7 @@
                 <v-btn role="button" id="btn-restart-assessment" @click="startAgain">Start again</v-btn>
             </v-container>
         </div>
-    </div>
+    </v-container>
 </template>
 
 <script>

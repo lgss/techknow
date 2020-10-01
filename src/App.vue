@@ -52,7 +52,6 @@ export default {
   }
 
   #router-view {
-    text-align: center;
     margin-left: auto;
     margin-right: auto;
   }

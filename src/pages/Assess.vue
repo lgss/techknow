@@ -47,7 +47,7 @@
                         </v-form>
                     </v-stepper-content>
                 </v-stepper-items>
-                <v-row>
+                <v-row class="text-center">
                     <v-col>
                         <v-btn
                             role="button" 
