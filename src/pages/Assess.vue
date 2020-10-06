@@ -124,6 +124,7 @@ export default {
                 // Create page structures that will calculate the required journeys for an assessment
                 this.loading = false;
                 this.pageIdx = 1;
+                this.emitJourney();
                 this.doFocus();
             });
     },
@@ -186,6 +187,7 @@ export default {
             else this.pageIdx--;
 
             if (this.pageEmpty()) this.movePage(forwards);
+            this.emitJourney();
             this.doFocus();
         },
         doFocus(){
@@ -193,6 +195,10 @@ export default {
             this.$nextTick(()=> {
                 this.$refs[`page${this.pageIdx-1}_item0`][0].focus()
             })
+            
+        },
+        emitJourney() {
+            this.$emit('update:journey', this.$data.fields.pages[this.pageIdx-1].journey)
         },
         responded(selection, name) {
             console.log("Invoked responded()", selection, name);
