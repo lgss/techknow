@@ -11,20 +11,16 @@
             @click="click"
             @keypress="click"
         >
-            <div class="d-flex flex-wrap align-center">
-                <v-avatar class="ma-3" size="125" tile>
-                    <v-icon size="80" v-if="imgSrc === undefined">
-                        mdi-selection-ellipse
-                    </v-icon>
-                    <v-img v-else :src="display(imgSrc)" :alt="imgAlt"></v-img>
-                </v-avatar>
-                <div>
-                    <v-card-title
-                        class="headline"
-                        v-text="label"
-                    ></v-card-title>
-                </div>
-            </div>
+            <v-avatar class="ma-3" size="125" tile>
+                <v-icon size="80" v-if="imgSrc === undefined">
+                    mdi-selection-ellipse
+                </v-icon>
+                <v-img v-else :src="display(imgSrc)" :alt="imgAlt"></v-img>
+            </v-avatar>
+            <v-card-title
+                class="headline"
+                v-text="label"
+            ></v-card-title>
         </v-card>
     </v-item>
 </template>

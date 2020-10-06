@@ -27,7 +27,6 @@
                     <v-col
                         v-for="choice in choices"
                         :key="choice.value"
-                        cols="12"
                     >
                         <choice
                             :value="choice"

@@ -32,7 +32,6 @@
                     <v-col
                         v-for="(item, i) in display_items"
                         :key="i"
-                        cols="12"
                     >
                         <choice
                             :value="item"
