@@ -34,7 +34,7 @@ export default {
     Toolbar, 
     Footer
   },
-
+  
   data: () => ({
     loading: true,
     title: "loading...",
@@ -52,8 +52,6 @@ export default {
   }
 
   #router-view {
-    text-align: center;
-    margin-top: 40px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -69,5 +67,9 @@ export default {
   
   .v-card__title {
     word-break:normal !important;
+  }
+
+  .v-card__subtitle, .v-card__text {
+    font-size: 1.2rem;
   }
 </style>
