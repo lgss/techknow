@@ -14,7 +14,7 @@
                         id="parent-selection"
                     >
                         <v-row>
-                            <v-col class="no-top-pad">
+                            <v-col class="pt-0">
                                 <item
                                     key="categories_item0"
                                     ref="categories_item0"
@@ -50,7 +50,7 @@
                         id="journey-selection"
                     >
                         <v-row>
-                            <v-col class="no-top-pad">
+                            <v-col class="pt-0">
                                 <item
                                     key="journeys_item0"
                                     ref="journeys_item0"

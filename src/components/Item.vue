@@ -1,6 +1,6 @@
 <template>
     <v-input v-model="sel" :rules="rules">
-        <v-container max-width="1200" class="mx-auto no-top-pad">
+        <v-container max-width="1200" class="mx-auto pt-0">
             <div class="d-flex flex-wrap">
                 <v-row>
                     <v-col cols=auto class="align-self-center">

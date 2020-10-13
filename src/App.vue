@@ -3,10 +3,10 @@
     <v-progress-circular indeterminate size="100" width="10" color="#dddddd"/>
   </div>
   <v-app v-else>
-    <toolbar :title="title" :header="pageTitle" :journey="journey" />
+    <toolbar :title="title" :header="pageTitle" />
     <v-main>
       <v-container fluid>
-        <router-view v-bind:journey.sync="journey" id="router-view"/>
+        <router-view id="router-view"/>
       </v-container>
     </v-main>
     <Footer/>
@@ -38,8 +38,7 @@ export default {
   data: () => ({
     loading: true,
     title: "loading...",
-    endpoint: process.env.VUE_APP_API_ENDPOINT,
-    journey:""
+    endpoint: process.env.VUE_APP_API_ENDPOINT
   }),
   computed: {
     pageTitle() {return this.$route.meta ? this.$route.meta.title : ''}
@@ -72,11 +71,5 @@ export default {
 
   .v-card__subtitle, .v-card__text {
     font-size: 1.2rem;
-  }
-  .v-stepper__content {
-    padding: 0px 24px !important;
-  }
-  .no-top-pad{
-    padding-top: 0px !important;
   }
 </style>

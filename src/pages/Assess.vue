@@ -20,7 +20,7 @@
                         v-for="(page, idx) in displayPages"
                         :key="page.id"
                         :step="idx + 1"
-                        class="assessment-page"
+                        class="assessment-page py-0"
                         :class="isCurrentPage(idx)"
                         @change="doFocus"
                     >
@@ -30,7 +30,7 @@
                                 :key="index"
                                 class="assessment-item"
                             >
-                                <v-col class="no-top-pad">
+                                <v-col class="pt-0">
                                     <component
                                         :ref="`page${idx}_item${index}`"
                                         :id="`page${idx}_item${index}`"
@@ -105,6 +105,9 @@ export default {
         "multiple-choice-input": MultipleChoiceInput,
         "boolean-input": BooleanInput,
         stimulus: Stimulus,
+    },
+    beforeDestroy() {
+        this.$store.commit('setJourney', null)
     },
     created() {
         console.log(process.env.NODE_ENV);
@@ -198,7 +201,7 @@ export default {
             
         },
         emitJourney() {
-            this.$emit('update:journey', this.$data.fields.pages[this.pageIdx-1].journey)
+            this.$store.commit('setJourney', this.$data.fields.pages[this.pageIdx-1].journey)
         },
         responded(selection, name) {
             console.log("Invoked responded()", selection, name);
