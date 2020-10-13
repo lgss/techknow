@@ -8,7 +8,7 @@
             </router-link>
             <v-container class="d-flex flex-column align-center">
                 <div role="heading" aria-level="2" tabindex="0" class="white--text subheader">
-                    {{header}}
+                    {{header()}}
                 </div>
             </v-container>
         </v-container>
@@ -18,7 +18,10 @@
 
 <script>
 export default {
-    props: ["title", "header"]
+    props: ["title"],
+    methods: {
+        header() { return this.$store.getters.journeyTitle || this.$route.meta.title}
+    }
 };
 </script>
 

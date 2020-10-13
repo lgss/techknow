@@ -7,6 +7,7 @@
                     color="primary"
                     :value="percentDone"
                     :indeterminate="loading"
+                    height=8
                     id="progressBar"
                 />
                 <div v-if="loading">
@@ -19,7 +20,7 @@
                         v-for="(page, idx) in displayPages"
                         :key="page.id"
                         :step="idx + 1"
-                        class="assessment-page"
+                        class="assessment-page py-0"
                         :class="isCurrentPage(idx)"
                         @change="doFocus"
                     >
@@ -29,7 +30,7 @@
                                 :key="index"
                                 class="assessment-item"
                             >
-                                <v-col>
+                                <v-col class="pt-0">
                                     <component
                                         :ref="`page${idx}_item${index}`"
                                         :id="`page${idx}_item${index}`"
@@ -46,7 +47,7 @@
                         </v-form>
                     </v-stepper-content>
                 </v-stepper-items>
-                <v-row>
+                <v-row class="text-center">
                     <v-col>
                         <v-btn
                             role="button" 
@@ -54,6 +55,7 @@
                             name="btn-back"
                             @click.native="prior"
                         >
+                            <v-icon left>mdi-arrow-left-bold-circle</v-icon>
                             Back
                         </v-btn>
                         <v-btn
@@ -65,6 +67,7 @@
                             @click="finish"
                         >
                             Next
+                            <v-icon>mdi-arrow-right-bold-circle</v-icon>
                         </v-btn>
                         <v-btn
                             v-else
@@ -75,6 +78,7 @@
                             @click.native="next"
                         >
                             Next
+                            <v-icon>mdi-arrow-right-bold-circle</v-icon>
                         </v-btn>
                     </v-col>
                 </v-row>
@@ -102,6 +106,9 @@ export default {
         "boolean-input": BooleanInput,
         stimulus: Stimulus,
     },
+    beforeDestroy() {
+        this.$store.commit('setJourney', null)
+    },
     created() {
         console.log(process.env.NODE_ENV);
         console.log(this.journeys);
@@ -120,6 +127,7 @@ export default {
                 // Create page structures that will calculate the required journeys for an assessment
                 this.loading = false;
                 this.pageIdx = 1;
+                this.emitJourney();
                 this.doFocus();
             });
     },
@@ -182,6 +190,7 @@ export default {
             else this.pageIdx--;
 
             if (this.pageEmpty()) this.movePage(forwards);
+            this.emitJourney();
             this.doFocus();
         },
         doFocus(){
@@ -189,6 +198,10 @@ export default {
             this.$nextTick(()=> {
                 this.$refs[`page${this.pageIdx-1}_item0`][0].focus()
             })
+            
+        },
+        emitJourney() {
+            this.$store.commit('setJourney', this.$data.fields.pages[this.pageIdx-1].journey)
         },
         responded(selection, name) {
             console.log("Invoked responded()", selection, name);
