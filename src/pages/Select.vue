@@ -21,7 +21,7 @@
                                     title="Where do you need support?"
                                     subtitle="Please select one or more"
                                     :items="categories"
-                                    itemLabelKey="name"
+                                    itemLabelKey="label"
                                     type="category"
                                 />
                             </v-col>
@@ -102,8 +102,6 @@ export default {
     name: "Selection",
     data() {
         return {
-            selc: [],
-            selj: [],
             loading: true,
             categoriesSelected: false,
             endpoint: process.env.VUE_APP_API_ENDPOINT,
@@ -112,20 +110,15 @@ export default {
         };
     },
     created() {
+        fetch(this.endpoint + "/journey-parents")
+            .then((x) => x.json())
+            .then((x) => {
+                this.categories = x.map((c) => ({ ...c, selected: false }));
+            });
         fetch(this.endpoint + "/journeys")
             .then((x) => x.json())
             .then((x) => {
                 this.journeys = x.map((j) => ({ ...j, selected: false }));
-                let uniqueParents = Array.from(
-                    new Set(
-                        x.map((journey) => {
-                            return journey.parent;
-                        })
-                    )
-                );
-                this.categories = uniqueParents.map((parent) => {
-                    return { name: parent, selected: false };
-                });
                 this.loading = false;
             });
     },
@@ -135,13 +128,13 @@ export default {
             return this.categoriesSelected || this.categories.length <= 1;
         },
         selectedCats() {
-            return this.categories.filter((x) => x.selected).map((x) => x.name);
+            return this.categories.filter((x) => x.selected).map((x) => x.journeys);
         },
         possibleJourneys() {
             if (this.categories.length <= 1 || this.selectedCats.length === 0)
                 return this.journeys;
             return this.journeys.filter((x) =>
-                this.selectedCats.includes(x.parent)
+                this.selectedCats.flat().includes(x.id)
             );
         },
         selectedJourneys() {
