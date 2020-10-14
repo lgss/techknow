@@ -6,7 +6,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-btn role="button" id="btn-home-start-assessment" to="/select">Go to assessment</v-btn>
+        <v-btn role="button" color="success" id="btn-home-start-assessment" to="/select">Start</v-btn>
       </v-col>
     </v-row>
   </v-container>
