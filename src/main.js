@@ -16,5 +16,8 @@ new Vue({
 if (process.env.VUE_APP_GOOGLE_ANALYTICS_ID)
   Vue.use(VueAnalytics, {
     id: process.env.VUE_APP_GOOGLE_ANALYTICS_ID,
-    router
+    router,
+    autoTracking: {
+      screenview: true
+    }
   })
