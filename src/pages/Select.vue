@@ -110,17 +110,13 @@ export default {
         };
     },
     created() {
-        fetch(this.endpoint + "/journey-parents")
-            .then((x) => x.json())
-            .then((x) => {
-                this.categories = x.map((c) => ({ ...c, selected: false }));
-            });
-        fetch(this.endpoint + "/journeys")
-            .then((x) => x.json())
-            .then((x) => {
-                this.journeys = x.map((j) => ({ ...j, selected: false }));
+        Promise.all([fetch(this.endpoint + "/journey-parents"),fetch(this.endpoint + "/journeys")])
+            .then(responses => Promise.all(responses.map(res => res.json())))
+            .then(x => { 
+                this.categories = x[0].map((c) => ({ ...c, selected: false }));
+                this.journeys = x[1].map((j) => ({ ...j, selected: false }));
                 this.loading = false;
-            });
+            })
     },
     computed: {
         showJourneys() {
