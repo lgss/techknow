@@ -5,13 +5,13 @@
         </div>
         
         <div v-else>
-            <v-banner single-line elevation="10" class="mb-10">
+            <v-banner single-line elevation="10" class="mb-10" v-for="banner in banners" :key="banner.id">
                 <v-avatar color="primary" slot="icon">
                     <v-icon color="white">
-                        mdi-comment-quote
+                        {{banner.icon}}
                     </v-icon>
                 </v-avatar>
-                We'd like your feedback, please follow <a target="_blank" href="https://forms.gle/MrqR7kxLViwueQLdA">this link</a>
+                <div v-html="banner.content" />
                 <template v-slot:actions="{dismiss}">
                     <v-btn color="primary" @click="dismiss" text>
                         dismiss
@@ -69,6 +69,11 @@ export default {
             fetch(this.endpoint + "/content/positive")
                 .then((x) => x.json())
                 .then((x) => (this.noResults = x)),
+            fetch(this.endpoint + "/banners")
+                .then((bannerResponse) => bannerResponse.json())
+                .then((bannerObject) => {
+                    this.banners = bannerObject;
+                }),
         ]).then(() => {
             this.loading = false;
             this.doFocus();
@@ -136,6 +141,7 @@ export default {
     },
     data() {
         return {
+            banners: [],
             loading: true,
             resources: [],
             noResults: {},
