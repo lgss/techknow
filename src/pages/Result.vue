@@ -5,6 +5,19 @@
         </div>
         
         <div v-else>
+            <v-banner single-line elevation="10" class="mb-10">
+                <v-avatar color="primary" slot="icon">
+                    <v-icon color="white">
+                        mdi-comment-quote
+                    </v-icon>
+                </v-avatar>
+                We'd like your feedback, please follow <a target="_blank" href="https://forms.gle/MrqR7kxLViwueQLdA">this link</a>
+                <template v-slot:actions="{dismiss}">
+                    <v-btn color="primary" @click="dismiss" text>
+                        dismiss
+                    </v-btn>
+                </template>          
+            </v-banner>
             <div id="no_results" v-if="filteredList.length === 0">
                 <div ref="heading" role="heading" aria-level="3" class="text-h3 mb-2" v-text="noResults.title" tabindex="0"></div>
                 <v-col v-html="noResults.content"></v-col>
