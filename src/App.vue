@@ -78,6 +78,7 @@ export default {
     justify-content: start;
     align-items: center;
     font-size: larger;
+    margin: 20px 0;
   }
 
   caption-image img {
