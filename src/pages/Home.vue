@@ -1,14 +1,17 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col v-html="content">
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-btn role="button" color="success" id="btn-home-start-assessment" to="/select">Start</v-btn>
-      </v-col>
-    </v-row>
+    <v-skeleton-loader v-if="loading" type="article" class="mt-8"/>
+    <div v-else>
+      <v-row>
+        <v-col v-html="content">
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-btn role="button" color="success" id="btn-home-start-assessment" to="/select">Start</v-btn>
+        </v-col>
+      </v-row>
+    </div>
   </v-container>
 </template>
 

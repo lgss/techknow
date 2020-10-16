@@ -1,5 +1,29 @@
 <template>
-  <div v-if="loading" id="loading">
+  <v-app v-if="loadFailed">
+    <v-dialog
+      persistent
+      max-width="290"
+      :value="true"
+    >
+    <v-card>
+        <v-card-title class="headline">
+          Something went wrong
+        </v-card-title>
+        <v-card-text><p>There was a problem loading the site.</p><p> Check your internet and try again or contact us if the problem continues.</p></v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="reload()"
+          >
+            Try again
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-app>
+  <div v-else-if="loading" id="loading">
     <v-progress-circular indeterminate size="100" width="10" color="#dddddd"/>
   </div>
   <v-app v-else>
@@ -29,6 +53,11 @@ export default {
         this.$vuetify.theme.themes.light.secondary = x.secondary
         this.loading = false
       })
+      .catch(err => {
+          this.loadFailed = true
+          console.error(err)
+        }
+      )
   },
   components: {
     Toolbar, 
@@ -37,11 +66,17 @@ export default {
   
   data: () => ({
     loading: true,
+    loadFailed: false,
     title: "loading...",
     endpoint: process.env.VUE_APP_API_ENDPOINT
   }),
   computed: {
     pageTitle() {return this.$route.meta ? this.$route.meta.title : ''}
+  },
+  methods: {
+    reload() {
+      window.location.reload();
+    }
   }
 };
 </script>
