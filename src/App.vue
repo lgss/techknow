@@ -82,5 +82,6 @@ export default {
 
   caption-image img {
     margin-right: 10px;
+    max-height: 100px;
   }
 </style>
