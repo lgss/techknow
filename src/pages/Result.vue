@@ -5,6 +5,19 @@
         </div>
         
         <div v-else>
+            <v-banner single-line elevation="10" class="mb-10" v-for="banner in banners" :key="banner.id">
+                <v-avatar color="primary" slot="icon">
+                    <v-icon color="white">
+                        {{banner.icon}}
+                    </v-icon>
+                </v-avatar>
+                <div v-html="banner.content" />
+                <template v-slot:actions="{dismiss}">
+                    <v-btn color="primary" @click="dismiss" text>
+                        dismiss
+                    </v-btn>
+                </template>          
+            </v-banner>
             <div id="no_results" v-if="filteredList.length === 0">
                 <div ref="heading" role="heading" aria-level="3" class="text-h4 mb-2" v-text="noResults.title" tabindex="0"></div>
                 <v-col v-html="noResults.content"></v-col>
@@ -56,6 +69,11 @@ export default {
             fetch(this.endpoint + "/content/positive")
                 .then((x) => x.json())
                 .then((x) => (this.noResults = x)),
+            fetch(this.endpoint + "/banners")
+                .then((bannerResponse) => bannerResponse.json())
+                .then((bannerObject) => {
+                    this.banners = bannerObject;
+                }),
         ]).then(() => {
             this.loading = false;
             this.doFocus();
@@ -123,6 +141,7 @@ export default {
     },
     data() {
         return {
+            banners: [],
             loading: true,
             resources: [],
             noResults: {},
