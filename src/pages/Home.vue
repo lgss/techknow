@@ -1,5 +1,8 @@
 <template>
   <v-container>
+    <div v-if="loading" class="loading">
+      <v-progress-circular indeterminate size="100" width="10" color="#dddddd"/>
+    </div>
     <v-row>
       <v-col v-html="content">
       </v-col>
@@ -32,15 +35,3 @@
   },
   }
 </script>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
-</style>

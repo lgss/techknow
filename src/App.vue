@@ -73,7 +73,7 @@ export default {
     font-size: 1.2rem;
   }
 
-  caption-image {
+  .caption-image {
     display: flex;
     justify-content: start;
     align-items: center;
@@ -81,7 +81,7 @@ export default {
     margin: 20px 0;
   }
 
-  caption-image img {
+  .caption-image img {
     margin-right: 10px;
     max-height: 100px;
   }
