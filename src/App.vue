@@ -20,6 +20,10 @@ import Footer from '@/components/Footer';
 export default {
   name: 'App',
   created() {
+    if (Object.prototype.hasOwnProperty.call(localStorage, "ga_consent") && localStorage.ga_consent!="true") {
+      this.$ga.disable()
+      console.log("disabled")
+    }
     fetch(this.endpoint + '/theme')
       .then(x => x.json())
       .then( x => {
