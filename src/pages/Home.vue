@@ -1,9 +1,7 @@
 <template>
   <v-container>
-    <div v-if="loading" class="loading">
-      <v-progress-circular indeterminate size="100" width="10" color="#dddddd"/>
-    </div>
-    <v-row>
+    <v-skeleton-loader v-if="loading" type="article"/>
+    <v-row v-else>
       <v-col v-html="content">
       </v-col>
     </v-row>
