@@ -72,4 +72,17 @@ export default {
   .v-card__subtitle, .v-card__text {
     font-size: 1.2rem;
   }
+
+  .caption-image {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-size: larger;
+    margin: 20px 0;
+  }
+
+  .caption-image img {
+    margin-right: 10px;
+    max-height: 100px;
+  }
 </style>
