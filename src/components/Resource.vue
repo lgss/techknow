@@ -1,9 +1,7 @@
 <template>
-    <v-card>
+    <v-card height="100%" class="d-flex flex-column justify-space-between">
         <div class="d-flex flex-no-wrap align-center">
-            <v-avatar v-if="img.src" class="ma-3" size="125" tile>
-                <v-img :src="display(img.src)" :alt="img.alt"></v-img>
-            </v-avatar>
+            <v-img v-if="img.src" class="ma-3" :src="display(img.src)" :alt="img.alt" max-width="125" max-height="125"></v-img>
             <div class="text-left">
                 <v-card-title class="headline" v-text="doc.name"/>
                 <v-card-subtitle  v-html="doc.content"/>
@@ -14,7 +12,7 @@
               role="button"
               class="success"
               :href="doc.moreInfoUrl"
-              :disabled="doc.moreInfoUrl === undefined"
+              v-if="doc.moreInfoUrl"
               target="_blank">
                 Continue to website<v-icon>mdi-open-in-new</v-icon>
             </v-btn>  
