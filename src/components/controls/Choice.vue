@@ -6,13 +6,13 @@
         :value="value"
     >
         <v-card ref="card" :color="active ? 'primary' : 'white'" @click="click"
-            class="d-flex flex-wrap align-content-center justify-start" @keypress="click" height="100%">
+            class="d-flex flex-wrap align-content-start justify-start" @keypress="click" height="100%">
             <div>
                 <div class="ma-3" style="width:150px;height:150px">
                     <v-img v-if="imgSrc" :src="display(imgSrc)" :alt="imgAlt" :title="imgAlt" 
                         style="max-height:150px" ></v-img>
                     <v-icon size="80" v-else style="left:35px;top:35px">
-                        mdi-circle-double
+                        mdi-arrow-right-bold-circle-outline
                     </v-icon>
                 </div>
                 <v-card-title

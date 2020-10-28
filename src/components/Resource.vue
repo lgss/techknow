@@ -1,7 +1,7 @@
 <template>
     <v-card height="100%" class="d-flex flex-column justify-space-between">
         <div class="d-flex flex-no-wrap align-center">
-            <v-img v-if="img.src" class="ma-3" :src="display(img.src)" :alt="img.alt" max-width="125" max-height="125"></v-img>
+            <v-img v-if="img.src" class="ma-3" :src="display(img.src)" :alt="img.alt" max-width="175" max-height="175"></v-img>
             <div class="text-left">
                 <v-card-title class="headline" v-text="doc.name"/>
                 <v-card-subtitle  v-html="doc.content"/>
