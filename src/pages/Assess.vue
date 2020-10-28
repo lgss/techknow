@@ -110,8 +110,6 @@ export default {
         this.$store.commit('setJourney', null)
     },
     created() {
-        console.log(process.env.NODE_ENV);
-        console.log(this.journeys);
         fetch(this.endpoint + "/journey", {
             method: "post",
             headers: {
@@ -204,7 +202,6 @@ export default {
             this.$store.commit('setJourney', this.$data.fields.pages[this.pageIdx-1].journey)
         },
         responded(selection, name) {
-            console.log("Invoked responded()", selection, name);
             var response = {
                 name: name,
                 choices: selection,
