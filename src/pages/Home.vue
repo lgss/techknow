@@ -58,9 +58,7 @@
         this.showConsent = false
         localStorage.ga_consent = enableConsent
         if (enableConsent)
-          this.$ga.enable()
-        else
-          this.$ga.disable()
+          this.$gtag.enable()
       }
     }
   }

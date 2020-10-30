@@ -3,7 +3,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import vuetify from './plugins/vuetify';
-import VueAnalytics from 'vue-analytics'
+import VueGtag from "vue-gtag";
 import store from './store'
 
 Vue.config.productionTip = false
@@ -16,10 +16,9 @@ new Vue({
 }).$mount('#app')
 
 if (process.env.VUE_APP_GOOGLE_ANALYTICS_ID)
-  Vue.use(VueAnalytics, {
-    id: process.env.VUE_APP_GOOGLE_ANALYTICS_ID,
-    router,
-    autoTracking: {
-      screenview: true
-    }
-  })
+  Vue.use(VueGtag, {
+    config: { id: process.env.VUE_APP_GOOGLE_ANALYTICS_ID },
+    appName: "rekommend",
+    pageTrackerScreenviewEnabled: true,
+    enabled: false,
+  }, router);

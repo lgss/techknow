@@ -20,10 +20,7 @@ import Footer from '@/components/Footer';
 export default {
   name: 'App',
   created() {
-    if (Object.prototype.hasOwnProperty.call(localStorage, "ga_consent") && localStorage.ga_consent!="true") {
-      this.$ga.disable()
-      console.log("disabled")
-    }
+
     fetch(this.endpoint + '/theme')
       .then(x => x.json())
       .then( x => {
@@ -32,6 +29,10 @@ export default {
         this.$vuetify.theme.themes.light.primary = x.primary
         this.$vuetify.theme.themes.light.secondary = x.secondary
         this.loading = false
+
+        if (!Object.prototype.hasOwnProperty.call(localStorage, "ga_consent") || localStorage.ga_consent==="true") {
+          this.$gtag.enable()
+        }
       })
   },
   components: {
