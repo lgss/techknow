@@ -23,6 +23,8 @@
       </v-col>
     </v-row>  
     <v-row>
+    <v-skeleton-loader v-if="loading" type="article"/>
+    <v-row v-else>
       <v-col v-html="content">
       </v-col>
     </v-row>
@@ -63,15 +65,3 @@
     }
   }
 </script>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
-</style>

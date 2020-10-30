@@ -4,25 +4,16 @@
             <div class="d-flex flex-wrap">
                 <v-row>
                     <v-col cols=auto class="align-self-center">
-                    <v-avatar class="ma-3" size="125" tile>
-                        <v-icon size="80">mdi-comment-question-outline</v-icon>
-                    </v-avatar>
+                        <v-icon class="ma-0" size="100">mdi-comment-question-outline</v-icon>
                     </v-col>
                     <v-col sm=9 md=9 lg=9>
                     <div class="text-left">
-                        <label
-                            ref="label"
-                            role="heading"
-                            aria-level="3"
-                            class="text-h4 mb-2"
-                            v-text="title"
-                            tabindex="0"
-                        ></label>
-                        <div
-                            class="text-h5 font-weight-bold mb-0"
-                            v-text="subtitle"
-                            tabindex="0"
-                        ></div>
+                        <label ref="label" role="heading" aria-level="3" class="text-h4 mb-2" tabindex="0">
+                            {{title}}
+                        </label>
+                        <div class="text-h5 font-weight-bold mb-0" tabindex="0">
+                            {{subtitle}}
+                        </div>
                     </div>
                     </v-col>
                 </v-row>
@@ -30,6 +21,7 @@
             <v-item-group multiple v-model="sel">
                 <v-row dense>
                     <v-col
+                        class="flex-grow-0 flex-shrink-0"
                         v-for="(item, i) in display_items"
                         :key="i"
                     >

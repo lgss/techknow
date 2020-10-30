@@ -5,22 +5,21 @@
         v-slot:default="{ active }"
         :value="value"
     >
-        <v-card
-            ref="card"
-            :color="active ? 'primary' : 'white'"
-            @click="click"
-            @keypress="click"
-        >
-            <v-avatar class="ma-3" size="125" tile>
-                <v-icon size="80" v-if="imgSrc === undefined">
-                    mdi-selection-ellipse
-                </v-icon>
-                <v-img v-else :src="display(imgSrc)" :alt="imgAlt"></v-img>
-            </v-avatar>
-            <v-card-title
-                class="headline"
-                v-text="label"
-            ></v-card-title>
+        <v-card ref="card" :color="active ? 'primary' : 'white'" @click="click"
+            class="d-flex flex-wrap align-content-start justify-start" @keypress="click" height="100%">
+            <div>
+                <div class="ma-3" style="width:150px;height:150px">
+                    <v-img v-if="imgSrc" :src="display(imgSrc)" :alt="imgAlt" :title="imgAlt" 
+                        style="max-height:150px" ></v-img>
+                    <v-icon size="80" v-else style="left:35px;top:35px">
+                        mdi-arrow-right-bold-circle-outline
+                    </v-icon>
+                </div>
+                <v-card-title
+                    class="headline"
+                    v-text="label"
+                ></v-card-title>
+            </div>
         </v-card>
     </v-item>
 </template>
