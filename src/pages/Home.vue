@@ -22,7 +22,6 @@
         </v-banner>
       </v-col>
     </v-row>  
-    <v-row>
     <v-skeleton-loader v-if="loading" type="article"/>
     <v-row v-else>
       <v-col v-html="content">
