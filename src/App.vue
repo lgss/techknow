@@ -20,6 +20,7 @@ import Footer from '@/components/Footer';
 export default {
   name: 'App',
   created() {
+
     fetch(this.endpoint + '/theme')
       .then(x => x.json())
       .then( x => {
