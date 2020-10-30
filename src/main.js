@@ -15,10 +15,16 @@ new Vue({
   render: h => h(App)
 }).$mount('#app')
 
-if (process.env.VUE_APP_GOOGLE_ANALYTICS_ID)
+if (process.env.VUE_APP_GOOGLE_ANALYTICS_ID) {
   Vue.use(VueGtag, {
     config: { id: process.env.VUE_APP_GOOGLE_ANALYTICS_ID },
     appName: "rekommend",
     pageTrackerScreenviewEnabled: true,
-    enabled: false,
+    enabled: !Object.prototype.hasOwnProperty.call(localStorage, "ga_consent") || localStorage.ga_consent==="true",
   }, router);
+
+  const doTrack = Object.prototype.hasOwnProperty.call(localStorage, "ga_consent") && localStorage.ga_consent==="true"
+
+  this.$gtag.set('allowAdFeatures', doTrack)
+  this.$gtag.set('anonymizeIp', !doTrack)
+}

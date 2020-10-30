@@ -12,8 +12,8 @@
             This website uses cookies, is this ok?
           </span>
           <template v-slot:actions>
-            <v-btn @click="setConsent(false)">
-              Dismiss
+            <v-btn text @click="setConsent(false)">
+              Decline
             </v-btn>
             <v-btn @click="setConsent(true)" color="primary">
               Accept
@@ -59,7 +59,12 @@
         this.showConsent = false
         localStorage.ga_consent = enableConsent
         if (enableConsent)
-          this.$gtag.enable()
+          this.$gtag.optIn()
+        else
+          this.$gtag.optOut()
+
+        this.$gtag.set('allowAdFeatures', enableConsent)
+        this.$gtag.set('anonymizeIp', !enableConsent)
       }
     }
   }

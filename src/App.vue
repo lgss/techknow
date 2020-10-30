@@ -29,10 +29,6 @@ export default {
         this.$vuetify.theme.themes.light.primary = x.primary
         this.$vuetify.theme.themes.light.secondary = x.secondary
         this.loading = false
-
-        if (!Object.prototype.hasOwnProperty.call(localStorage, "ga_consent") || localStorage.ga_consent==="true") {
-          this.$gtag.enable()
-        }
       })
   },
   components: {
