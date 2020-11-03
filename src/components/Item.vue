@@ -21,7 +21,7 @@
             <v-item-group multiple v-model="sel">
                 <v-row dense>
                     <v-col
-                        class="flex-grow-0 flex-shrink-0"
+                        class="flex-grow-0 flex-shrink-0 ie-flex"
                         v-for="(item, i) in display_items"
                         :key="i"
                     >
@@ -79,3 +79,11 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+    .ie-flex
+    {
+        width: min-content;
+        flex: 1 1 auto;
+    }
+</style>
