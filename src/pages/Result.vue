@@ -18,7 +18,7 @@
                     </v-btn>
                 </template>          
             </v-banner>
-            <div id="no_results" v-if="filteredList.length === 0">
+            <div id="no_results" v-if="resources.length === 0">
                 <div ref="heading" role="heading" aria-level="3" class="text-h4 mb-2" v-text="noResults.title" tabindex="0"></div>
                 <v-col v-html="noResults.content"></v-col>
             </div>
@@ -52,20 +52,17 @@
 </template>
 
 <script>
-import utils from "@/js/assess-utils.js";
 import resource from "@/components/Resource.vue";
 
 export default {
     name: "Result",
     self: this,
     components: { resource },
+    
     created() {
+
         Promise.all([
-            fetch(this.endpoint + "/resources")
-                .then((x) => x.json())
-                .then((x) => {
-                    this.resources = x;
-                }),
+            
             fetch(this.endpoint + "/content/positive")
                 .then((x) => x.json())
                 .then((x) => (this.noResults = x)),
@@ -74,6 +71,19 @@ export default {
                 .then((bannerObject) => {
                     this.banners = bannerObject;
                 }),
+             fetch(this.endpoint + "/responses", {
+                    method: "post",
+                    headers: {
+                    "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ id: this.$route.params.id, responses: this.responses }),
+                    })
+                    .then((x) => x.json())
+                    .then((x) => {
+                        this.resources = JSON.parse(x.resources);
+                        this.resultId = x.id;
+                        history.pushState({id: 'results'}, 'Results', `/#/result/${x.id}` ); 
+                    })
         ]).then(() => {
             this.loading = false;
             this.doFocus();
@@ -95,45 +105,24 @@ export default {
         doFocus(){
             window.scrollTo(0,0);
             this.$nextTick(()=> {
-                if(this.filteredList.length === 0) {
+                if(this.resources.length === 0) {
                     this.$refs[`heading`].focus()
                 } else {
                     this.$refs[`heading`][0].focus()
                 }
             })
         }
+        
     },
     computed: {
-        filteredList() {
-            if (this.loading == true) {
-                return [];
-            }
-            let responseTags = utils.getResponseTags(this.responses);
-            try {
-                return this.resources.filter(
-                    (resource) =>
-                        utils.intersects(
-                            resource.doc.includeTags,
-                            responseTags
-                        ) &&
-                        !utils.intersects(
-                            resource.doc.excludeTags,
-                            responseTags
-                        )
-                );
-            } catch (error) {
-                console.log(error);
-                return [];
-            }
-        },
         categorisedList() {
-            if (!this.filteredList.length) return [];
-            return this.filteredList
+            if (!this.resources.length) return [];
+            return this.resources
                 .flatMap((r) => r.doc.categories)
                 .filter((cat, i, a) => a.indexOf(cat) == i)
                 .map((cat) => ({
                     category: cat,
-                    resources: this.filteredList.filter((r) =>
+                    resources: this.resources.filter((r) =>
                         r.doc.categories.some((c) => c == cat)
                     ),
                 }));
@@ -146,6 +135,7 @@ export default {
             resources: [],
             noResults: {},
             endpoint: process.env.VUE_APP_API_ENDPOINT,
+            resultId: null
         };
     },
 };

@@ -38,7 +38,7 @@ export default new Router({
             },
         },
         {
-            path: "/result",
+            path: "/result/:id",
             name: "Result",
             component: Result,
             props: true,
