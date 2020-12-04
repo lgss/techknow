@@ -21,18 +21,13 @@ export default {
     data() {
         return {
             endpoint: process.env.VUE_APP_API_ENDPOINT,
-            terms: null,
-            loading: true
+            loading: false
         }
     },
-    created() {
-        fetch(this.endpoint + '/content/disclaimer')
-        .then(x=>x.json())
-        .then(x=>{
-            this.terms = x;
-        })
-        .catch()
-        .finally(()=>this.loading = false)
+    computed: {
+        terms() {
+            return this.$store.state.pageContent.filter(x=>x.id=="CONTENT_DISCLAIMER")[0]
+        }
     }
 }
 </script>

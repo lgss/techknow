@@ -66,9 +66,6 @@ export default {
                 .then((x) => {
                     this.resources = x;
                 }),
-            fetch(this.endpoint + "/content/positive")
-                .then((x) => x.json())
-                .then((x) => (this.noResults = x)),
             fetch(this.endpoint + "/banners")
                 .then((bannerResponse) => bannerResponse.json())
                 .then((bannerObject) => {
@@ -104,6 +101,9 @@ export default {
         }
     },
     computed: {
+        noResults() {
+            return this.$store.state.pageContent.filter(x=>x.id=="CONTENT_POSITIVE")[0]
+        },
         filteredList() {
             if (this.loading == true) {
                 return [];
@@ -144,7 +144,6 @@ export default {
             banners: [],
             loading: true,
             resources: [],
-            noResults: {},
             endpoint: process.env.VUE_APP_API_ENDPOINT,
         };
     },

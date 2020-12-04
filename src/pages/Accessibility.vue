@@ -21,18 +21,13 @@ export default {
     data() {
         return {
             endpoint: process.env.VUE_APP_API_ENDPOINT,
-            a11y: null,
             loading: true
         }
     },
-    created() {
-        fetch(this.endpoint + '/content/a11y')
-        .then(x=>x.json())
-        .then(x=>{
-            this.a11y = x;
-        })
-        .catch()
-        .finally(()=>this.loading = false)
+    computed: {
+        a11y() {
+            return this.$store.state.pageContent.filter(x=>x.id=="CONTENT_A11Y")[0];
+        }
     }
 }
 </script>

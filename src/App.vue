@@ -20,16 +20,24 @@ import Footer from '@/components/Footer';
 export default {
   name: 'App',
   created() {
-
-    fetch(this.endpoint + '/theme')
+    Promise.all([
+      fetch(this.endpoint + '/theme')
       .then(x => x.json())
       .then( x => {
         document.title = x.title
         this.title = x.title
         this.$vuetify.theme.themes.light.primary = x.primary
         this.$vuetify.theme.themes.light.secondary = x.secondary
-        this.loading = false
+        
+      }),
+      fetch(this.endpoint + '/content')
+      .then(x=>x.json())
+      .then(x=> {
+        this.$store.commit('setPageContent', x)
       })
+    ]).then(()=> {
+      this.loading = false
+    })    
   },
   components: {
     Toolbar, 

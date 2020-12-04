@@ -21,7 +21,7 @@
           </template>
         </v-banner>
       </v-col>
-    </v-row>  
+    </v-row> 
     <v-skeleton-loader v-if="loading" type="article"/>
     <v-row v-else>
       <v-col v-html="content">
@@ -41,18 +41,14 @@
     data () {
       return {
         showConsent: !localStorage.ga_consent,
-        content: "",
-        loading: true,
+        loading: false,
         endpoint: process.env.VUE_APP_API_ENDPOINT
       }
     },
-    created() {
-      fetch(this.endpoint + '/content/landing')
-        .then(x => x.json())
-        .then( x => {
-          this.content = x.content
-          this.loading = false
-        })
+    computed: {
+        content() {
+          return this.$store.state.pageContent.filter(x=>x.id=="CONTENT_LANDING")[0].content
+        }
     },
     methods: {
       setConsent(enableConsent) {

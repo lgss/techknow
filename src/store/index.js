@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    journey: null
+    journey: null,
+    pageContent: {}
   },
 
   getters: {
@@ -20,6 +21,9 @@ export default new Vuex.Store({
   mutations: {
     setJourney(state, value) {
       state.journey = value
+    },
+    setPageContent(state, content) {
+      state.pageContent = content
     }
   }
 })
