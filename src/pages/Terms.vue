@@ -10,7 +10,7 @@
                 <v-container id="terms-content" v-html="terms.content">
                 </v-container>
             </div>
-            <div v-else>We're sorry, but we're unable to find this at the moment.</div>
+            <div v-else>We're sorry, something's gone wrong. Please try again later.</div>
         </v-card>
     </v-container>
 </template>
@@ -21,18 +21,13 @@ export default {
     data() {
         return {
             endpoint: process.env.VUE_APP_API_ENDPOINT,
-            terms: null,
-            loading: true
+            loading: false
         }
     },
-    created() {
-        fetch(this.endpoint + '/content/disclaimer')
-        .then(x=>x.json())
-        .then(x=>{
-            this.terms = x;
-        })
-        .catch()
-        .finally(()=>this.loading = false)
+    computed: {
+        terms() {
+            return this.$store.getters.staticContent("DISCLAIMER")
+        }
     }
 }
 </script>

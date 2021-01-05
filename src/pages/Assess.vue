@@ -130,6 +130,9 @@ export default {
             });
     },
     computed: {
+        completed() {
+            return this.$store.getters.staticContent("COMPLETED")
+        },
         percentDone() {
             return Math.round((this.pageIdx / this.displayPages.length) * 100);
         },
@@ -236,21 +239,17 @@ export default {
             }
 
             if (valid) {
-                fetch(this.endpoint + '/content/completed')
-                    .then(x => x.json())
-                    .then( x => {
-                        this.$dialog
-                            .display(
-                                x.title,
-                                x.content,
-                                [{text:'View my results', color:'success'}, {text:'Cancel',color:''}]
-                            )
-                            .then((result) => {
-                                console.log(result)
-                                if (result === 0) return this.$router.push({ name: "Result", params: { responses: this.responses } });
-                                if (result === 1) return this.doFocus();
-                            })
-                    });
+                this.$dialog
+                    .display(
+                        this.completed.title,
+                        this.completed.content,
+                        [{text:'View my results', color:'success'}, {text:'Cancel',color:''}]
+                    )
+                    .then((result) => {
+                        console.log(result)
+                        if (result === 0) return this.$router.push({ name: "Result", params: { responses: this.responses } });
+                        if (result === 1) return this.doFocus();
+                    })
             }
         },
         proceedDialog() {

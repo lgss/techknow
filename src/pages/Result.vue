@@ -62,7 +62,6 @@ export default {
     created() {
 
         Promise.all([
-            
             fetch(this.endpoint + "/content/positive")
                 .then((x) => x.json())
                 .then((x) => (this.noResults = x)),
@@ -115,6 +114,9 @@ export default {
         
     },
     computed: {
+        noResults() {
+            return this.$store.getters.staticContent("POSITIVE")
+        },
         categorisedList() {
             if (!this.resources.length) return [];
             return this.resources
@@ -133,7 +135,6 @@ export default {
             banners: [],
             loading: true,
             resources: [],
-            noResults: {},
             endpoint: process.env.VUE_APP_API_ENDPOINT,
             resultId: null
         };

@@ -16,23 +16,19 @@
 </template>
 
 <script>
+
 export default {
     name: "a11y",
     data() {
         return {
             endpoint: process.env.VUE_APP_API_ENDPOINT,
-            a11y: null,
             loading: true
         }
     },
-    created() {
-        fetch(this.endpoint + '/content/a11y')
-        .then(x=>x.json())
-        .then(x=>{
-            this.a11y = x;
-        })
-        .catch()
-        .finally(()=>this.loading = false)
+    computed: {
+        a11y() {
+            return this.$store.getters.staticContent("A11Y");
+        }
     }
 }
 </script>
