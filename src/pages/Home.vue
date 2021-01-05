@@ -47,7 +47,7 @@
     },
     computed: {
         content() {
-          return this.$store.state.pageContent.filter(x=>x.id=="CONTENT_LANDING")[0].content
+          return this.$store.getters.staticContent("LANDING").content
         }
     },
     methods: {

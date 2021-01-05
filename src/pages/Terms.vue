@@ -10,7 +10,7 @@
                 <v-container id="terms-content" v-html="terms.content">
                 </v-container>
             </div>
-            <div v-else>We're sorry, but we're unable to find this at the moment.</div>
+            <div v-else>We're sorry, something's gone wrong. Please try again later.</div>
         </v-card>
     </v-container>
 </template>
@@ -26,7 +26,7 @@ export default {
     },
     computed: {
         terms() {
-            return this.$store.state.pageContent.filter(x=>x.id=="CONTENT_DISCLAIMER")[0]
+            return this.$store.getters.staticContent("DISCLAIMER")
         }
     }
 }

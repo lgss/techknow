@@ -131,7 +131,7 @@ export default {
     },
     computed: {
         completed() {
-            return this.$store.state.pageContent.filter(x=>x.id=="CONTENT_COMPLETED")[0]
+            return this.$store.getters.staticContent("COMPLETED")
         },
         percentDone() {
             return Math.round((this.pageIdx / this.displayPages.length) * 100);

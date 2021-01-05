@@ -2,6 +2,12 @@
   <div v-if="loading" id="loading">
     <v-progress-circular indeterminate size="100" width="10" color="#dddddd"/>
   </div>
+  <v-app v-else-if="error">
+    <h1 class="text-center mt-6">Something's gone wrong :(</h1>
+    <br/>
+    <p class="text-center">Try reloading the page and check your internet connection. 
+      If the problem continues, there could be a problem with the site.</p>
+  </v-app>
   <v-app v-else>
     <toolbar :title="title" :header="pageTitle" />
     <v-main>
@@ -28,14 +34,17 @@ export default {
         this.title = x.title
         this.$vuetify.theme.themes.light.primary = x.primary
         this.$vuetify.theme.themes.light.secondary = x.secondary
-        
       }),
       fetch(this.endpoint + '/content')
       .then(x=>x.json())
       .then(x=> {
         this.$store.commit('setPageContent', x)
       })
-    ]).then(()=> {
+    ])
+    .catch(() => {
+      this.error = true
+    })
+    .finally(()=> {
       this.loading = false
     })    
   },
@@ -46,6 +55,7 @@ export default {
   
   data: () => ({
     loading: true,
+    error: false,
     title: "loading...",
     endpoint: process.env.VUE_APP_API_ENDPOINT
   }),

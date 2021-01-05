@@ -15,6 +15,10 @@ export default new Vuex.Store({
         return `Questions about ${state.journey}`
 
       return null
+    },
+
+    staticContent: state => id => {
+      return state.pageContent.find(x => x.id = "CONTENT_" + id)
     }
   },
 

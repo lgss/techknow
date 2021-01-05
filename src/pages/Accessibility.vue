@@ -16,6 +16,7 @@
 </template>
 
 <script>
+
 export default {
     name: "a11y",
     data() {
@@ -26,7 +27,7 @@ export default {
     },
     computed: {
         a11y() {
-            return this.$store.state.pageContent.filter(x=>x.id=="CONTENT_A11Y")[0];
+            return this.$store.getters.staticContent("A11Y");
         }
     }
 }

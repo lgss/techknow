@@ -102,7 +102,7 @@ export default {
     },
     computed: {
         noResults() {
-            return this.$store.state.pageContent.filter(x=>x.id=="CONTENT_POSITIVE")[0]
+            return this.$store.getters.staticContent("POSITIVE")
         },
         filteredList() {
             if (this.loading == true) {
