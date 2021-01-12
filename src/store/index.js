@@ -18,7 +18,7 @@ export default new Vuex.Store({
     },
 
     staticContent: state => id => {
-      return state.pageContent.find(x => x.id = "CONTENT_" + id)
+      return state.pageContent.find(x => x.sort === "CONTENT_" + id)
     }
   },
 
