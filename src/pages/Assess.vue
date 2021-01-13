@@ -53,6 +53,7 @@
                             role="button" 
                             aria-label="back"
                             name="btn-back"
+                            class="mr-5"
                             @click.native="prior"
                         >
                             <v-icon left>mdi-arrow-left-bold-circle</v-icon>
@@ -98,7 +99,6 @@ import utils from "@/js/assess-utils.js";
 export default {
     name: "Assess",
     self: this,
-    props: ["journeys"],
     components: {
         "small-text-input": SmallTextInput,
         "single-choice-input": SingleChoiceInput,
@@ -138,6 +138,11 @@ export default {
         },
         finished() {
             return !this.displayPages.slice(this.pageIdx).some(page => page.items && page.items.length);
+        },
+        journeys() {
+            const j = this.$route.query.journeys
+            
+            return Array.isArray(j) ? j : j.split(',')
         },
         displayPages() {
             // Arguably, this should filter the pages but it'd make progress tracking harder
@@ -197,7 +202,10 @@ export default {
         doFocus(){
             window.scrollTo(0,0);
             this.$nextTick(()=> {
-                this.$refs[`page${this.pageIdx-1}_item0`][0].focus()
+                const itm = this.$refs[`page${this.pageIdx-1}_item0`]
+                
+                if (itm) 
+                  itm[0].focus()
             })
             
         },
@@ -232,7 +240,7 @@ export default {
                 console.log("page invalid");
                 return;
             }
-            console.log("page valid");
+
             // check if a dialog needs to be displayed to the user
             if (this.proceedDialog()) {
                 return;
@@ -246,9 +254,34 @@ export default {
                         [{text:'View my results', color:'success'}, {text:'Cancel',color:''}]
                     )
                     .then((result) => {
-                        console.log(result)
-                        if (result === 0) return this.$router.push({ name: "Result", params: { responses: this.responses } });
-                        if (result === 1) return this.doFocus();
+                        if (result === 1) {
+                            this.doFocus();
+                            return 
+                        }
+
+                        if (result === 0) {
+                            fetch(this.endpoint + "/responses", {
+                                method: "post",
+                                headers: {
+                                "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({ responses: this.responses }),
+                            })
+                            .then(x => {
+                                if (x.status === 201)
+                                    return {id: x.headers.get("ResultsId"), results: x.json()}
+                                
+                                console.log(x)
+                                throw "Unable to create results"
+                            })
+                            .then(x => {
+                                this.$router.push({ 
+                                    name: "Result", 
+                                    params: x
+                                })
+                            })
+                            .catch((err) => console.error(err))
+                        }                        
                     })
             }
         },

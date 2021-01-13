@@ -1,7 +1,7 @@
 <template>
     <v-card height="100%" class="d-flex flex-column justify-space-between">
         <div class="d-flex flex-no-wrap align-center">
-            <v-img v-if="img.src" class="ma-3" :src="display(img.src)" :alt="img.alt" max-width="175" max-height="175"></v-img>
+            <img v-if="img.src" class="ma-3 res-img" :src="display(img.src)" :alt="img.alt"/>
             <div class="text-left">
                 <v-card-title class="headline" v-text="doc.name"/>
                 <v-card-subtitle  v-html="doc.content"/>
@@ -48,4 +48,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+  .res-img {
+    max-width: 175px;
+    max-height: 175px;
+  }
+</style>

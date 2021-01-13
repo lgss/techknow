@@ -148,7 +148,7 @@ export default {
             }
             this.$router.push({
                 name: "Assessment",
-                params: { journeys: this.selectedJourneys },
+                query: { journeys: this.selectedJourneys },
             });
         },
         selectCategories(selected = true) {
