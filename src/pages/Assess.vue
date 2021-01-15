@@ -208,7 +208,7 @@ export default {
             this.recordPageView();
         },
         recordPageView(){
-            var friendlyUrl = `/assess/${this.journeyTitle()}/${this.pageTitle()}`.toLowerCase().replaceAll(' ','-');
+            var friendlyUrl = `/assess/${this.journeyTitle()}/${this.pageTitle()}`.toLowerCase().replace(/[^a-zA-Z //]/g, "").replaceAll(' ','-');
 
             this.$gtag.pageview({
                 page_path: friendlyUrl,
