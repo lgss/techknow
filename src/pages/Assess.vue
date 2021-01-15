@@ -127,6 +127,7 @@ export default {
                 this.pageIdx = 1;
                 this.emitJourney();
                 this.doFocus();
+                this.recordPageView();
             });
     },
     computed: {
@@ -186,6 +187,12 @@ export default {
         pageEmpty() {
             return this.displayPages[this.pageIdx - 1].items.length < 1;
         },
+        pageTitle() {
+            return this.displayPages[this.pageIdx - 1].title;
+        },
+        journeyTitle() {
+            return this.displayPages[this.pageIdx - 1].journey;
+        },
         movePage(forwards) {
             // check if a dialog needs to be displayed to the user
             if (this.proceedDialog()) {
@@ -198,6 +205,17 @@ export default {
             if (this.pageEmpty()) this.movePage(forwards);
             this.emitJourney();
             this.doFocus();
+            this.recordPageView();
+        },
+        recordPageView(){
+            var friendlyUrl = `/assess/${this.journeyTitle()}/${this.pageTitle()}`.toLowerCase().replaceAll(' ','-');
+
+            this.$gtag.pageview({
+                page_path: friendlyUrl,
+                page_title: this.pageTitle()
+                });
+
+            window.history.pushState(null, this.pageTitle(), friendlyUrl)
         },
         doFocus(){
             window.scrollTo(0,0);
