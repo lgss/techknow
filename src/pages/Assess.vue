@@ -214,8 +214,6 @@ export default {
                 page_path: friendlyUrl,
                 page_title: this.pageTitle()
                 });
-
-            window.history.pushState(null, this.pageTitle(), friendlyUrl)
         },
         doFocus(){
             window.scrollTo(0,0);
