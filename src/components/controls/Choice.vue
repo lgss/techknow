@@ -9,8 +9,8 @@
             class="d-flex flex-wrap align-content-start justify-start" @keypress="click" height="100%">
             <div>
                 <div class="ma-3" style="width:150px;height:150px">
-                    <v-img v-if="imgSrc" :src="display(imgSrc)" :alt="imgAlt" :title="imgAlt" 
-                        style="max-height:150px" ></v-img>
+                    <img v-if="imgSrc" :src="display(imgSrc)" :alt="imgAlt" :title="imgAlt" 
+                        style="max-height:150px" />
                     <v-icon size="80" v-else style="left:35px;top:35px">
                         mdi-arrow-right-bold-circle-outline
                     </v-icon>

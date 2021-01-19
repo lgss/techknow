@@ -18,7 +18,7 @@
                     </v-btn>
                 </template>          
             </v-banner>
-            <div id="no_results" v-if="resources.length === 0">
+            <div id="no_results" v-if="results.length === 0">
                 <div ref="heading" role="heading" aria-level="3" class="text-h4 mb-2" v-text="noResults.title" tabindex="0"></div>
                 <v-col v-html="noResults.content"></v-col>
             </div>
@@ -60,35 +60,41 @@ export default {
     components: { resource },
     
     created() {
+        let getResults = []
+
+        if (!this.resources)
+            getResults.push(
+                fetch(`${this.endpoint}/result/${this.id}`)
+                .then((x) => x.json())
+                .then((x) => {
+                    this.results = JSON.parse(x.resources);
+                })
+            ) 
+        else
+            this.results = this.resources
 
         Promise.all([
-            fetch(this.endpoint + "/content/positive")
-                .then((x) => x.json())
-                .then((x) => (this.noResults = x)),
             fetch(this.endpoint + "/banners")
-                .then((bannerResponse) => bannerResponse.json())
+                .then((bannerResponse) => {
+                    if (bannerResponse.status === 404)
+                        return null;
+
+                    return bannerResponse.json()
+                })
                 .then((bannerObject) => {
                     this.banners = bannerObject;
-                }),
-             fetch(this.endpoint + "/responses", {
-                    method: "post",
-                    headers: {
-                    "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ id: this.$route.params.id, responses: this.responses }),
-                    })
-                    .then((x) => x.json())
-                    .then((x) => {
-                        this.resources = JSON.parse(x.resources);
-                        this.resultId = x.id;
-                        history.pushState({id: 'results'}, 'Results', `/#/result/${x.id}` ); 
-                    })
+                })
+                .catch(() => null),
+            ...getResults 
         ]).then(() => {
             this.loading = false;
             this.doFocus();
         });
     },
-    props: ["responses"],
+    props: {
+        "id": String, 
+        "resources": Array
+    },
     methods: {
         startAgain() {
             this.$dialog
@@ -104,7 +110,7 @@ export default {
         doFocus(){
             window.scrollTo(0,0);
             this.$nextTick(()=> {
-                if(this.resources.length === 0) {
+                if(this.results.length === 0) {
                     this.$refs[`heading`].focus()
                 } else {
                     this.$refs[`heading`][0].focus()
@@ -118,13 +124,13 @@ export default {
             return this.$store.getters.staticContent("POSITIVE")
         },
         categorisedList() {
-            if (!this.resources.length) return [];
-            return this.resources
+            if (!this.results.length) return [];
+            return this.results
                 .flatMap((r) => r.doc.categories)
                 .filter((cat, i, a) => a.indexOf(cat) == i)
                 .map((cat) => ({
                     category: cat,
-                    resources: this.resources.filter((r) =>
+                    resources: this.results.filter((r) =>
                         r.doc.categories.some((c) => c == cat)
                     ),
                 }));
@@ -134,9 +140,9 @@ export default {
         return {
             banners: [],
             loading: true,
-            resources: [],
             endpoint: process.env.VUE_APP_API_ENDPOINT,
-            resultId: null
+            resultId: null,
+            results: []
         };
     },
 };

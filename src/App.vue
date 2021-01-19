@@ -41,8 +41,9 @@ export default {
         this.$store.commit('setPageContent', x)
       })
     ])
-    .catch(() => {
+    .catch((err) => {
       this.error = true
+      throw err
     })
     .finally(()=> {
       this.loading = false

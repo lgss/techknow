@@ -59,7 +59,6 @@ export default {
     },
     methods: {
         focus() {
-            console.log("attempting to focus on item");
             this.$refs.label.focus();
         },
     },
